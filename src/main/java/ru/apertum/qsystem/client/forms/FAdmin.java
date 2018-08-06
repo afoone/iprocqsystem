@@ -1290,7 +1290,7 @@ public class FAdmin extends javax.swing.JFrame {
                 }
                 form.setVisible(true);
             } catch (Exception ex) {
-                QLog.l().logger().error("Проблемы с ссозданием формы админки. ", ex);
+                QLog.l().logger().error("Problemas creando una instancia del servidor ", ex);
             } finally {
                 Uses.closeSplash();
             }

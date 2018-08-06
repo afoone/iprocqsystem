@@ -158,7 +158,7 @@ public class QServer implements Runnable {
         MainBoard.getInstance().showBoard();
         if (!(Uses.FORMAT_HH_MM.format(ServerProps.getInstance().getProps().getStartTime()).equals(Uses.FORMAT_HH_MM.format(ServerProps.getInstance().getProps().getFinishTime())))) {
             /**
-             * Таймер, по которому будем Очистка всех услуг и рассылка спама с дневным отчетом.
+             * Temporizador, mediante el cual borraremos todos los servicios y enviaremos correo no deseado con un informe diario.
              */
             ATalkingClock clearServices = new ATalkingClock(Uses.DELAY_CHECK_TO_LOCK, 0) {
 
@@ -167,7 +167,7 @@ public class QServer implements Runnable {
                     final String HH_MM = Uses.FORMAT_HH_MM.format(new Date());
                     // это обнуление
                     if (!QConfig.cfg().isRetain() && Uses.FORMAT_HH_MM.format(new Date(new Date().getTime() + 10 * 60 * 1000)).equals(Uses.FORMAT_HH_MM.format(ServerProps.getInstance().getProps().getStartTime()))) {
-                        log().info("Очистка всех услуг.");
+                        log().info("Borrar todos los servicios.");
                         // почистим все услуги от трупов кастомеров с прошлого дня
                         QServer.clearAllQueue();
                     }
@@ -183,7 +183,7 @@ public class QServer implements Runnable {
                                 : HH_MM.equals(prop.getValue());
                         if (onTime) {
                             final String report = ServerProps.getInstance().getProperty(QProperties.SECTION_REPORTS, "day_report_link", "distribution_job_day.pdf");
-                            log().info("Day report. Рассылка дневного отчета. " + report);
+                            log().info("Day report. Distribución diaria de informes. " + report);
                             // почистим все услуги от трупов кастомеров с прошлого дня
                             for (QUser user : QUserList.getInstance().getItems()) {
                                 if (user.getReportAccess()) {
@@ -297,7 +297,7 @@ public class QServer implements Runnable {
                             && data[3] == 116
                             && ((data[4] == 10) || (data[4] == 13))) {
                         // набрали команду "exit" и нажали ENTER
-                        log().info("Завершение работы сервера.");
+                        log().info("Apagando el servidor.");
                         exit = true;
                     }
                 }
@@ -309,7 +309,7 @@ public class QServer implements Runnable {
         } catch (Exception e) {
             throw new ServerException("Network error: " + e);
         }
-        log().debug("Detenere Jetty.");
+        log().debug("Detener Jetty.");
         JettyRunner.stop();
         log().debug("Detener el servidor web de informes.");
         WebServer.getInstance().stopWebServer();
