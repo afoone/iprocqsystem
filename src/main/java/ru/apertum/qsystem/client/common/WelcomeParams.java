@@ -202,7 +202,7 @@ public class WelcomeParams {
     public String confirmationStartImg = ""; // - это картинка для диалога подтверждения стоять в очереди. пустое значение - картинка по умолчанию
     public String patternInfoDialog = ""; // шаблон текста для информационных диалогов Встроенный текст dialog.message
     public String patternPickAdvanceTitle = ""; // шаблон текста для выбора предварительной услуги диалогов Встроенный текст: dialog_text.part1 dialog_text.part2
-    public boolean isVoiceForTicketNumber = false; // проговорить ли голосом номер билета
+    public boolean isVoiceForTicketNumber = false; // Si hay que decir el número de turno por megafonía
 
     public Font btnFont = null;
     public Font btnAdvFont = null;
@@ -481,7 +481,7 @@ public class WelcomeParams {
         buttonToStratImg = buttonToStratImg.exists() ? buttonToStratImg : null;
         buttonImg = getProp(BUTTON_IMG, true); // кнопка присутствие картинки на кнопках услуг
         responseImg = getProp(RESPONSE_IMG, true); // кнопка присутствие картинки на кнопках отзывов
-        isVoiceForTicketNumber = getProp(VOICE_FOR_TICKET_NUMBER, false); // проговорить ли голосом номер полученного билета
+        isVoiceForTicketNumber = getProp(VOICE_FOR_TICKET_NUMBER, false); // Comprueba si hay que decir de palabra el número
         topImg = getProp(TOP_IMG, "");
         topURL = getProp(TOP_URL, "");
         topImgSecondary = getProp(TOP_IMG_SECONDARY, "");

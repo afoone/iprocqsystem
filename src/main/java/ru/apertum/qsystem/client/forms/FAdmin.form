@@ -4902,6 +4902,9 @@
         </Container>
       </SubComponents>
     </Container>
+
+    <!--
+
     <Container class="javax.swing.JPanel" name="panelPager">
       <Properties>
         <Property name="background" type="java.awt.Color" resourceKey="panelPager.background"/>
@@ -5112,6 +5115,8 @@
               </Group>
             </DimensionLayout>
           </Layout>
+
+
           <SubComponents>
             <Component class="javax.swing.JLabel" name="labelPagerCaptionEdit">
               <Properties>
@@ -5135,8 +5140,13 @@
               </Events>
             </Component>
           </SubComponents>
+
+
         </Container>
       </SubComponents>
     </Container>
-  </SubComponents>
+    -->
+
+
+      </SubComponents>
 </Form>

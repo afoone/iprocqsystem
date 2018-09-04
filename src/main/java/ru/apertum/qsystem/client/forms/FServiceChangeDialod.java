@@ -96,7 +96,7 @@ public class FServiceChangeDialod extends javax.swing.JDialog {
      * @param calendarModel
      */
     public static void changeService(Frame parent, boolean modal, QService service, ComboBoxModel scheduleModel, ComboBoxModel calendarModel) {
-        QLog.l().logger().info("Редактирование услуги \"" + service.getName() + "\"");
+        QLog.l().logger().info("Editando un servicio \"" + service.getName() + "\"");
         if (serviceChangeDialod == null) {
             serviceChangeDialod = new FServiceChangeDialod(parent, modal);
         }

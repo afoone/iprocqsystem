@@ -24,26 +24,26 @@
                             var day = new Date();
                             var weekday = new Array(7);
                             weekday[0] = "Domingo";
-                            weekday[1] = "Понедельник";
-                            weekday[2] = "Вторник";
-                            weekday[3] = "Среда";
-                            weekday[4] = "Четверг";
-                            weekday[5] = "Пятница";
-                            weekday[6] = "Суббота";
+                            weekday[1] = "Lunes";
+                            weekday[2] = "Martes";
+                            weekday[3] = "Miércoles";
+                            weekday[4] = "Jueves";
+                            weekday[5] = "Viernes";
+                            weekday[6] = "Sábado";
                             //document.write("Сегодня " + weekday[day.getDay()]);
 
 
                             var d = new Date();
 
-                            var day = new Array("Воскресенье", "Понедельник", "Вторник",
-                                    "Среда", "Четверг", "Пятница", "Суббота");
+                            var day = new Array("Domingo", "Lunes", "Martes",
+                                     "Miércoles", "Jueves", "Viernes", "Sábado");
 
-                            var month = new Array("января", "февраля", "марта", "апреля", "мая", "июня",
-                                    "июля", "августа", "сентября", "октября", "ноября", "декабря");
+                            var month = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                                     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 
                             document.write("<span style='font-size:34.0pt;color:YELLOW'>");
-                            document.write("Сегодня " + day[d.getDay()] + " " + d.getDate() + " " + month[d.getMonth()]
-                                    + " " + d.getFullYear() + " года</span><br><span style='font-size:34.0pt;color:RED'>");
+                            document.write("Día " + day[d.getDay()] + " " + d.getDate() + " " + month[d.getMonth()]
+                                    + " " + d.getFullYear() + " del año</span><br><span style='font-size:34.0pt;color:RED'>");
 
                             function checkTime(i)
                             {
@@ -54,7 +54,7 @@
                                 return i;
                             }
                             var t = new Date();
-                            document.write("Время ");
+                            document.write("Hora ");
                             document.write(checkTime(t.getHours()));
                             document.write(":");
                             document.write(checkTime(t.getMinutes()));

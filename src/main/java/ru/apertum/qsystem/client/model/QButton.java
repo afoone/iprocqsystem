@@ -581,10 +581,12 @@ public class QButton extends JButton {
                                         replace("dialogue_text.number", customer.getFullNumber()),
                                 WelcomeParams.getInstance().getTicketImg);
 
+                        // Comprobamos si hay que decir el número por megafonía
+
                         if (WelcomeParams.getInstance().isVoiceForTicketNumber) {
-                            QLog.l().logger().info("Проговорим номер голосом.");
+                            QLog.l().logger().info("Decimos frase con sonido.");
                             final LinkedList<String> phrases = new LinkedList<>();
-                            // путь к звуковым файлам
+                            // Ruta a los archivos de audio
                             String path = SoundPlayer.SAMPLES_PACKAGE;
                             phrases.add(path + "ticket.wav");
                             phrases.addAll(SoundPlayer.toSoundSimple2(path, customer.getPrefix() + (customer.getNumber() < 1 ? "" : customer.getNumber())));
@@ -598,7 +600,7 @@ public class QButton extends JButton {
                     }
                 }
             } catch (Exception ex) {
-                QLog.l().logger().error("Ошибка при попытки обработать нажатие кнопки постановки в ачередь. " + ex.toString());
+                QLog.l().logger().error("Se produjo un error al intentar procesar la tecla presionar. " + ex.toString());
             }
         }
     }

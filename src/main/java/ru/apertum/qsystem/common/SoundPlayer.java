@@ -39,14 +39,14 @@ import ru.apertum.qsystem.server.ServerProps;
 import ru.apertum.qsystem.server.model.QService;
 
 /**
- * Класс проигрывания звуковых ресурсов и файлов. Создает отдельный поток для каждого проигрыша, но игоает синхронизированно. По этому все ресурсы проиграются
- * друг за другом и это не будет тормозить основной поток. Воспроизведение кучи мелких файлов глючит, накладываются др. на др.
- *
+ * La clase de reproducción de recursos de sonido y archivos. Crea un hilo separado para cada pérdida, pero está sincronizado. Por lo tanto, todos los recursos se pierden
+ * uno tras otro y esto no ralentizará el flujo principal. La reproducción de un montón de pequeños archivos tiene errores, superposición, etc. en otros.
  * @author Evgeniy Egorov
+ * @author afoone@hotmail.com
  */
 public class SoundPlayer implements Runnable {
 
-    // путь к звуковым файлам
+    // ruta a los archivos de audio
     public static final String SAMPLES_PACKAGE = "/ru/apertum/qsystem/server/sound/";
 
     public SoundPlayer(LinkedList<String> resourceList) {
@@ -59,9 +59,9 @@ public class SoundPlayer implements Runnable {
     private final LinkedList<String> resourceList;
 
     /**
-     * Проиграть звуковой ресурс
+     * reproducir recurso de sonido
      *
-     * @param resourceName имя проигрываемого ресурса
+     * @param resourceName nombre del recurso reproducible
      */
     public static void play(String resourceName) {
         final LinkedList<String> resourceList = new LinkedList<>();

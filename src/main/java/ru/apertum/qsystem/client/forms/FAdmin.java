@@ -1673,51 +1673,68 @@ public class FAdmin extends javax.swing.JFrame {
         try {
             res = (Exception) Spring.getInstance().getTt().execute((TransactionStatus status) -> {
                 try {
-                    //сохраним системные настройки
+                    // Save the system configuration
                     final Collection<QProperty> col = new ArrayList<>();
                     ServerProps.getInstance().getSections().forEach(sec -> {
                         col.addAll(sec.getProperties().values());
                     });
                     Spring.getInstance().getHt().saveOrUpdateAll(col);
 
-                    //Сохраняем сетевые настройки
+                    // Saving network configuration
                     Spring.getInstance().getHt().saveOrUpdate(ServerProps.getInstance().getProps());
-                    //Сохраняем нормативные параметры
+                    QLog.l().logger().debug("Saved network configuration.");
+
+                    // Saving standard parameters
                     Spring.getInstance().getHt().saveOrUpdate(ServerProps.getInstance().getStandards());
-                    // Сохраняем перерывы в расписании, тут теперь стоит, а то в календаре появились расписания.
+                    QLog.l().logger().debug("Saved  standard parameters configuration.");
+
+                    // Saving breaks
                     QBreaksList.getInstance().save();
 
-                    // Сохраняем планы расписания
+                    // Saving schedule plans
                     QScheduleList.getInstance().save();
+                    QLog.l().logger().debug("Saved schedule plans.");
 
-                    // хз что за коммент: Сохраняем календари услуг, главное раньше расписаний, не то спец расписания будут ругаться.
+                    //  guardamos los calendarios de servicios, lo principal antes de los horarios, o los horarios especiales jurarán.
                     QCalendarList.getInstance().save();
 
                     // Сохраняем услуги
                     QServiceTree.getInstance().save();
-                    // Сохраняем пользователей
+                    QLog.l().logger().debug("Saved service tree.");
+
+
+                    // Saving users
                     QUserList.getInstance().save();
-                    // Сохраняем инфоузлы
-                    QInfoTree.getInstance().save();
-                    // Сохраняем отзывы
-                    QResponseTree.getInstance().save();
+                    QLog.l().logger().debug("Saved users.");
+
+                    //   QInfoTree.getInstance().save();
+                    //    QLog.l().logger().debug("Saved qinfo tree.");
+
+
+
+                    // Saving response tree
+              //      QResponseTree.getInstance().save();
+            //        QLog.l().logger().debug("Saved response tree.");
+
+
+
                     // Сохраняем результаты работы пользователя с клиентами
                     QResultList.getInstance().save();
-                    QLog.l().logger().debug("Сохранили конфигурацию.");
+                    QLog.l().logger().debug("Se guardo la configuración.");
                 } catch (Exception ex) {
-                    QLog.l().logger().error("Ошибка при сохранении \n" + ex.toString() + "\n" + Arrays.toString(ex.getStackTrace()));
+                    QLog.l().logger().error("Error al guardar \n" + ex.toString() + "\n" + Arrays.toString(ex.getStackTrace()));
                     status.setRollbackOnly();
                     return ex;
                 }
                 return null;
             });
         } catch (RuntimeException ex) {
-            throw new ClientException("Ошибка выполнения операции изменения данных в БД(JDBC). Возможно введенные вами параметры не могут быть сохранены.\n(" + ex.toString() + ")");
+            throw new ClientException("Error al realizar la operación de modificación de datos en la base de datos (JDBC). Tal vez los parámetros que ingresó no se pueden guardar.\n(" + ex.toString() + ")");
         }
         if (res == null) {
             JOptionPane.showMessageDialog(this, getLocaleMessage("admin.save.title"), getLocaleMessage("admin.save.caption"), JOptionPane.INFORMATION_MESSAGE);
         } else {
-            throw new ClientException("Ошибка выполнения операции изменения данных в БД(JDBC). Возможно введенные вами параметры не могут быть сохранены.\n[" + res.getLocalizedMessage() + "]\n(" + res.toString() + ")\nSQL: ");
+            throw new ClientException("Error al realizar la operación de modificación de datos en la base de datos (JDBC). Tal vez los parámetros que ingresó no se pueden guardar.\n[" + res.getLocalizedMessage() + "]\n(" + res.toString() + ")\nSQL: ");
         }
     }
 
