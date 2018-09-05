@@ -39,7 +39,7 @@ public class FHtmlBoard extends javax.swing.JFrame {
      * Creates new form Fbs
      */
     public FHtmlBoard() {
-        QLog.l().logger().info("Создаем окно для информации.");
+        QLog.l().logger().info("Create a window for information.");
         initComponents();
 
         if (!QConfig.cfg().isDebug()) {
@@ -87,7 +87,7 @@ public class FHtmlBoard extends javax.swing.JFrame {
             bfxR.load(HtmlBoardProps.getInstance().getRightUrl());
         }
 
-        QLog.l().logger().trace("Прочитали настройки для окна информации.");
+        QLog.l().logger().trace("Read the settings for the information window.");
     }
 
     public void toPosition(boolean isDebug, int x, int y) {

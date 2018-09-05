@@ -68,7 +68,7 @@ public class WebServer {
         }
 
         // привинтить сокет на локалхост, порт port
-        QLog.l().logger().info("Отчетный сервер захватывает порт \"" + port + "\".");
+        QLog.l().logger().info("The reporting server captures the port \"" + port + "\".");
 
         // поток вэбсервера, весит параллельно и обслуживает запросы
         webTread = new Thread() {
@@ -93,13 +93,13 @@ public class WebServer {
                             thread.start();
                         } catch (SocketTimeoutException ex) {
                         } catch (IOException ex) {
-                            throw new ReportException("Ошибка при работе сокета для вэбсервера: " + ex);
+                            throw new ReportException("Error while working with the WebServer: " + ex);
                         }
                     }
                 } catch (Exception e) {
-                    throw new ReportException("Ошибка при создании серверного сокета для вэбсервера: " + e);
+                    throw new ReportException("Error creating server socket for web server: " + e);
                 }
-                QLog.l().logRep().info("Отчетный вэбсервер системы 'Очередь' остановлен.");
+                QLog.l().logRep().info("The reporting WebServer of the 'Queue' system is stopped.");
 
             }
         };

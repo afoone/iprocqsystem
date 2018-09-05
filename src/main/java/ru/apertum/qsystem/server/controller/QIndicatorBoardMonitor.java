@@ -102,7 +102,7 @@ public class QIndicatorBoardMonitor extends AIndicatorBoard {
     }
 
     public QIndicatorBoardMonitor() {
-        QLog.l().logger().info("Создание табло для телевизоров или мониторов.");
+        QLog.l().logger().info("Creating a scoreboard for TVs or monitors.");
     }
 
     @Override
@@ -111,7 +111,7 @@ public class QIndicatorBoardMonitor extends AIndicatorBoard {
     }
 
     /**
-     * Переопределено что бы вызвать появление таблички с номером вызванного поверх главного табло
+     * Redefined to cause the appearance of a plate with the number called over the main board
      *
      * @param user
      * @param customer

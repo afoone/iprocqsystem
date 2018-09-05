@@ -642,7 +642,7 @@ public final class Executer {
         }
     };
     /**
-     * Получить перечень услуг
+     * Task Get Services
      */
     final Task getServicesTask = new Task(Uses.TASK_GET_SERVICES) {
 
@@ -707,7 +707,7 @@ public final class Executer {
             }
             // Если лимит количества возможных обработанных в день достигнут
             if (srv.isLimitPerDayOver()) {
-                QLog.l().logger().warn("Услуга \"" + srv.getName() + "\" не обрабатывается исходя из достижения лимита возможной обработки кастомеров в день." + " " + ipAdress);
+                QLog.l().logger().warn("Service \"" + srv.getName() + "\" is not processed proceeding from achievement of a limit of possible processing of customers in day." + " " + ipAdress);
                 return new RpcGetServiceState(Uses.LOCK_PER_DAY_INT, 0, "");
             }
             // Если нет расписания, календаря или выходной то отказ по расписанию
@@ -715,11 +715,11 @@ public final class Executer {
                     || QCalendarList.getInstance().getById(1).checkFreeDay(day)
                     || (srv.getCalendar() != null && srv.getCalendar().checkFreeDay(day))) {
                 if (srv.getSchedule() == null) {
-                    QLog.l().logger().warn("Если нет расписания, то отказ по расписанию." + " " + ipAdress);
+                    QLog.l().logger().warn("If there is no schedule, then the failure on the schedule." + " " + ipAdress);
                 } else if (QCalendarList.getInstance().getById(1).checkFreeDay(day)) {
-                    QLog.l().logger().warn("Если выходной то отказ по расписанию." + " " + ipAdress);
+                    QLog.l().logger().warn("If the output is then the failure on the schedule." + " " + ipAdress);
                 } else {
-                    QLog.l().logger().warn("Если нет календаря и выходной то отказ по расписанию." + " " + ipAdress);
+                    QLog.l().logger().warn("If there is no calendar and the output is then a failure on the schedule." + " " + ipAdress);
                 }
                 min = Uses.LOCK_FREE_INT;
             } else {
@@ -739,17 +739,17 @@ public final class Executer {
                     final int eh = gc_day.get(GregorianCalendar.HOUR_OF_DAY);
                     final int em = gc_day.get(GregorianCalendar.MINUTE);
                     if (!(sh * 60 + sm <= h * 60 + m && h * 60 + m <= eh * 60 + em) && (!((sh == eh) && (sm == em)))) {
-                        QLog.l().logger().warn("Если текущее время не попадает в рабочий интервал то отказ по расписанию. " + sh + "." + sm + " < " + h + "." + m + " < " + eh + "." + em + " " + ipAdress);
+                        QLog.l().logger().warn("If the current time does not fall within the working interval, then the failure on the schedule. " + sh + "." + sm + " < " + h + "." + m + " < " + eh + "." + em + " " + ipAdress);
                         min = Uses.LOCK_FREE_INT;
                     }
                 } else {
-                    QLog.l().logger().warn("Если в этот день не определено начало или конец то отказ по расписанию." + (interval.start == null ? "start == null" : "end == null") + " " + ipAdress);
+                    QLog.l().logger().warn("There is no start or end on that day, the schedule fails." + (interval.start == null ? "start == null" : "end == null") + " " + ipAdress);
                     min = Uses.LOCK_FREE_INT;
                 }
             }
             // Если не работаем, то отправим ответ и прекратим выполнение
             if (min == Uses.LOCK_FREE_INT) {
-                QLog.l().logger().warn("Услуга \"" + cmdParams.serviceId + "\" не обрабатывается исходя из рабочего расписания." + " " + ipAdress);
+                QLog.l().logger().warn("Услуга \"" + cmdParams.serviceId + "\" is not processed based on the working schedule." + " " + ipAdress);
                 return new RpcGetServiceState(Uses.LOCK_FREE_INT, 0, "");
             }
             // бежим по юзерам и смотрим обрабатывают ли они услугу
@@ -769,10 +769,10 @@ public final class Executer {
                 }
             }
             if (min == Uses.LOCK_INT) {
-                QLog.l().logger().warn("Услуга \"" + cmdParams.serviceId + "\" не обрабатывается ни одним пользователем." + " " + ipAdress);
+                QLog.l().logger().warn("Service \"" + cmdParams.serviceId + "\" not processed by any user." + " " + ipAdress);
                 return new RpcGetServiceState(Uses.LOCK_INT, 0, "");
             }
-            // Проверить, попали ли мы в перерыв, если да, то послать текст из перерыва
+            // Check if we are in the break, if so, then send the text from the break
             final QBreaks breaks = srv.getSchedule().getBreaks();
             final QBreak qbreak = breaks == null ? null : breaks.isNow();
             return new RpcGetServiceState(Uses.NORMAL_RESPONCE, min, qbreak == null ? null : qbreak.getHint());

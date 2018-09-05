@@ -94,7 +94,7 @@ public final class Locales {
                 }
             }
         } else {
-            throw new ServerException("Lacales wast loaded.");
+            throw new ServerException("Locales wasn't loaded.");
         }
 
         final HashSet<String> locs = new HashSet<>();
@@ -112,7 +112,7 @@ public final class Locales {
                 QLog.l().logger().error("Language description " + list1.getName() + " did NOT load. " + ex);
                 continue;
             }
-            QLog.l().logger().debug("   Langusge: " + settings.getProperty("name") + " " + settings.getProperty("lng") + "_" + settings.getProperty("country"));
+            QLog.l().logger().debug("   Language: " + settings.getProperty("name") + " " + settings.getProperty("lng") + "_" + settings.getProperty("country"));
 
             final Locale locale = new Locale(settings.getProperty("lng"), settings.getProperty("country"));
             locales.put(s, locale);

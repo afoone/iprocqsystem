@@ -148,8 +148,8 @@ public final class Uses {
         return COEFF_WORD;
     }
 
-    // теги и имена атрибутов конфигурационных файлов главных табло
-    public static final String TAG_BOARD_PROPS = "Параметры";
+    // tags and attribute names of the configuration files of the main scoreboard
+    public static final String TAG_BOARD_PROPS = "OPTIONS";
     public static final String TAG_BOARD_PROP = "Параметер";
     public static final String TAG_BOARD_NAME = "Наименование";
     public static final String TAG_BOARD_VALUE = "Значение";
@@ -225,8 +225,8 @@ public final class Uses {
     public static final String TASK_ADVANCE_CHECK_AND_STAND = "Поставить предварительно записанного";
     public static final String TASK_REMOVE_ADVANCE_CUSTOMER = "Удалить предварительно записанного";
     public static final String TASK_REDIRECT_CUSTOMER = "Переадресовать клиента к другой услуге";
-    public static final String TASK_GET_SERVICES = "Получить перечень услуг";
-    public static final String TASK_ABOUT_SERVICE = "Получить описание услуги";
+    public static final String TASK_GET_SERVICES = "GET SERVICES";
+    public static final String TASK_ABOUT_SERVICE = "ABOUT SERVICE";
     public static final String TASK_GET_SERVICE_CONSISANCY = "Получить очередь услуги";
     public static final String TASK_ABOUT_SERVICE_PERSON_LIMIT = "Получить возможность встать с этими данными";
     public static final String TASK_GET_SERVICE_PREINFO = "Получить информацию по услуге";
@@ -395,7 +395,7 @@ public final class Uses {
      */
     public static final String CONFIG_FOLDER = "config";
     /**
-     * временный файл сохранения состояния для помехоустойчивости
+     * temporary state preservation file
      */
     public static final String TEMP_STATE_FILE = "temp.json";
     /**
@@ -790,20 +790,20 @@ public final class Uses {
      */
     public static void loadPlugins(String folder) {
         // Загрузка плагинов из папки plugins
-        QLog.l().logger().info("Загрузка плагинов из папки plugins.");
+        QLog.l().logger().info("Loading plugins from the folder plugins.");
         final File[] list = new File(folder).listFiles((File dir, String name) -> name.toLowerCase().endsWith(".jar"));
         if (list != null && list.length != 0) {
             final URLClassLoader sysloader = (URLClassLoader) ClassLoader.getSystemClassLoader();
             final Class sysclass = URLClassLoader.class;
             final Class[] parameters = new Class[]{URL.class};
             for (File file : list) {
-                QLog.l().logger().debug("Плагин " + file.getName());
+                QLog.l().logger().debug("Plugin " + file.getName());
                 try {
                     final Method method = sysclass.getDeclaredMethod("addURL", parameters);
                     method.setAccessible(true);
                     method.invoke(sysloader, new Object[]{file.toURI().toURL()});
                 } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | MalformedURLException ex) {
-                    QLog.l().logger().error("Плагин " + file.getName() + " НЕ загружен. " + ex);
+                    QLog.l().logger().error("Plugin " + file.getName() + " NOT Uploaded. " + ex);
                     continue;
                 }
 

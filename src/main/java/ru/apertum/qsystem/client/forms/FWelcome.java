@@ -217,7 +217,7 @@ public class FWelcome extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            // привинтить сокет на локалхост, порт 3129
+            // screw the socket to localhost, port 3129
             final ServerSocket server;
             try {
                 server = new ServerSocket(netProperty.getClientPort());
@@ -229,21 +229,21 @@ public class FWelcome extends javax.swing.JFrame {
                 server.setSoTimeout(500);
 
                 System.out.println("Server for managment of registration point started.\n");
-                QLog.l().logger().info("Сервер управления пунктом регистрации запущен.");
+                QLog.l().logger().info("The registration point management server is started.");
 
                 // слушаем порт
                 while (!exitServer) {
-                    // ждём нового подключения, после чего запускаем обработку клиента
-                    // в новый вычислительный поток и увеличиваем счётчик на единичку
+                    // wait for a new connection, and then start processing the client
+                    // into the new computational flow and increase the counter by one
                     try (final Socket socket = server.accept()) {
                         doCommand(socket);
                     } catch (SocketTimeoutException e) {
                     } catch (IOException | ServerException e) {
-                        QLog.l().logger().error("Управлялка пунктом чет подглючила.", e);
+                        QLog.l().logger().error("The control room was switched.", e);
                     }
                 }
             } catch (IOException e) {
-                throw new ClientException("Ошибка при конфигурировании серверного сокета: " + e);
+                throw new ClientException("Error while configuring the server socket: " + e);
             } finally {
                 try {
                     server.close();
@@ -743,7 +743,7 @@ public class FWelcome extends javax.swing.JFrame {
     }
 
     private void init(QService root) {
-        QLog.l().logger().info("Создаем окно приглашения.");
+        QLog.l().logger().info("Creating Welcome window.");
         setLocation(0, 0);
         if (!QConfig.cfg().isDebug()) {
             if (!QConfig.cfg().isDemo()) {
@@ -949,19 +949,19 @@ public class FWelcome extends javax.swing.JFrame {
     }
 
     /**
-     * Создаем и расставляем кнопки по форме.
+     * Create and arrange buttons on the form.
      *
      * @param current уровень отображения кнопок.
      * @param panel
      */
     public void showButtons(QService current, JPanel panel) {
 
-        QLog.l().logger().info("Показываем набор кнопок уровня: " + current.getName() + " ID=" + current.getId());
+        QLog.l().logger().info("Show the set level button: " + current.getName() + " ID=" + current.getId());
         if (current != FWelcome.current) { // если смена уровней то страница уровня становится нулевая
             pageNumber = 0;
         }
         clearPanel(panel);
-        // картинки для подложки с каждым набором кнопок из WelcomeBGparams. По дефолту из welcome.properties
+        // images for the background with each set of buttons from WelcomeBGparams. By default of welcome.properties
         ((QPanel) panelBackground).setBackgroundImgage(WelcomeBGparams.get().getScreenImg(current.getId()));
         final Insets insets = WelcomeBGparams.get().getScreenInsets(current.getId());
         if (insets != null) {
@@ -1834,28 +1834,28 @@ public class FWelcome extends javax.swing.JFrame {
     }
 
     /**
-     * Заблокировать пункт постановки в очередь.
+     * Block the item in the queue.
      *
-     * @param message Сообщение, которое выведется на экран пункта.
+     * @param message A message that appears on the item screen.
      */
     public void lockWelcome(String message) {
         labelLock.setText(message);
         setStateWindow(LOCK);
         setVisibleButtons(false);
-        QLog.l().logger().info("Пункт регистрации заблокирован. Состояние \"" + stateWindow + "\"");
+        QLog.l().logger().info("The registration point is blocked. condition \"" + stateWindow + "\"");
     }
 
     /**
-     * Разблокировать пункт постановки в очередь.
+     * Unlock the item in the queue.
      */
     public void unlockWelcome() {
         setStateWindow(UNLOCK);
         setVisibleButtons(true);
-        QLog.l().logger().info("Пункт регистрации готов к работе. Состояние \"" + stateWindow + "\"");
+        QLog.l().logger().info("The registration point is ready to go. condition \"" + stateWindow + "\"");
     }
 
     /**
-     * Выключить пункт постановки в очередь.
+     * Turn off the item in the queue.
      */
     public void offWelcome() {
         setStateWindow(OFF);

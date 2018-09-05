@@ -502,13 +502,13 @@ public class QServer implements Runnable {
     }
 
     /**
-     * Загрузка состояния пула услуг из временного json-файла
+     * Cargando el estado de la agrupación de servicios desde un archivo json temporal
      */
     public static void loadPool() {
         final long start = System.currentTimeMillis();
-        // если есть временный файлик сохранения состояния, то надо его загрузить.
-        // все ошибки чтения и парсинга игнорить.
-        log().info("Пробуем восстановить состояние системы.");
+        // Si hay un archivo temporal que guarda el estado, entonces debe cargarlo.
+        // todos los errores de lectura y análisis son ignorados.
+        log().info("Tratamos de restaurar el estado del sistema.");
         File recovFile = new File(Uses.TEMP_FOLDER + File.separator + Uses.TEMP_STATE_FILE);
         if (recovFile.exists()) {
             log().warn(Locales.locMes("came_back"));
@@ -529,7 +529,7 @@ public class QServer implements Runnable {
             try {
                 recList = gson.fromJson(recData.toString(), TempList.class);
             } catch (JsonSyntaxException ex) {
-                throw new ServerException("Не возможно интерпритировать сохраненные данные.\n" + ex.toString());
+                throw new ServerException("No es posible interpretar los datos almacenados.\n" + ex.toString());
             } finally {
                 GsonPool.getInstance().returnGson(gson);
                 recData.setLength(0);
@@ -549,12 +549,12 @@ public class QServer implements Runnable {
                         // в эту очередь он был
                         final QService service = QServiceTree.getInstance().getById(recCustomer.getService().getId());
                         if (service == null) {
-                            log().warn("Попытка добавить клиента \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" к услуге \"" + recCustomer.getService().getName() + "\" не успешна. Услуга не обнаружена!");
+                            log().warn("Intentando agregar el cliente \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" al servicio \"" + recCustomer.getService().getName() + "\" не успешна. Услуга не обнаружена!");
                             continue;
                         }
                         service.setCountPerDay(recCustomer.getService().getCountPerDay());
                         service.setDay(recCustomer.getService().getDay());
-                        // так зовут юзера его обрабатываюшего
+                        // por lo que el nombre de usuario de su procesamiento
                         final QUser user = recCustomer.getUser();
                         // кастомер ща стоит к этой услуге к какой стоит
                         recCustomer.setService(service);
@@ -562,16 +562,16 @@ public class QServer implements Runnable {
                         if (user == null) {
                             // сохраненный кастомер стоял в очереди и ждал, но его еще никто не звал
                             QServiceTree.getInstance().getById(recCustomer.getService().getId()).addCustomerForRecoveryOnly(recCustomer);
-                            log().debug("Добавили клиента \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" к услуге \"" + recCustomer.getService().getName() + "\"");
+                            log().debug("Cliente agregado \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" к услуге \"" + recCustomer.getService().getName() + "\"");
                         } else {
-                            // сохраненный кастомер обрабатывался юзером с именем userId
+                            // El usuario guardado fue manejado por userId
                             if (QUserList.getInstance().getById(user.getId()) == null) {
-                                log().warn("Попытка добавить клиента \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" к юзеру \"" + user.getName() + "\" не успешна. Юзер не обнаружен!");
+                                log().warn("Intentando agregar el cliente \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" al usuario \"" + user.getName() + "\" no exitoso ¡Usuario no encontrado!");
                                 continue;
                             }
                             QUserList.getInstance().getById(user.getId()).setCustomer(recCustomer);
                             recCustomer.setUser(QUserList.getInstance().getById(user.getId()));
-                            log().debug("Добавили клиента \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" к юзеру \"" + user.getName() + "\"");
+                            log().debug("Cliente agregado \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" para el usuario \"" + user.getName() + "\"");
                         }
                     }
                     // Параллельные кастомеры, загрузим
@@ -599,7 +599,7 @@ public class QServer implements Runnable {
                             }
                             QUserList.getInstance().getById(user.getId()).setCustomer(recCustomer);
                             recCustomer.setUser(QUserList.getInstance().getById(user.getId()));
-                            log().debug("Добавили клиента \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" к юзеру \"" + user.getName() + "\"");
+                            log().debug("Cliente agregado \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" para el usuario \"" + user.getName() + "\"");
                         }
                     }
                     recList.pauses.stream().map((idUser) -> QUserList.getInstance().getById(idUser)).filter((user) -> (user != null)).forEachOrdered((user) -> {
@@ -628,7 +628,7 @@ public class QServer implements Runnable {
 
         // Сотрем временные файлы
         deleteTempFile();
-        log().info("Очистка всех пользователей от привязанных кастомеров.");
+        log().info("Borrar a todos los usuarios de personalizadores enlazados.");
         QUserList.getInstance().getItems().forEach((user) -> {
             user.setCustomer(null);
             user.getParallelCustomers().clear();

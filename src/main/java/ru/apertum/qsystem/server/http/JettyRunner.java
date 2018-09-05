@@ -83,11 +83,11 @@ public class JettyRunner implements Runnable {
                     jetty.stop();
                 }
             } catch (Exception ex) {
-                throw new ServerException("Ошибка остановки сервера Jetty.", ex);
+                throw new ServerException("Error stopping Jetty server.", ex);
             }
             jetthread.interrupt();
         }
-        log().info("Сервер Jetty успешно остановлен.");
+        log().info("Jetty Server successfully stopped.");
     }
     private static volatile Server jetty = null;
     private static int servetPort = 8081;
@@ -95,7 +95,7 @@ public class JettyRunner implements Runnable {
 
     @Override
     public void run() {
-        log().info("Старт сервера Jetty на порту " + servetPort);
+        log().info("Start the Jetty server on the port " + servetPort);
         jetty = new Server();
         
         //org.eclipse.jetty.io.nio.AsyncConnection d;
@@ -142,16 +142,16 @@ public class JettyRunner implements Runnable {
          */
         final HandlerList handlers = new HandlerList();
 
-        // Важный момент - поряд следования хандлеров
-        // по этому порядку будет передоваться запрос, если он еще не обработан
-        // т.е. с начала ищется файл, если не найден, то урл передается на исполнение команды,
-        // в комаедах учтено что урл для вебсокета нужно пробросить дальше, его поймает хандлер вебсокетов
+        // An important point - the order of the handlers
+        // this order will override the request, if it has not yet been processed
+        // ie. From the beginning the file is searched, if it is not found, then the URL is passed to the execution of the command,
+        // in komaidah considered that the URL for a webcam needs to be passed on, it will be caught by the web site's handle
         //handlers.setHandlers(new Handler[]{resource_handler, new CommandHandler(), qWebSocketHandler});
         handlers.setHandlers(new Handler[]{resource_handler, new CommandHandler(), servletContext});
 
         // Загрузка war из папки 
         String folder = "./www/war/";
-        log().info("Загрузка war из папки " + folder);
+        log().info("Loading war from a folder " + folder);
         final File[] list = new File(folder).listFiles((File dir, String name) -> name.toLowerCase().endsWith(".war"));
         if (list != null && list.length != 0) {
             for (File file : list) {
@@ -188,13 +188,13 @@ public class JettyRunner implements Runnable {
         } catch (Exception ex) {
             throw new ServerException("Ошибка запуска сервера Jetty. ", ex);
         }
-        log().info("Join сервера Jetty на порту " + servetPort);
+        log().info("Join Jetty server on port " + servetPort);
         try {
             jetty.join();
         } catch (InterruptedException ex) {
-            log().warn("Jetty прекратил работу");
+            log().warn("Jetty stopped working");
         }
-        log().info("Сервер Jetty остановлен.");
+        log().info("The Jetty server is stopped.");
     }
 
     /*

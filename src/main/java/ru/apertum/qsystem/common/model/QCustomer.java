@@ -74,7 +74,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
         id = new Date().getTime();
         setStandTime(new Date()); // действия по инициализации при постановке
         // все остальные всойства кастомера об услуге куда попал проставятся в самой услуге при помещении кастомера в нее
-        QLog.l().logger().debug("Создали кастомера с номером " + number);
+        QLog.l().logger().debug("Created a customer with number " + number);
     }
 
     @Expose
@@ -94,8 +94,8 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
     }
 
     /**
-     * АТРИБУТЫ "ОЧЕРЕДНИКА" персональный номер, именно по нему система ведет учет и управление очередниками номер - целое число Номер клиента. Вообще, он
-     * выдается по порядку. Но если номером является нечто введенное пользователем, то этот номер равен -1.
+     * ATTRIBUTES OF THE "OBJECTOR" personal number, it is on it that the system keeps records and management of the queues number - an integer Customer number. In general, he
+     * Issued in order. But if the number is something entered by the user, then this number is -1.
      */
     @Expose
     @SerializedName("number")
@@ -378,8 +378,8 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
     }
 
     /**
-     * Кастомеру проставим атрибуты услуги включая имя, описание, префикс. Причем префикс ставится раз и навсегда. При добавлении кастомера в услугу
-     * addCustomer() происходит тоже самое + выставляется префикс, если такой атрибут не добавлен в XML-узел кастомера
+     * Customer to put attributes of the service including name, description, prefix. And the prefix is put once and for all. When adding a customizer to the service
+     * addCustomer () the same thing happens + a prefix is prefixed, if such an attribute is not added to the XML node of the customizer
      *
      * @param service не передавать тут NULL
      */
@@ -389,7 +389,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
         if (getPrefix() == null) {
             setPrefix(service.getPrefix());
         }
-        QLog.l().logger().debug("Клиента \"" + getFullNumber() + "\" поставили к услуге \"" + service.getName() + "\"");
+        QLog.l().logger().debug("Customer \"" + getFullNumber() + "\" put to service \"" + service.getName() + "\"");
     }
 
     /**
@@ -406,9 +406,9 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
     public void setResult(QResult result) {
         this.result = result;
         if (result == null) {
-            QLog.l().logger().debug("Обозначать результат работы с кастомером не требуется");
+            QLog.l().logger().debug("It is not required to designate the result of working with a customer");
         } else {
-            QLog.l().logger().debug("Обозначили результат работы с кастомером: \"" + result.getName() + "\"");
+            QLog.l().logger().debug("Marked the result of working with the customer: \"" + result.getName() + "\"");
         }
     }
 
@@ -427,7 +427,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
 
     public void setUser(QUser user) {
         this.user = user;
-        QLog.l().logger().debug("Клиенту \"" + getFullNumber() + (user == null ? " юзера нету, еще он его не вызывал\"" : " опредилили юзера \"" + user.getName() + "\""));
+        QLog.l().logger().debug("Customer \"" + getFullNumber() + (user == null ? " There is no user, he did not call it\"" : " user defined: \"" + user.getName() + "\""));
     }
 
     /**

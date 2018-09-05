@@ -317,18 +317,18 @@ public class NetCommander {
     }
 
     /**
-     * Получение возможных услуг.
+     * Obtains possible services
      *
-     * @param netProperty параметры соединения с сервером
+     * @param netProperty server connection settings
      * @return XML-ответ
      */
     public static RpcGetAllServices.ServicesForWelcome getServices(INetProperty netProperty) {
-        log().info("Получение возможных услуг.");
+        log().info("Obtaining possible services.");
         // загрузим ответ
         String res = null;
         try {
             res = send(netProperty, Uses.TASK_GET_SERVICES, null);
-        } catch (QException ex) {// вывод исключений
+        } catch (QException ex) {// exception output
             throw new ClientException(locMes("command_error"), ex);
         }
         if (res == null) {
@@ -351,14 +351,14 @@ public class NetCommander {
     }
 
     /**
-     * Постановка в очередь.
+     * Queuing.
      *
      * @param netProperty netProperty параметры соединения с сервером.
      * @param serviceId   услуга, в которую пытаемся встать.
      * @param password    пароль того кто пытается выполнить задание.
      * @param priority    приоритет.
      * @param inputData
-     * @return Созданный кастомер.
+     * @return Created customer.
      */
     public static QCustomer standInService(INetProperty netProperty, long serviceId, String password, int priority, String inputData) {
         log().info("Встать в очередь.");
@@ -455,7 +455,7 @@ public class NetCommander {
      * @throws QException
      */
     public static ServiceState aboutService(INetProperty netProperty, long serviceId) throws QException {
-        log().info("Узнать сколько народу стоит к услуге.");
+        log().info("Find out how many people are in queue to the service.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.serviceId = serviceId;
@@ -548,7 +548,7 @@ public class NetCommander {
      * @return XML-ответ все юзеры системы
      */
     public static LinkedList<QUser> getUsers(INetProperty netProperty) {
-        log().info("Получение описания всех юзеров для выбора себя.");
+        log().info("Obtaining a description of all users for choosing them.");
         // загрузим ответ
         String res = null;
         try {
@@ -1398,7 +1398,7 @@ public class NetCommander {
      * @return свисок возможных завершений работы
      */
     public static LinkedList<QResult> getResultsList(INetProperty netProperty) {
-        log().info("Команда на получение списка возможных результатов работы с клиентом.");
+        log().info("Command to get a list of possible results of work with the client.");
         final String res;
         try {
             // загрузим ответ RpcGetResultsList
@@ -1688,7 +1688,7 @@ public class NetCommander {
      * @return мапа с секциями
      */
     public static LinkedHashMap<String, ServerProps.Section> getProperties(INetProperty netProperty) {
-        log().info("Получить параметры.");
+        log().info("Getting options.");
         final CmdParams params = new CmdParams();
         // загрузим ответ
         final String res;

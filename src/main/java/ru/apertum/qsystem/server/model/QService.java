@@ -732,12 +732,12 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
             dayAdvs = i;
         }
 
-        QLog.l().logger().trace("Посмотрели сколько предварительных записалось в " + getName() + ". Их " + i);
+        QLog.l().logger().trace("Have looked how many preliminary was registered in " + getName() + ". Их " + i);
         return i;
     }
 
     /**
-     * Иссяк лимит на одинаковые введенные данные в день по услуге или нет
+     * The limit on the same entered data per day for the service is exhausted or not
      *
      * @param data
      * @return true - превышен, в очередь становиться нельзя; false - можно в очередь встать
@@ -757,7 +757,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
         if (getPersonDayLimit() <= cnt) {
             return cnt;
         }
-        QLog.l().logger().trace("Загрузим уже обработанных кастомеров с такими же данными \"" + data + "\"");
+        QLog.l().logger().trace("Load already processed customizers with the same data \"" + data + "\"");
         // Загрузим уже обработанных кастомеров
         final GregorianCalendar gc = new GregorianCalendar();
         gc.set(GregorianCalendar.HOUR, 0);

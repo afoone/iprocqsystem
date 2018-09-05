@@ -173,7 +173,7 @@ public class FIndicatorBoard extends javax.swing.JFrame {
      */
     private FIndicatorBoard(Element rootParams, boolean isDebug, boolean fractal) {
 
-        log().info("Создаем окно для информации.");
+        log().info("Create a window for information.");
 
         this.fractal = fractal;
         topElement = rootParams.element(Uses.TAG_BOARD_TOP);
@@ -280,7 +280,7 @@ public class FIndicatorBoard extends javax.swing.JFrame {
         } else {
             callDialog = null;
         }
-        log().trace("Прочитали настройки для окна информации.");
+        log().trace("Read the settings for the information window.");
     }
 
     private void init(boolean isDebug) {
@@ -892,10 +892,10 @@ public class FIndicatorBoard extends javax.swing.JFrame {
     }
 
     /**
-     * Создаем и расставляем контролы для строк по форме.
+     * Create and arrange controls for rows in the form.
      */
     public void showLines() {
-        log().info("Показываем набор строк.");
+        log().info("Showing a rowset.");
         GridLayout la = new GridLayout(linesCount + (isMain ? 1 : 0), (isMain ? colsCount : 1), 10, 0);
         panelMain.setLayout(la);
         final ArrayList<JPanel> caps = new ArrayList<>();

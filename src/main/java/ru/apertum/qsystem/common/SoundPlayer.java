@@ -54,12 +54,12 @@ public class SoundPlayer implements Runnable {
     }
 
     /**
-     * Тут храним имя ресурса для загрузки
+     * Here we store the name of the resource to download
      */
     private final LinkedList<String> resourceList;
 
     /**
-     * reproducir recurso de sonido
+     * plays sound resorce
      *
      * @param resourceName nombre del recurso reproducible
      */
@@ -70,12 +70,12 @@ public class SoundPlayer implements Runnable {
     }
 
     /**
-     * Проиграть набор звуковых ресурсов
+     * Play a set of sound resources
      *
-     * @param resourceList список имен проигрываемых ресурсов
+     * @param resourceList list of names of resources to be played
      */
     public static void play(LinkedList<String> resourceList) {
-        // и запускаем новый вычислительный поток (см. ф-ю run())
+        // and run a new computational flow (see f-y run ())
         final Thread playThread = new Thread(new SoundPlayer(resourceList));
         //playThread.setDaemon(true);
         playThread.setPriority(Thread.NORM_PRIORITY);
@@ -117,7 +117,7 @@ public class SoundPlayer implements Runnable {
     }
 
     /**
-     * Листенер, срабатываюшщий при начале проигрывания семплов
+     * The listener that fires when the samples start playing
      */
     private static ActionListener startListener = null;
 
@@ -130,7 +130,7 @@ public class SoundPlayer implements Runnable {
     }
 
     /**
-     * Событие завершения проигрывания семплов
+     * Sample playback completion event
      */
     private static ActionListener finishListener = null;
 
@@ -218,25 +218,25 @@ public class SoundPlayer implements Runnable {
                     ais.close();
                 }
             } catch (IOException ex) {
-                log().error("IOException при освобождении входного потока медиаресурса: " + ex);
+                log().error("IOException when releasing the input media resource stream: " + ex);
             }
         }
     }
 
     /**
-     * Разбить фразу на звуки и сформировать набор файлов для воспроизведения. Упрощенный вариант с поиском существующих семплов.
+     * Split the phrase into sounds and form a set of files for playback. A simplified version with the search for existing samples.
      *
-     * @param path   путь, где лежать звуковые ресурсы, это могут быть файлы на диске или ресурсы в jar
-     * @param phrase фраза для разбора
-     * @return список файлов для воспроизведения фразы
+     * @param path   the path where sound resources lie, these can be files on disk or resources in jar
+     * @param phrase phrase for parsing
+     * @return list of files to play the phrase
      */
     public static LinkedList<String> toSoundSimple2(String path, String phrase) {
         final LinkedList<String> res = new LinkedList<>();
 
-        // Разделим на буквы и цыфры
+        // Divide by letters and numbers
         Matcher m = Pattern.compile("\\d").matcher(phrase);
 
-        // Добавим лидирующие буквы если они есть во фразе и в ресурсах
+        // Let's add the leading letters if they are in the phrase and in the resources
         if (m.find()) {
             for (int i = 0; i < m.start(); i++) {
                 String elem = phrase.substring(i, i + 1);
@@ -245,7 +245,7 @@ public class SoundPlayer implements Runnable {
                     continue;
                 }
                 final String resource = path + fileName.toLowerCase() + ".wav";
-                // сэмплы букав должны быть в ресурсах
+                // samples of letters should be in resources
                 final InputStream stream = resource.getClass().getResourceAsStream(resource);
                 if (stream != null) {
                     try {
@@ -261,7 +261,7 @@ public class SoundPlayer implements Runnable {
         m = Pattern.compile("\\D").matcher(phrase);
         final LinkedList<String> last = new LinkedList<>();
 
-        // Добавим лидирующие буквы если они есть во фразе и в ресурсах
+        // Let's add the leading letters if they are in the phrase and in the resources
         if (m.find()) {
             final int b = m.start();
             for (int i = b; i < phrase.length(); i++) {
@@ -271,7 +271,7 @@ public class SoundPlayer implements Runnable {
                     continue;
                 }
                 final String resource = path + fileName.toLowerCase() + ".wav";
-                // сэмплы букав должны быть в ресурсах
+                // samples of letters should be in resources
                 final InputStream stream = resource.getClass().getResourceAsStream(resource);
                 if (stream != null) {
                     try {
@@ -284,7 +284,7 @@ public class SoundPlayer implements Runnable {
             phrase = phrase.substring(0, b);
         }
 
-        // ну теперь расщепим цифры, найдеи под них ресурсы и сложим в список для воспроизведения
+        // Well, now we split the digits, find the resources for them and put them into the playlist
         String lastAdded = "";
         for (int i = 0; i < phrase.length(); i++) {
 
@@ -297,7 +297,7 @@ public class SoundPlayer implements Runnable {
                     streamUp.close();
                 } catch (IOException e) {
                 }
-                // тут иногда перед произнесением очередных цыфр надо добавить типа препозицию, типа "тридцать и пять"
+                // Here, sometimes before pronouncing the next tsyfr you need to add a type of preposition, such as "thirty and five"
                 if (lastAdded.length() == 2 && elem.length() == 1) {
                     final String fileAnd = path + "and.wav";
                     final InputStream stream = fileAnd.getClass().getResourceAsStream(fileAnd);
@@ -318,7 +318,7 @@ public class SoundPlayer implements Runnable {
                 String elemZer = (elem.substring(0, 1) + "00000000000000000000000000").substring(0, elem.length());
                 String elemEnd = elem.length() > 1 ? elem.substring(1) : "";
                 boolean needAdd = true;
-                // а вот если есть записи с интонациеей продолжения специально для больших порядков, типа 100_ ...
+                // but if there are records with intonation continuation specifically for large orders, such as 100_ ...
                 if (elemEnd.matches("[0-9]*[1-9]+[0-9]*")) {
                     file = path + elemZer + "_.wav";
                     final InputStream stream = file.getClass().getResourceAsStream(file);
@@ -370,6 +370,12 @@ public class SoundPlayer implements Runnable {
     private static volatile HashMap<String, String> latters = null;
     private static String preffix = "";
 
+    /**
+     *
+     * @param path
+     * @param elem
+     * @return
+     */
     private static String reRus(String path, String elem) {
         if (latters == null) {
             synchronized (SoundPlayer.class) {
@@ -397,7 +403,7 @@ public class SoundPlayer implements Runnable {
                             }
                         }
                     } catch (IOException ex) {
-                        log().error("Не найден зкуковой ресурс или что-то в этом роде. " + ex);
+                        log().error("Not found a cuckoo resource or something like that. " + ex);
                         return null;
                     }
                 } else {
@@ -428,16 +434,17 @@ public class SoundPlayer implements Runnable {
     }
 
     /**
-     * Проговорить вызов клиента голосом
+     * Speak a customer's call with voice
      *
      * @param service
      * @param customer
-     * @param clientNumber номер вызываемого клиента
-     * @param pointNumber  номер кабинета, куда вызвали
+     * @param clientNumber number of the called client
+     * @param pointNumber  number of the office where they called
      * @param isFirst
      */
     public static void inviteClient(QService service, QCustomer customer, String clientNumber, String pointNumber, boolean isFirst) {
-        // Для начала найдем шаблон
+        // To get started, we'll find a template
+        log().debug("Trying to invite a client by voice");
         QService tempServ = service;
         while ((tempServ.getSoundTemplate() == null || tempServ.getSoundTemplate().startsWith("0")) && tempServ.getParent() != null) {
             tempServ = tempServ.getParent();
@@ -500,15 +507,15 @@ public class SoundPlayer implements Runnable {
         }
 
         final LinkedList<String> res = new LinkedList<>();
-        // путь к звуковым файлам
+        // path to audio files
         String path = SAMPLES_PACKAGE;
 
-        // У услуги есть признак плагина специального для нее
+        // The service has the sign of a plug-in special for it
         if (parts.length > 1 && !parts[1].isEmpty() && QPlugins.get().getPluginByName(QPlugins.Type.QSOUND, parts[1]) != null) {
             final QPlugins.QPlugin plugin = QPlugins.get().getPluginByName(QPlugins.Type.QSOUND, parts[1]);
             path = plugin.getPkg() + (plugin.getPkg().endsWith("/") ? "" : "/");
         } else {
-            // нет признака или плагина. Ищем по признаку использования плагинов персонально по языку, выбранному пользователем.
+            // no sign or plug-in. We are looking for the use of plug-ins in a personal language according to the language chosen by the user.
             if (parts.length > 2 && "1".equals(parts[2]) && QPlugins.get().getPluginByLng(QPlugins.Type.QSOUND, customer.getLanguage()) != null) {
                 final QPlugins.QPlugin plugin = QPlugins.get().getPluginByLng(QPlugins.Type.QSOUND, customer.getLanguage());
                 path = plugin.getPkg() + (plugin.getPkg().endsWith("/") ? "" : "/");

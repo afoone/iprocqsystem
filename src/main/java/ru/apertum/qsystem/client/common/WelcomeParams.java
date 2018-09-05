@@ -253,19 +253,19 @@ public class WelcomeParams {
     private static long updLastTime;
 
     /**
-     * Загрузим настройки.
+     * Load the settings.
      */
     private void loadSettings() {
-        QLog.l().logger().debug("Загрузим параметры из файла  \"config" + File.separator + WSECTION + "\"");
+        QLog.l().logger().debug("Loading the parameters from the file  \"config" + File.separator + WSECTION + "\"");
 
         paper_size_alarm = getProp(PAPER_SIZE_ALARM_PARAM, 700); // - размер шрифта при вводе юзерской инфы
         paper_alarm_step = getProp(PAPER_ALARM_STEP_PARAM, 30); // - размер шрифта при вводе юзерской инфы
 
         print = getProp(PRINTER_PRINT, true);
-        point = getProp(POINT_PARAM, 1); // указание для какого пункта регистрации услуга, 0-для всех, х-для киоска х.
-        paperWidht = getProp(PAPER_WIDHT, 250); // ширина талона в пикселах
-        leftMargin = getProp(LEFT_MARGIN, 4); // отступ слева
-        topMargin = getProp(TOP_MARGIN, 4); //  отступ сверху
+        point = getProp(POINT_PARAM, 1); // an indication for which point of registration the service is, 0-for all, x-for the kiosk x.
+        paperWidht = getProp(PAPER_WIDHT, 250); // coupon width in pixels
+        leftMargin = getProp(LEFT_MARGIN, 4); // left indent
+        topMargin = getProp(TOP_MARGIN, 4); //  top indent
         lineHeigth = getProp(LINE_HEIGTH, 12); // Ширина строки
         lineLenght = getProp(LINE_LENGTH, 28); // Длинна стоки на квитанции
         scaleVertical = getProp(SCALE_VERTICAL, 1.0); // маштабирование по вертикале

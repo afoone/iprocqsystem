@@ -29,6 +29,7 @@ import ru.apertum.qsystem.server.controller.ServerEvents;
  *
  * @param <T>
  * @author Evgeniy Egorov
+ * @author afoone@hotmail.com
  */
 public abstract class ATreeModel<T extends ITreeIdGetter> extends DefaultTreeModel {
 
@@ -51,9 +52,14 @@ public abstract class ATreeModel<T extends ITreeIdGetter> extends DefaultTreeMod
             }
         }
         bildTree(getRoot(), nodes);
-        QLog.l().logger().info("Создали дерево.");
+        QLog.l().logger().info("Tree created.");
     }
 
+    /**
+     *
+     * @param root
+     * @param nodes
+     */
     private void bildTree(T root, LinkedList<T> nodes) {
         nodes.stream().filter((node) -> (root.getId().equals(node.getParentId()))).map((node) -> {
             node.setParent(root);
@@ -66,6 +72,10 @@ public abstract class ATreeModel<T extends ITreeIdGetter> extends DefaultTreeMod
         });
     }
 
+    /**
+     *
+     * @return
+     */
     public LinkedList<T> getNodes() {
         final LinkedList<T> nodes = new LinkedList<>();
         sailToStorm(root, (TreeNode service) -> {
@@ -75,7 +85,7 @@ public abstract class ATreeModel<T extends ITreeIdGetter> extends DefaultTreeMod
     }
 
     /**
-     * Получить услугу по ID
+     * Get service by ID
      *
      * @param id
      * @return если не найдено то вернет null.
@@ -86,11 +96,11 @@ public abstract class ATreeModel<T extends ITreeIdGetter> extends DefaultTreeMod
                 return node;
             }
         }
-        throw new ServerException("Не найдена услуга по ID \"" + id + "\"");
+        throw new ServerException("No service found by ID \"" + id + "\"");
     }
 
     /**
-     * Проверка наличия услуги по id
+     * Checking for the availability of the service by id
      *
      * @param id имя проверяемой услуги
      * @return есть или нет
@@ -114,7 +124,7 @@ public abstract class ATreeModel<T extends ITreeIdGetter> extends DefaultTreeMod
     }
 
     /**
-     * Перебор всех услуг до одной включая корень и узлы
+     * Enumeration of all services to one including root and nodes
      *
      * @param root
      * @param listener

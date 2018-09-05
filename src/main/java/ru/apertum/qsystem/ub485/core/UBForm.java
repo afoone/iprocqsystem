@@ -167,7 +167,7 @@ public class UBForm extends JFrame {
         buttonTestDev = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Сервер управления кнопками вызова клиентов");
+        setTitle("Client Button Management Server");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Параметры порта"));
 
@@ -177,9 +177,9 @@ public class UBForm extends JFrame {
 
         comboBoxBits.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"4", "5", "6", "7", "8"}));
 
-        jLabel2.setText("Биты данных");
+        jLabel2.setText("Data bits");
 
-        checkBoxParity.setText("Четность");
+        checkBoxParity.setText("Parity");
 
         comboBoxStopBits.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"1", "2"}));
 
