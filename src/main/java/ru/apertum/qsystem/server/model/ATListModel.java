@@ -41,7 +41,7 @@ public abstract class ATListModel<T extends IidGetter> extends AbstractListModel
 
     private void createList() {
         items = load();
-        QLog.l().logger().info("Создали список.");
+        QLog.l().logger().info("Created a list.");
     }
 
     public LinkedList<T> getItems() {
@@ -54,7 +54,7 @@ public abstract class ATListModel<T extends IidGetter> extends AbstractListModel
                 return item;
             }
         }
-        throw new ServerException("Не найден элемент по ID: \"" + id + "\"");
+        throw new ServerException("No item found by ID: \"" + id + "\"");
     }
 
     public boolean hasById(long id) {

@@ -462,8 +462,8 @@ public class QButton extends JButton {
                             form.clockUnlockBack.start();
                             return;
                         }
-                        // Если услуга не обрабатывается ни одним пользователем то в count вернется Uses.LOCK_INT
-                        // вот трех еще потерплю, а больше низачто!
+                        // If the service is not handled by any user, then count will return Uses.LOCK_INT
+                        // I will tolerate three more, and more nizachto!
                         if (servState.getCode() == Uses.LOCK_INT) {
                             form.lockWelcome(WelcomeParams.getInstance().patternInfoDialog.replace("dialog.message", FWelcome.getLocaleMessage("qbutton.service_not_available")));
                             form.clockUnlockBack.start();

@@ -43,7 +43,7 @@ public class CalendarTableModel extends AbstractTableModel {
     private List<FreeDay> daysDel;
 
     public CalendarTableModel(long calcId) {
-        QLog.l().logger().debug("Создаем модель для календаря");
+        QLog.l().logger().debug("Creating a model for the calendar");
         this.calcId = calcId;
         days = getFreeDays(calcId);
         daysDel = new ArrayList<>(days);

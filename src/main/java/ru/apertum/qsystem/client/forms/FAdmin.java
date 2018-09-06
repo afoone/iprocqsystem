@@ -983,7 +983,7 @@ public class FAdmin extends javax.swing.JFrame {
     }
 
     protected boolean checkServer() {
-        QLog.l().logger().info("Запрос о состоянии на сервер.");
+        QLog.l().logger().info("Status request to server.");
         //элемент ответа.
         final LinkedList<ServiceInfo> srvs;
         try {
@@ -1031,7 +1031,7 @@ public class FAdmin extends javax.swing.JFrame {
     }
 
     protected boolean checkWelcome(String command) {
-        QLog.l().logger().info("Запрос о состоянии на пункт регистрации.");
+        QLog.l().logger().info("Checking the status of Welcome Point.");
         command = command == null ? "Empty" : command;
         final String result;
         try {
@@ -1069,7 +1069,7 @@ public class FAdmin extends javax.swing.JFrame {
     }
 
     /**
-     * Сохранение данных о юзере, повесим на потерю фокуса элементов ввода.
+     * Save the data about the user, hang on the loss of focus input elements.
      */
     public void saveUser() {
         if (changeUser) {

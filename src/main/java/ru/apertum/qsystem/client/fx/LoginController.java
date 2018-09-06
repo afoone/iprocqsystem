@@ -109,7 +109,7 @@ public class LoginController extends UserController {
                     errorLbl.setVisible(false);
                     setUser(usersCbx.getValue());
 
-                    QLog.l().logger().info("Вход в систему выполнен. Пользователь \"" + getUser() + "\".");
+                    QLog.l().logger().info("The login has been completed. User \"" + getUser() + "\".");
                     final File f = new File("temp/lusr");
 
                     try {

@@ -94,14 +94,14 @@ import ru.apertum.qsystem.server.model.QUser;
 import ru.apertum.qsystem.server.model.postponed.QPostponedList;
 
 /**
- * Created on 11 Сентябрь 2008 г., 16:57
+ * Created on 11 September 2008 г., 16:57
  *
  * @author Evgeniy Egorov
  */
 public final class FClient extends javax.swing.JFrame {
 
     /**
-     * Информация для взаимодействия по сети. Формируется по данным из командной строки.
+     * Information for interaction over the network. It is generated from the command line.
      */
     private final INetProperty netProperty;
 
@@ -119,9 +119,9 @@ public final class FClient extends javax.swing.JFrame {
     private QCustomer customer = null;
 
     /**
-     * Устанавливаем кастомера для работы. Не может быть NULL
+     * We install a customer for work. Can not be NULL
      *
-     * @param customer С ним работаем. Не может быть NULL.
+     * @param customer We work with him. Can not be NULL.
      */
     public void setCustomer(QCustomer customer) {
         this.customer = customer;
@@ -130,10 +130,10 @@ public final class FClient extends javax.swing.JFrame {
             textAreaComments.setText("");
             return;
         }
-        QLog.l().logger().trace("Установливаем кастомера работающему клиенту и выводем его.");
-        // выведем на экран некую инфу о приглашенном кастомере
+        QLog.l().logger().trace("Install the customer to the working client and output it.");
+        // we will display on the screen some information about the invited customer
         final String textCust = customer.getFullNumber();
-        // Выведем номер вызванного.
+        // Let's display the number of the called.
         printCustomerNumber(customer.getPrefix(), customer.getNumber(), 0);
 
         final String priority;
@@ -406,7 +406,7 @@ public final class FClient extends javax.swing.JFrame {
     }
 
     /**
-     * Описание того, сколько народу стоит в очередях к этому юзеру, ну и прочее(потом)mess Не использовать на прямую.
+     * The description of how many people are in queues to this user, well, etc. (then) mess Do not use on the line.
      * <p>
      * see setSituation(Element plan)
      */
@@ -667,9 +667,9 @@ public final class FClient extends javax.swing.JFrame {
     }
 
     /**
-     * Создадим форму, спозиционируем, сконфигурируем и покажем
+     * Create a form, position it, configure it and show it.
      *
-     * @param cfgFile файл конфигурации табло, приезжает из Spring
+     * @param cfgFile the display configuration file arrives from Spring
      */
     private static void initIndicatorBoard(final String cfgFile) throws DocumentException {
         File f = new File(cfgFile);
@@ -681,7 +681,7 @@ public final class FClient extends javax.swing.JFrame {
                 try {
                     root = new SAXReader(false).read(cfgFile).getRootElement();
                 } catch (DocumentException ex) {
-                    throw new ServerException("Не создали клиентское табло.", ex);
+                    throw new ServerException("Did not create a client scoreboard.", ex);
                 }
                 indicatorBoard = FIndicatorBoard.getIndicatorBoard(root, false);
                 if (indicatorBoard != null) {
@@ -721,22 +721,22 @@ public final class FClient extends javax.swing.JFrame {
     }
 
     /**
-     * Определяет какова ситуация в очереди к пользователю.
+     * Determines what the situation is in the queue to the user.
      *
-     * @param plan - ситуация в XML
+     * @param plan - situation in XML
      */
     public void setSituation(SelfSituation plan) {
-        QLog.l().logger().trace("Обновляем видимую ситуацию.");
+        QLog.l().logger().trace("Updating the plan situation.");
         refreshTime = System.currentTimeMillis();
         if (plan.getSelfservices() == null) {
             return;
         }
         /**
-         * На первую закладку.
+         * On the first tab
          */
         String temp = "";
         /**
-         * На вторую закладку
+         * On the second tab
          */
         String tempAll = "";
         String temp1 = "";
@@ -795,7 +795,7 @@ public final class FClient extends javax.swing.JFrame {
         // если приехал, то его надо учесть
         setCustomer(plan.getCustomer());
         if (plan.getCustomer() != null) {
-            QLog.l().logger().trace("От сервера приехал кастомер, который обрабатывается юзером.");
+            QLog.l().logger().trace("A customer came from the server, which is processed by the user.");
         } else {
             if (inCount == 0) {
                 setKeyRegim(KEYS_OFF);//* нет клиентов, нечеого вызывать*/
@@ -826,13 +826,13 @@ public final class FClient extends javax.swing.JFrame {
             }
         }
 
-        //теперь описание очередей новое
+        //now the description of the queues is new
         userPlan = plan;
         treeSituation.setModel(tree);
         //labelSituation.setText("<html>" + temp);
         labelSituationAll.setText("<html>" + tempAll);
 
-        // Ну и обновим модель для списка отложенных
+        // update the model for the list of pending
         listPostponed.setModel(QPostponedList.getInstance().loadPostponedList(plan.getPostponedList()));
         LinkedList<QCustomer> custs = plan.getPostponedList();
         LinkedList<QCustomer> rem = new LinkedList<>();
@@ -902,7 +902,7 @@ public final class FClient extends javax.swing.JFrame {
     /**
      * *****************************************************************************************************************
      * /*******************************************************************************************************************
-     * /************************************ Обработчики кнопок ***********************************************
+     * /************************************ Button Handlers ***********************************************
      */
     private long go() {
         QLog.l().logger().trace("Start user action.");
@@ -910,19 +910,19 @@ public final class FClient extends javax.swing.JFrame {
     }
 
     private void end(long start) {
-        QLog.l().logger().trace("Действие завершено. Затрачено времени: " + ((double) (System.currentTimeMillis() - start)) / 1000 + " сек.\n");
+        QLog.l().logger().trace("The action is completed. Spent time: " + ((double) (System.currentTimeMillis() - start)) / 1000 + " sec.\n");
     }
 
     private void extPluginIStartClientPressButton(QUser user, INetProperty netProperty, RpcGetSelfSituation.SelfSituation situation, ActionEvent evt, int keyId) {
         // поддержка расширяемости плагинами
         for (final IStartClient event : ServiceLoader.load(IStartClient.class)) {
-            QLog.l().logger().info("Вызов SPI расширения. Описание: " + event.getDescription());
+            QLog.l().logger().info("Call the SPI extension. Description: " + event.getDescription());
             try {
                 new Thread(() -> {
                     event.pressButton(user, netProperty, getUserPlan(), evt, keyId);
                 }).start();
             } catch (Exception tr) {
-                QLog.l().logger().error("Вызов SPI расширения завершился ошибкой. Описание: " + tr);
+                QLog.l().logger().error("The SPI extension call failed. Description: " + tr);
             }
         }
     }

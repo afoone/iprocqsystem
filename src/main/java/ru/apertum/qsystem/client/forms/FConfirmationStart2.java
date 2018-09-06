@@ -99,7 +99,7 @@ public class FConfirmationStart2 extends javax.swing.JDialog {
     }
 
     public static boolean getMayContinue(JFrame owner, int count) {
-        log().info("Просмотр состояния очереди и принятие решения о постановки себя в очередь.");
+        log().info("View the status of the queue and decide whether to queue the customer.");
         ok = false;
         if (confirmationForm == null) {
             confirmationForm = new FConfirmationStart2(owner, count);
@@ -123,7 +123,7 @@ public class FConfirmationStart2 extends javax.swing.JDialog {
             confirmationForm.setSize(FWelcome.getScreenHorizontal(), FWelcome.getScreenVertical());
             Uses.setLocation(confirmationForm, owner);
         }
-        // если кастомер провафлил и ушел, то надо закрыть диалог
+        // If the customer has failed and left, then it is necessary to close the dialog
         CLOCK.start();
         confirmationForm.setVisible(true);
         return ok;

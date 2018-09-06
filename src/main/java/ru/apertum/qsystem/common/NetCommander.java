@@ -574,7 +574,7 @@ public class NetCommander {
     }
 
     /**
-     * Получение описания очередей для юзера.
+     * Receiving queue description for user
      *
      * @param netProperty параметры соединения с сервером
      * @param userId      id пользователя для которого идет опрос
@@ -586,7 +586,7 @@ public class NetCommander {
     }
 
     /**
-     * Получение описания очередей для юзера.
+     * Receiving queue description for user
      *
      * @param netProperty параметры соединения с сервером
      * @param userId      id пользователя для которого идет опрос
@@ -595,7 +595,7 @@ public class NetCommander {
      * @throws ru.apertum.qsystem.common.exceptions.QException
      */
     public static RpcGetSelfSituation.SelfSituation getSelfServices(INetProperty netProperty, long userId, Boolean forced) throws QException {
-        log().info("Получение описания очередей для юзера.");
+        log().info("Receiving queue description for user.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.userId = userId;
@@ -628,7 +628,7 @@ public class NetCommander {
      * @return false - запрешено, true - новый
      */
     public static boolean getSelfServicesCheck(INetProperty netProperty, long userId) {
-        log().info("Получение описания очередей для юзера.");
+        log().info("Receiving queue description for user.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.userId = userId;
@@ -931,7 +931,7 @@ public class NetCommander {
      * @return XML-ответ
      */
     public static LinkedList<ServiceInfo> getServerState(INetProperty netProperty) {
-        log().info("Получение описания состояния сервера.");
+        log().info("Getting a description of server status.");
         // загрузим ответ
         String res = null;
         try {
@@ -952,16 +952,16 @@ public class NetCommander {
     }
 
     /**
-     * Получение описания состояния пункта регистрации.
+     * Obtain a description of the status of the registration point.
      *
      * @param netProperty        параметры соединения с пунктом регистрации
      * @param message            что-то вроде названия команды для пункта регистрации
      * @param dropTicketsCounter сбросить счетчик выданных талонов или нет
-     * @return некий ответ от пункта регистрации, вроде прям как строка для вывода
+     * @return a certain response from the registration point, sort of like a line for output
      */
     public static String getWelcomeState(INetProperty netProperty, String message, boolean dropTicketsCounter) {
-        log().info("Получение описания состояния пункта регистрации.");
-        // загрузим ответ
+        log().info("Obtaining status of welcome point.");
+        // load answer
         String res = null;
         final CmdParams params = new CmdParams();
         params.dropTicketsCounter = dropTicketsCounter;

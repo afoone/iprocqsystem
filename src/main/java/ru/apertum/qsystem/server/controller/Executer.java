@@ -102,10 +102,10 @@ import ru.apertum.qsystem.server.model.schedule.QBreaks;
 import ru.apertum.qsystem.server.model.schedule.QSchedule;
 
 /**
- * Пул очередей. Пул очередей - главная структура управления очередями. В системе существуют несколько очередей, например для оказания разных услуг. Пул
- * получает XML-задания из сети, определяет требуемое действие. Выполняет действия по организации пула. Выполняет задания, касающиеся нескольких очередей.
- * Работает как singleton.
+ * A pool of queues. The queue pool is the main queue management structure. There are several queues in the system, for example, to provide different services. Pool
+ * receives XML tasks from the network, determines the required action. Performs actions to organize the pool. Performs tasks related to multiple queues.
  *
+ * Works as a singleton
  * @author Evgeniy Egorov
  */
 public final class Executer {
@@ -136,10 +136,10 @@ public final class Executer {
 
     //
     //*******************************************************************************************************
-    //**************************  ОБРАБОТЧИКИ ЗАДАНИЙ *******************************************************
+    //**************************  handlers JOB *******************************************************
     //*******************************************************************************************************
     //
-    // задния, доступны по их именам
+    // tasks are available by their names
     private final HashMap<String, ITask> tasks = new HashMap<>();
 
     public HashMap<String, ITask> getTasks() {
@@ -147,7 +147,8 @@ public final class Executer {
     }
 
     /**
-     * @author Evgeniy Egorov Базовый класс обработчиков заданий. сам себя складывает в HashMap[String, ATask] tasks. метод process исполняет задание.
+     * @author Evgeniy Egorov
+     * Base class of job handlers. itself adds up in HashMap [String, ATask] tasks. the process method executes the job.
      */
     public class Task implements ITask {
 
@@ -747,17 +748,17 @@ public final class Executer {
                     min = Uses.LOCK_FREE_INT;
                 }
             }
-            // Если не работаем, то отправим ответ и прекратим выполнение
+            // If we do not work, we'll send a response and stop doing it.
             if (min == Uses.LOCK_FREE_INT) {
-                QLog.l().logger().warn("Услуга \"" + cmdParams.serviceId + "\" is not processed based on the working schedule." + " " + ipAdress);
+                QLog.l().logger().warn("Service \"" + cmdParams.serviceId + "\" is not processed based on the working schedule." + " " + ipAdress);
                 return new RpcGetServiceState(Uses.LOCK_FREE_INT, 0, "");
             }
-            // бежим по юзерам и смотрим обрабатывают ли они услугу
-            // если да, то возьмем все услуги юзера и  сложим всех кастомеров в очередях
-            // самую маленькую сумму отправим в ответ по запросу.
+            // run on users and see if they are processing the service
+            // if yes, then take all the services of the user and add all the customizers in the queues
+            // the smallest amount will be sent in response on request.
             for (QUser user : QUserList.getInstance().getItems()) {
                 if (user.hasService(cmdParams.serviceId)) {
-                    // теперь по услугам юзера
+                    // now for the services of the user
                     int sum = 0;
                     for (QPlanService planServ : user.getPlanServices()) {
                         final QService service = QServiceTree.getInstance().getById(planServ.getService().getId());

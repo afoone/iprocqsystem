@@ -76,7 +76,7 @@ public class DesktopController extends UserController {
         try {
             setSituation(NetCommander.getSelfServices(getNetProperty(), getUser().getId(), forced));
         } catch (QException th) {
-            QLog.l().logger().error("Ошибка при обновлении состояния: ", th);
+            QLog.l().logger().error("Error updating status: ", th);
         }
     }
 
@@ -86,7 +86,7 @@ public class DesktopController extends UserController {
      * @param plan - ситуация в XML
      */
     private void setSituation(RpcGetSelfSituation.SelfSituation plan) {
-        QLog.l().logger().trace("Обновляем видимую ситуацию.");
+        QLog.l().logger().trace("We update the visible situation.");
         if (plan.getSelfservices() == null) {
             return;
         }
@@ -95,7 +95,7 @@ public class DesktopController extends UserController {
         // если приехал, то его надо учесть
         setCustomer(plan.getCustomer());
         if (plan.getCustomer() != null) {
-            QLog.l().logger().trace("От сервера приехал кастомер, который обрабатывается юзером.");
+            QLog.l().logger().trace("A customer came from the server, which is processed by the user.");
             area.getChildren().add(makeCustomerView(customer));
         }
 

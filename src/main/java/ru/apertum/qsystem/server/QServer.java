@@ -558,11 +558,11 @@ public class QServer implements Runnable {
                         final QUser user = recCustomer.getUser();
                         // кастомер ща стоит к этой услуге к какой стоит
                         recCustomer.setService(service);
-                        // смотрим к чему привязан кастомер. либо в очереди стоит, либо у юзера обрабатыватся
+                        // we look to what customer is attached to. either in the queue is, or the user is processing
                         if (user == null) {
                             // сохраненный кастомер стоял в очереди и ждал, но его еще никто не звал
                             QServiceTree.getInstance().getById(recCustomer.getService().getId()).addCustomerForRecoveryOnly(recCustomer);
-                            log().debug("Cliente agregado \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" к услуге \"" + recCustomer.getService().getName() + "\"");
+                            log().debug("Cliente agregado \"" + recCustomer.getPrefix() + recCustomer.getNumber() + "\" al servicio \"" + recCustomer.getService().getName() + "\"");
                         } else {
                             // El usuario guardado fue manejado por userId
                             if (QUserList.getInstance().getById(user.getId()) == null) {

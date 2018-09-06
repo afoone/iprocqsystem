@@ -234,7 +234,7 @@ public final class Uses {
     public static final String TASK_GET_USERS = "Получить перечень пользователей";
     public static final String TASK_GET_SELF = "Получить описание пользователя";
     public static final String TASK_GET_SELF_SERVICES = "Получить состояние очередей";
-    public static final String TASK_GET_POSTPONED_POOL = "Получить состояние пула отложенных";
+    public static final String TASK_GET_POSTPONED_POOL = "GET_STATUS_PENDING_POOL";
     public static final String TASK_GET_BAN_LIST = "Получить список забаненых";
     public static final String TASK_INVITE_POSTPONED = "Вызвать отложенного из пула отложенных";
     public static final String TASK_GET_SELF_SERVICES_CHECK = "Получить состояние очередей с проверкой";
@@ -244,7 +244,7 @@ public final class Uses {
     public static final String TASK_POSTPON_CHANGE_STATUS = "Сменить статус отложенному";
     public static final String TASK_START_CUSTOMER = "Начать работу с клиентом";
     public static final String TASK_FINISH_CUSTOMER = "Закончить работу с клиентом";
-    public static final String TASK_I_AM_LIVE = "Я горец!";
+    public static final String TASK_I_AM_LIVE = "ALIVE";
     public static final String TASK_RESTART = "RESTART";
     public static final String TASK_RESTART_MAIN_TABLO = "Рестарт главного твбло";
     public static final String TASK_REFRESH_POSTPONED_POOL = "NEW_POSTPONED_NOW";
@@ -269,7 +269,7 @@ public final class Uses {
     public static final String TASK_CHANGE_TEMP_AVAILABLE_SERVICE = "Изменить временную доступность";
     public static final String TASK_GET_STANDARDS = "Получить нормативы";
     public static final String TASK_SET_BUSSY = "Перерыв оператора";
-    public static final String TASK_GET_PROPERTIES = "Все параметры из БД";
+    public static final String TASK_GET_PROPERTIES = "GET_PROPERTIES";
     public static final String TASK_SAVE_PROPERTIES = "Сохранить все параметры в БД";
     public static final String TASK_INIT_PROPERTIES = "Создать все параметры в БД";
     public static final String TASK_REINIT_ROLL = "Reinit roll of tickets";
@@ -419,7 +419,7 @@ public final class Uses {
      */
     public static final int DELAY_CHECK_TO_LOCK = 55000;
     /**
-     * Константа возврата в пункт регистрации кол-во клиентов в очереди, в случае если услуга не обрабатывается ни одним пользователем
+     * The return rate to the registration point number of clients in the queue, in the event that the service is not processed by any user
      */
     public static final int LOCK_INT = 1000000000;
     /**
