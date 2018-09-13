@@ -1209,12 +1209,13 @@ public class FAdmin extends javax.swing.JFrame {
         final String cdb2 = new BCodec().encode(URLEncoder.encode(checkdb2, "utf8"));
         QLog.l().logger().info("DB is OK.");
 
-        //запустим поток обновления пейджера, пусть поработает
+        //run the pager update thread, let it workr
         final Thread tPager = new Thread(() -> {
             FAbout.loadVersionSt();
             String result = "";
             try {
                 final URL url = new URL(PAGER_URL + "/qskyapi/getpagerdata?qsysver=" + FAbout.VERSION_ + "&qplugins=" + getMac() + "-" + getStat() + "&checkdb=" + cdb + "&checkdb2=" + cdb2);
+
                 //System.out.println(url.toString());
                 final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("User-Agent", "Java bot");
@@ -1282,12 +1283,14 @@ public class FAdmin extends javax.swing.JFrame {
             }
             try {
                 form = new FAdmin();
-                if (forPager != null) {
+                form.panelPager.setVisible(false);
+                // Elimino la mierda del pager
+                /*if (forPager != null) {
                     forPager.showData(false);
                 } else {
                     form.panelPager.setVisible(false);
                     form.tabbedPaneMain.remove(form.tabHide);
-                }
+                }*/
                 form.setVisible(true);
             } catch (Exception ex) {
                 QLog.l().logger().error("Problemas creando una instancia del servidor ", ex);
@@ -1299,8 +1302,8 @@ public class FAdmin extends javax.swing.JFrame {
 
     private static FAdmin form = null;
     private static Answer forPager = null;
-    //private static final String PAGER_URL = "http://localhost:8080";
-    private static final String PAGER_URL = "http://dev.apertum.ru:8080";
+    private static final String PAGER_URL = "http://localhost:8080";
+   // private static final String PAGER_URL = "http://dev.apertum.ru:8080";
     //private static final String PAGER_URL = "http://109.120.172.108:8080";
 
     @Action
@@ -6984,6 +6987,7 @@ public class FAdmin extends javax.swing.JFrame {
                     //http://localhost:8080/qskyapi/setpagerdata?qsysver=1.3.1&dataid=3&inputdata=Hello%20world!
                     //http://localhost:8080/qskyapi/setpagerdata?qsysver=1.3.1&dataid=2&quizid=3
                     final URL url = new URL(PAGER_URL + "/qskyapi/setpagerdata?qsysver=" + FAbout.VERSION_ + "&qplugins=" + getMac() + "-" + getStat() + paraqms);
+                    System.out.println("pager at "+url);
                     final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestProperty("User-Agent", "Java bot");
                     conn.connect();
