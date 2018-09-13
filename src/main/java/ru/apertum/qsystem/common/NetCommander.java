@@ -960,7 +960,7 @@ public class NetCommander {
      * @return a certain response from the registration point, sort of like a line for output
      */
     public static String getWelcomeState(INetProperty netProperty, String message, boolean dropTicketsCounter) {
-        log().info("Obtaining status of welcome point.");
+        log().info("Obtaining status of welcome point. Message: "+message+ " : netproperty = "+netProperty);
         // load answer
         String res = null;
         final CmdParams params = new CmdParams();

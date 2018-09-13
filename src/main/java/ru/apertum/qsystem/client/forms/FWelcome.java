@@ -145,7 +145,7 @@ public class FWelcome extends javax.swing.JFrame {
         return LOCALE_MAP.getString(key);
     }
 
-    // Состояния пункта регистрации
+    // The states of the registration point
     public final String LOCK = getLocaleMessage("lock");
     public final String UNLOCK = getLocaleMessage("unlock");
     public final String OFF = getLocaleMessage("off");
@@ -253,17 +253,17 @@ public class FWelcome extends javax.swing.JFrame {
         }
 
         private void doCommand(Socket socket) {
-            // из сокета клиента берём поток входящих данных
+            // From the client's socket we take the stream of incoming data
             final String data;
             try {
                 final InputStream is = socket.getInputStream();
                 // подождать пока хоть что-то приползет из сети, но не более 10 сек.
                 int i = 0;
                 while (is.available() == 0 && i < 100) {
-                    Thread.sleep(100);//бля
+                    Thread.sleep(100);//waiting
                     i++;
                 }
-                Thread.sleep(100);//бля
+                Thread.sleep(100);//waiting
                 data = URLDecoder.decode(new String(Uses.readInputStream(is)).trim(), "utf-8");
             } catch (IOException ex) {
                 throw new ServerException("Ошибка при чтении из входного потока: " + Arrays.toString(ex.getStackTrace()));
@@ -271,7 +271,7 @@ public class FWelcome extends javax.swing.JFrame {
                 Thread.currentThread().interrupt();
                 throw new ServerException("Проблема со сном: " + Arrays.toString(ex.getStackTrace()));
             }
-            QLog.l().logger().trace("Задание:\n" + data);
+            QLog.l().logger().trace("Task:\n" + data);
 
             final JsonRPC20 rpc;
             final Gson gson = GsonPool.getInstance().borrowGson();
@@ -281,10 +281,10 @@ public class FWelcome extends javax.swing.JFrame {
                 GsonPool.getInstance().returnGson(gson);
             }
 
-            // Обрабатываем задание
-            //С рабочего места администратора должна быть возможность заблокировать пункт постановки в очередь,
-            //разблокировать, выключить, провести инициализация заново.
-            // В любом другом случае будет выслано состояние.
+            // Process the job
+            // From the administrator's workplace there should be an opportunity to block the item of the queue,
+            // unlock, deactivate, initialize again.
+            // In any other case, the state will be sent.
             String upp = ".  " + increaseTicketCount(0) + " " + getLocaleMessage("tickets_were_printed");
             if (Uses.WELCOME_LOCK.equals(rpc.getMethod())) {
                 lockWelcome(LOCK_MESSAGE);
