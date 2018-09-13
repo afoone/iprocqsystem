@@ -129,14 +129,14 @@ public class HttpQSystemReportsHandler implements HttpRequestHandler {
                         anyFile.delete();
                     } else {
                         // ваще ничего нет. наверное битый адрес или ресурс пропал(не сформировался)
-                        QLog.l().logRep().error("Ресурс не найден во временных файлах: \"" + Uses.TEMP_FOLDER + File.separator + "temphtml.html_files" + File.separator + subject + "\"");
+                        QLog.l().logRep().error("Resource not found in temporary files: \"" + Uses.TEMP_FOLDER + File.separator + "temphtml.html_files" + File.separator + subject + "\"");
                         final String s = "<html><head><meta http-equiv = \"Content-Type\" content = \"text/html; charset=utf-8\" ></head><p align=center>Ресурс не найден.</p></html>";
                         result = new Response(s.getBytes());
                     }
                 }
 
             } else {
-                QLog.l().logRep().info("Выдаем ресурс: \"" + subject + "\"");
+                QLog.l().logRep().info("We give out the resource: \"" + subject + "\"");
                 try {
                     result = new Response(Uses.readInputStream(inStream));
                     if ("/login.html".equals(subject)) {
@@ -155,7 +155,7 @@ public class HttpQSystemReportsHandler implements HttpRequestHandler {
         }
 
         // выводим данные:
-        QLog.l().logRep().trace("Выдаем результат " + result.getData().length + " байт на запрос \"" + request.getRequestLine().getUri() + "\".");
+        QLog.l().logRep().trace("Result  " + result.getData().length + " byte per request \"" + request.getRequestLine().getUri() + "\".");
 
         final byte[] result2 = result.getData();
         final EntityTemplate body = new EntityTemplate((final OutputStream outstream) -> {

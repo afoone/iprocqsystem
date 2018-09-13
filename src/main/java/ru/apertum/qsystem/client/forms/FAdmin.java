@@ -6473,7 +6473,7 @@ public class FAdmin extends javax.swing.JFrame {
                 flag = false;
             }
         }
-        QLog.l().logger().debug("Добавляем результат \"" + resultText + "\"");
+        QLog.l().logger().debug("Adding the result \"" + resultText + "\"");
         final QResult item = new QResult();
         item.setName(resultText);
         QResultList.getInstance().addElement(item);

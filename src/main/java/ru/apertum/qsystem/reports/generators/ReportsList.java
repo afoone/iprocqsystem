@@ -51,7 +51,7 @@ public class ReportsList extends AGenerator {
     protected Response preparationReport(HttpRequest request) {
         // в запросе должен быть пароль и пользователь, если нету, то отказ на вход
         String entityContent = NetUtil.getEntityContent(request);
-        QLog.l().logger().trace("Принятые параметры \"" + entityContent + "\".");
+        QLog.l().logger().trace("Accepted parameters \"" + entityContent + "\".");
         // ресурс для выдачи в браузер. это либо список отчетов при корректном логининге или отказ на вход
         String res = "/ru/apertum/qsystem/reports/web/error_login.html";
         String usr = "err";

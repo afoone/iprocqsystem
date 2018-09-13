@@ -92,7 +92,7 @@ public class DistributionWaitDay extends AFormirovator {
     @Override
     public String validate(String driverClassName, String url, String username, String password, HttpRequest request, HashMap<String, String> params) {
         // проверка на корректность введенных параметров
-        QLog.l().logger().trace("Принятые параметры \"" + params.toString() + "\".");
+        QLog.l().logger().trace("Accepted parameters \"" + params.toString() + "\".");
         if (params.size() == 1) {
             Date date;
             String sdate;

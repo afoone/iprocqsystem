@@ -547,7 +547,7 @@ public final class Uses {
         try {
             adr = InetAddress.getByName(adress);
         } catch (UnknownHostException ex) {
-            throw new ServerException("Ошибка получения адреса по строке \'" + adress + "\". " + ex);
+            throw new ServerException("Error getting address on line \'" + adress + "\". " + ex);
         }
         return adr;
     }
@@ -601,13 +601,13 @@ public final class Uses {
      * @throws IOException
      */
     public static byte[] readResource(Object o, String resourceName) throws IOException {
-        // Выдаем ресурс  "/ru/apertum/qsystem/reports/web/name.jpg"
+        // Resource transmited  "/ru/apertum/qsystem/reports/web/name.jpg"
         final InputStream inStream = o.getClass().getResourceAsStream(resourceName);
         return readInputStream(inStream);
     }
 
     /**
-     * грузит картинку из файла или ресурсов. Если Параметр пустой, то возвращает null.
+     * loads a picture from a file or resources. If the Parameter is empty, it returns null.
      *
      * @param o Объект для загрузки ресурса из jar, чаще всего класс в котором понадобилась эта картинка.
      * @param resourceName путь к ресурсу или файлу картинки. Может быть пустым.

@@ -87,7 +87,7 @@ public class ResultStateServices extends AFormirovator {
     public String validate(String driverClassName, String url, String username, String password, HttpRequest request, HashMap<String, String> params) {
         //sd=20.01.2009&ed=28.01.2009
         // проверка на корректность введенных параметров
-        QLog.l().logger().trace("Принятые параметры \"" + params.toString() + "\".");
+        QLog.l().logger().trace("Accepted parameters \"" + params.toString() + "\".");
         if (params.size() == 2) {
             Date sd;
             Date fd;

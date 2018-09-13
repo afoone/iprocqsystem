@@ -64,7 +64,7 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
     @Override
     protected LinkedList<QReport> load() {
         final LinkedList<QReport> reports = new LinkedList<>(Spring.getInstance().getHt().loadAll(QReport.class));
-        QLog.l().logRep().debug("Загружено из базы " + reports.size() + " отчетов.");
+        QLog.l().logRep().debug("Uploaded from database" + reports.size() + " reports.");
 
         passMap = new HashMap<>();
         htmlRepList = "";
@@ -210,7 +210,7 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
          */
         final Response result = generator.process(request);
 
-        QLog.l().logRep().info("Генерация завершено. Затрачено времени: " + ((double) (System.currentTimeMillis() - start)) / 1000 + " сек.");
+        QLog.l().logRep().info("Generation of report list is complete. Spent time: " + ((double) (System.currentTimeMillis() - start)) / 1000 + " сек.");
         return result;
     }
 

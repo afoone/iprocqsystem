@@ -27,8 +27,7 @@ import ru.apertum.qsystem.common.exceptions.ReportException;
 import ru.apertum.qsystem.reports.net.RunnableSocket;
 
 /**
- * Отчетный сервер, выступающий в роли вэбсервера, обрабатывающего запросы на выдачу отчетов
- * Класс потоков, обрабатывающих запросы HTTP, для выдачи отчетов
+
  *
  * @author Evgeniy Egorov
  */
