@@ -180,19 +180,19 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
                 saveToSelfDB();
                 break;
             case STATE_WAIT:
-                QLog.l().logger().debug("Статус: Кастомер пришел и ждет с номером \"" + getPrefix() + getNumber() + "\"");
+                QLog.l().logger().debug("Status: The customer comes and waits with the number\"" + getPrefix() + getNumber() + "\"");
                 setStandTime(new Date());
                 break;
             case STATE_WAIT_AFTER_POSTPONED:
-                QLog.l().logger().debug("Статус: Кастомер был возвращен из отложенных по истечению времени и ждет с номером \"" + getPrefix() + getNumber() + "\"");
+                QLog.l().logger().debug("Status: The customer was returned from the pending after the expiration of time and waits with the number \"" + getPrefix() + getNumber() + "\"");
                 setStandTime(new Date());
                 break;
             case STATE_WAIT_COMPLEX_SERVICE:
-                QLog.l().logger().debug("Статус: Кастомер был опять поставлен в очередь т.к. услуга комплекстая и ждет с номером \"" + getPrefix() + getNumber() + "\"");
+                QLog.l().logger().debug("Status: The customer was once again queued up. the service is bundled and waiting with the number \"" + getPrefix() + getNumber() + "\"");
                 setStandTime(new Date());
                 break;
             case STATE_INVITED:
-                QLog.l().logger().debug("Статус: Пригласили кастомера с номером \"" + getPrefix() + getNumber() + "\"");
+                QLog.l().logger().debug("Status: Invited to the customer with the number \"" + getPrefix() + getNumber() + "\"");
                 // ставим время вызова
                 setCallTime(new Date());
                 break;

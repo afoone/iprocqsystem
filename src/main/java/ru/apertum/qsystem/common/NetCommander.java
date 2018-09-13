@@ -653,14 +653,14 @@ public class NetCommander {
     }
 
     /**
-     * Получение слeдующего юзера из очередей, обрабатываемых юзером.
+     * Getting the next user from the queues that are processed by the user.
      *
-     * @param netProperty параметры соединения с сервером
+     * @param netProperty server connection settings
      * @param userId
-     * @return ответ-кастомер следующий по очереди
+     * @return answer next customer
      */
     public static QCustomer inviteNextCustomer(INetProperty netProperty, long userId) {
-        log().info("Получение следующего юзера из очередей, обрабатываемых юзером.");
+        log().info("Getting the next user from the queues that are processed by the user.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.userId = userId;
@@ -683,7 +683,7 @@ public class NetCommander {
     }
 
     /**
-     * Получение слeдующего юзера из одной конкретной очереди, обрабатываемой юзером.
+     * Getting the next user from one particular queue, processed by the user
      *
      * @param netProperty параметры соединения с сервером
      * @param userId
@@ -691,7 +691,7 @@ public class NetCommander {
      * @return ответ-кастомер следующий по очереди
      */
     public static QCustomer inviteNextCustomer(INetProperty netProperty, long userId, long serviceId) {
-        log().info("Получение слeдующего юзера из одной конкретной очереди, обрабатываемой юзером.");
+        log().info("Getting the next user from one particular queue, processed by the user.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.userId = userId;
@@ -715,7 +715,7 @@ public class NetCommander {
     }
 
     /**
-     * Получение, блядь, любого кастомера из очередей
+     * Getting, fuck, of any queue casting machine
      *
      * @param netProperty параметры соединения с сервером
      * @param userId
@@ -727,16 +727,16 @@ public class NetCommander {
     }
 
     /**
-     * Получение, блядь, любого кастомера из очередей
+     * Getting, fuck, of any queue casting machine
      *
      * @param netProperty параметры соединения с сервером
      * @param userId
      * @param num         либо ID либо num, но ID в приоритете.
      * @param customerId  либо ID либо num, но ID в приоритете.
-     * @return ответ-кастомер следующий по очереди
+     * @return next customer
      */
     public static QCustomer inviteNextCustomer(INetProperty netProperty, long userId, String num, Long customerId) {
-        QLog.l().logger().info("Получение, блядь, любого кастомера из очередей юзера из очередей, обрабатываемых юзером.");
+        QLog.l().logger().info("Obtaining any customer from the user's queues from the queues being processed by the user.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.userId = userId;
@@ -861,7 +861,7 @@ public class NetCommander {
     }
 
     /**
-     * Закончить работу с вызванным кастомером.
+     * Finish work with the customer.
      *
      * @param netProperty параметры соединения с сервером
      * @param userId
@@ -871,7 +871,7 @@ public class NetCommander {
      * @return
      */
     public static QCustomer getFinishCustomer(INetProperty netProperty, long userId, Long customerId, Long resultId, String comments) {
-        log().info("Закончить работу с вызванным кастомером.");
+        log().info("Finish work with the called customer.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.userId = userId;

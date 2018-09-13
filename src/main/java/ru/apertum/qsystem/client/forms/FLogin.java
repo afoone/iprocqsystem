@@ -267,7 +267,7 @@ public class FLogin extends javax.swing.JDialog {
      * @return залогиневшiйся юзер.
      */
     public static QUser logining(INetProperty netProperty, JFrame owner, boolean modal, int count, int level) {
-        QLog.l().logger().info("Вход в систему.");
+        QLog.l().logger().info("Login to the system.");
         if (loginForm == null) {
             loginForm = new FLogin(netProperty, owner, modal, level);
         } else if (loginForm.netProperty != netProperty || loginForm.parentFrame != owner || loginForm.getLevel() != level) {
@@ -286,7 +286,7 @@ public class FLogin extends javax.swing.JDialog {
             System.exit(0);
         }
         final QUser user = loginForm.fastUser != null ? loginForm.fastUser : (QUser) loginForm.comboBoxUser.getSelectedItem();
-        QLog.l().logger().info("Вход в систему выполнен. Пользователь \"" + user + "\", уровень доступа \"" + level + "\".");
+        QLog.l().logger().info("The login has been completed. User \"" + user + "\", access level \"" + level + "\".");
         final File f = new File("temp/lusr");
         try {
             try (FileOutputStream fos = new FileOutputStream(f)) {
@@ -299,17 +299,16 @@ public class FLogin extends javax.swing.JDialog {
     }
 
     /**
-     * Логирование имея уже готовый список возможных пользователей для логирования.
-     *
-     * @param userList список пользователей
-     * @param owner    относительно этого контрола модальность и позиционирование
+     * Logging having a ready-made list of possible users for logging
+     * @param userList a list of users
+     * @param owner    Regarding this, modality and positioning
      * @param modal    режим модальности
      * @param count    количество неудачных попыток, если 0 то бесконечно
      * @param level    Уровень доступа, см. LEVEL_USER, LEVEL_REPORT, LEVEL_ADMIN
      * @return залогиневшийся юзер.
      */
     public static QUser logining(QUserList userList, JFrame owner, boolean modal, int count, int level) {
-        QLog.l().logger().info("Вход в систему.");
+        QLog.l().logger().info("Login to the system.");
         if (loginForm == null) {
             loginForm = new FLogin(userList, owner, modal, level);
         } else if (loginForm.userList != userList || loginForm.parentFrame != owner || loginForm.getLevel() != level) {
@@ -328,7 +327,7 @@ public class FLogin extends javax.swing.JDialog {
             System.exit(0);
         }
         final QUser user = loginForm.fastUser != null ? loginForm.fastUser : (QUser) loginForm.comboBoxUser.getSelectedItem();
-        QLog.l().logger().info("Вход в систему выполнен. Пользователь \"" + user + "\", уровень доступа \"" + level + "\".");
+        QLog.l().logger().info("The login has been completed. User \"" + user + "\", access level \"" + level + "\".");
         final File f = new File("temp/lusr");
         try {
             try (FileOutputStream fos = new FileOutputStream(f)) {

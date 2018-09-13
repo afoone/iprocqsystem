@@ -218,9 +218,9 @@ public final class FClient extends javax.swing.JFrame {
     }
 
     /**
-     * Заставляем мигать все табло.
+     * We make the whole display flash.
      *
-     * @param blinked мигаем или нет.
+     * @param blinked blinking or not.
      */
     private void setBlinkBoard(boolean blinked) {
         if (indicatorBoard != null) {

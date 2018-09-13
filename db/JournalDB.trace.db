@@ -1,0 +1,44 @@
+09-12 09:37:00 jdbc[3]: null
+org.h2.message.DbException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-185]
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:174)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:119)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:92)
+	at org.h2.Driver.connect(Driver.java:72)
+	at com.mchange.v2.c3p0.DriverManagerDataSource.getConnection(DriverManagerDataSource.java:134)
+	at com.mchange.v2.c3p0.WrapperConnectionPoolDataSource.getPooledConnection(WrapperConnectionPoolDataSource.java:182)
+	at com.mchange.v2.c3p0.WrapperConnectionPoolDataSource.getPooledConnection(WrapperConnectionPoolDataSource.java:171)
+	at com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool$1PooledConnectionResourcePoolManager.acquireResource(C3P0PooledConnectionPool.java:137)
+	at com.mchange.v2.resourcepool.BasicResourcePool.doAcquire(BasicResourcePool.java:1014)
+	at com.mchange.v2.resourcepool.BasicResourcePool.access$800(BasicResourcePool.java:32)
+	at com.mchange.v2.resourcepool.BasicResourcePool$AcquireTask.run(BasicResourcePool.java:1810)
+	at com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:547)
+Caused by: org.h2.jdbc.JdbcSQLException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-185]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 15 more
+09-12 14:10:46 jdbc[138]: null
+org.h2.message.DbException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-185]
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:174)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:119)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:92)
+	at org.h2.Driver.connect(Driver.java:72)
+	at com.mchange.v2.c3p0.DriverManagerDataSource.getConnection(DriverManagerDataSource.java:134)
+	at com.mchange.v2.c3p0.WrapperConnectionPoolDataSource.getPooledConnection(WrapperConnectionPoolDataSource.java:182)
+	at com.mchange.v2.c3p0.WrapperConnectionPoolDataSource.getPooledConnection(WrapperConnectionPoolDataSource.java:171)
+	at com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool$1PooledConnectionResourcePoolManager.acquireResource(C3P0PooledConnectionPool.java:137)
+	at com.mchange.v2.resourcepool.BasicResourcePool.doAcquire(BasicResourcePool.java:1014)
+	at com.mchange.v2.resourcepool.BasicResourcePool.access$800(BasicResourcePool.java:32)
+	at com.mchange.v2.resourcepool.BasicResourcePool$AcquireTask.run(BasicResourcePool.java:1810)
+	at com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:547)
+Caused by: org.h2.jdbc.JdbcSQLException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-185]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 15 more

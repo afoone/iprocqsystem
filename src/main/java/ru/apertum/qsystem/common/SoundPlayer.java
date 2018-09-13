@@ -233,6 +233,8 @@ public class SoundPlayer implements Runnable {
     public static LinkedList<String> toSoundSimple2(String path, String phrase) {
         final LinkedList<String> res = new LinkedList<>();
 
+        log().debug("Phrase for parsing: "+ phrase);
+
         // Divide by letters and numbers
         Matcher m = Pattern.compile("\\d").matcher(phrase);
 
@@ -245,6 +247,7 @@ public class SoundPlayer implements Runnable {
                     continue;
                 }
                 final String resource = path + fileName.toLowerCase() + ".wav";
+                log().debug("looking for resource "+res);
                 // samples of letters should be in resources
                 final InputStream stream = resource.getClass().getResourceAsStream(resource);
                 if (stream != null) {
@@ -285,7 +288,12 @@ public class SoundPlayer implements Runnable {
         }
 
         // Well, now we split the digits, find the resources for them and put them into the playlist
-        String lastAdded = "";
+
+
+        log().debug("Frase restante "+phrase);
+
+
+       String lastAdded = "";
         for (int i = 0; i < phrase.length(); i++) {
 
             final String elem = phrase.substring(i).toLowerCase();
@@ -351,6 +359,7 @@ public class SoundPlayer implements Runnable {
 
         }
         res.addAll(last);
+        log().debug("Splitted phrase: " + res.toString());
         return res;
     }
 
@@ -443,9 +452,13 @@ public class SoundPlayer implements Runnable {
      * @param isFirst
      */
     public static void inviteClient(QService service, QCustomer customer, String clientNumber, String pointNumber, boolean isFirst) {
+
+        isFirst= false;
+
         // To get started, we'll find a template
-        log().debug("Trying to invite a client by voice");
+        log().debug("Trying to invite a client by voice. Client number: "+ clientNumber+", point Number "+pointNumber);
         QService tempServ = service;
+        log().debug("Sound Template "+service.getSoundTemplate());
         while ((tempServ.getSoundTemplate() == null || tempServ.getSoundTemplate().startsWith("0")) && tempServ.getParent() != null) {
             tempServ = tempServ.getParent();
         }
@@ -454,6 +467,8 @@ public class SoundPlayer implements Runnable {
         }
 
         final String[] parts = tempServ.getSoundTemplate().split("#");
+
+        log().debug("Sound template parts " + parts);
 
         int gong = 1;
         if (parts[0].length() > 1) {
@@ -469,15 +484,19 @@ public class SoundPlayer implements Runnable {
                     break;
                 default:
                     gong = 1;
+
             }
+            log().debug("gong type " + gong);
         }
         boolean client = false;
         if (parts[0].length() > 2) {
             client = "1".equals(parts[0].substring(2, 3));
+            log().debug("client sound active");
         }
         boolean cl_num = false;
         if (parts[0].length() > 3) {
             cl_num = "1".equals(parts[0].substring(3, 4));
+            log().debug("client number active");
         }
         int go_to = 5;
         if (parts[0].length() > 4) {
@@ -500,10 +519,12 @@ public class SoundPlayer implements Runnable {
                 default:
                     go_to = 5;
             }
+            log().debug("Sound goto is "+go_to);
         }
         boolean go_num = false;
         if (parts[0].length() > 5) {
             go_num = parts[0].endsWith("1");
+            log().debug("sound number active");
         }
 
         final LinkedList<String> res = new LinkedList<>();
@@ -527,12 +548,16 @@ public class SoundPlayer implements Runnable {
             res.add(Files.exists(Paths.get(dingFilePath)) ? dingFilePath : (path + "ding.wav"));
         }
 
-        if (!(isFirst && gong == 3)) {
-            if (client) {
+        if (!(isFirst && gong >= 2)) {
+
+            if (client || true) {
                 res.add(path + "client.wav");
+                log().debug("Sound Resources, added client.wav "+res);
+
             }
-            if (cl_num) {
+            if (cl_num || true) {
                 res.addAll(toSoundSimple2(path, clientNumber));
+                log().debug("Sound Resources, added client number "+res);
             }
             switch (go_to) {
                 case 1:
@@ -548,15 +573,18 @@ public class SoundPlayer implements Runnable {
                     res.add(path + "totable.wav");
                     break;
                 case 5:
-                    // Это мы пропускаем произношение пункта приема.
+                    res.add(path + "totable.wav");
                     break;
                 default:
                     throw new IllegalArgumentException("Bad number = " + go_to);
 
             }
-            if (go_num) {
+
+            log().debug("Sound Resources "+res);
+            if (go_num || true) {
                 res.addAll(toSoundSimple2(path, pointNumber));
             }
+            log().debug("Sound Resources , addded point number"+res);
         }
         SoundPlayer.play(res);
     }

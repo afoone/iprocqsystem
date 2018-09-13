@@ -219,7 +219,7 @@ public final class Uses {
     public static final int BOARD_TYPE_BOOL = 4;
     // Наименования заданий
     public static final String TASK_FOR_ALL_SITE = "Для всех сайтов домена";
-    public static final String TASK_STAND_IN = "Поставить в очередь";
+    public static final String TASK_STAND_IN = "STAND IN";
     public static final String TASK_STAND_COMPLEX = "Поставить в несколько очередей";
     public static final String TASK_ADVANCE_STAND_IN = "Поставить в очередь предварительно";
     public static final String TASK_ADVANCE_CHECK_AND_STAND = "Поставить предварительно записанного";
@@ -233,24 +233,24 @@ public final class Uses {
     public static final String TASK_GET_INFO_PRINT = "Получить информацию для печати";
     public static final String TASK_GET_USERS = "Получить перечень пользователей";
     public static final String TASK_GET_SELF = "Получить описание пользователя";
-    public static final String TASK_GET_SELF_SERVICES = "Получить состояние очередей";
-    public static final String TASK_GET_POSTPONED_POOL = "GET_STATUS_PENDING_POOL";
+    public static final String TASK_GET_SELF_SERVICES = "GET STATE QUEUES";
+    public static final String TASK_GET_POSTPONED_POOL = "GET STATUS PENDING POOL";
     public static final String TASK_GET_BAN_LIST = "Получить список забаненых";
     public static final String TASK_INVITE_POSTPONED = "Вызвать отложенного из пула отложенных";
     public static final String TASK_GET_SELF_SERVICES_CHECK = "Получить состояние очередей с проверкой";
-    public static final String TASK_INVITE_NEXT_CUSTOMER = "Получить следующего клиента";
+    public static final String TASK_INVITE_NEXT_CUSTOMER = "INVITE NEXT CUSTOMER";
     public static final String TASK_KILL_NEXT_CUSTOMER = "Удалить следующего клиента";
     public static final String TASK_CUSTOMER_TO_POSTPON = "Клиента в пул отложенных";
     public static final String TASK_POSTPON_CHANGE_STATUS = "Сменить статус отложенному";
     public static final String TASK_START_CUSTOMER = "Начать работу с клиентом";
-    public static final String TASK_FINISH_CUSTOMER = "Закончить работу с клиентом";
+    public static final String TASK_FINISH_CUSTOMER = "FINISH CUSTOMER";
     public static final String TASK_I_AM_LIVE = "ALIVE";
     public static final String TASK_RESTART = "RESTART";
     public static final String TASK_RESTART_MAIN_TABLO = "Рестарт главного твбло";
     public static final String TASK_REFRESH_POSTPONED_POOL = "NEW_POSTPONED_NOW";
     public static final String TASK_SERVER_STATE = "Получить состояние сервера";
     public static final String TASK_SET_SERVICE_FIRE = "Добавить услугу на горячую";
-    public static final String TASK_DELETE_SERVICE_FIRE = "Удалить услугу на горячую";    // Наименования отчетов, сдесь писать исключительно маленькими латинскими буквами без пробелов
+    public static final String TASK_DELETE_SERVICE_FIRE = "Удалить услугу на горячую";    // The names of reports, here write exclusively in small Latin letters without spaces
     public static final String TASK_GET_BOARD_CONFIG = "Получить конфигурацию табло";
     public static final String TASK_SAVE_BOARD_CONFIG = "Сохранить конфигурацию табло";
     public static final String TASK_GET_GRID_OF_WEEK = "Получить недельную предварительную таблицу";
@@ -553,26 +553,26 @@ public final class Uses {
     }
 
     /**
-     * Послать сообщение по UDP
+     * Send message by UDP
      *
-     * @param message текст посылаемого сообщения
-     * @param address адрес получателя. Если адрес "255.255.255.255", то рассылка будет широковещательной.
-     * @param port порт получателя
+     * @param message message text
+     * @param address address of the recipient. If the address is "255.255.255.255", then the broadcast will be broadcast.
+     * @param port port of the recipient
      */
     public static void sendUDPMessage(String message, InetAddress address, int port) {
-        QLog.l().logger().trace("Отправка UDP сообшение \"" + message + "\" по адресу \"" + address.getHostAddress() + "\" на порт \"" + port + "\"");
+        QLog.l().logger().trace("Sending UDP message \"" + message + "\" to address\n \"" + address.getHostAddress() + "\" and port \"" + port + "\"");
         final DatagramSocket socket;
         final byte mess_b[] = message.getBytes();
         final DatagramPacket packet = new DatagramPacket(mess_b, mess_b.length, address, port);
         try {
             socket = new DatagramSocket();
         } catch (SocketException ex) {
-            throw new ServerException("Проблемы с сокетом UDP." + ex.getMessage());
+            throw new ServerException("Problems with UDP socket." + ex.getMessage());
         }
         try {
             socket.send(packet);
         } catch (IOException io) {
-            throw new ServerException("Ошибка отправки сообщения по UDP. " + io.getMessage());
+            throw new ServerException("Error sending message by UDP. " + io.getMessage());
         } finally {
             socket.close();
         }

@@ -1026,7 +1026,7 @@ public class FIndicatorBoard extends javax.swing.JFrame {
 
     public void showCallPanel(String number, String point, String userTxt, String serviceTxt, String inputed) {
         if (isMain && "1".equals(Uses.elementsByAttr(mainElement, Uses.TAG_BOARD_NAME, Uses.TAG_BOARD_CALL_PANEL).get(0).attributeValue(Uses.TAG_BOARD_VALUE))) {
-            log().info("Демонстрация номера вызванного \"" + number + " - " + point + "\" для показа в диалоге на главном табло.");
+            log().info("Show the number of the called \"" + number + " - " + point + "\" for display in the dialogue on the main scoreboard.");
             if (callDialog != null) {
                 callDialog.show(number, point, userTxt, serviceTxt, inputed);
             }
