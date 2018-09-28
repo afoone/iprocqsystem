@@ -1238,7 +1238,7 @@ public class NetCommander {
      * @return XML-ответ.
      */
     public static JsonRPC20OK removeAdvancedCustomer(INetProperty netProperty, Long advanceID) {
-        log().info("Удаление предварительно записанных в очередь.");
+        log().info("Deleting pre-recorded queues.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.customerId = advanceID;
@@ -1266,7 +1266,7 @@ public class NetCommander {
      * @param netProperty параметры соединения с сервером
      */
     public static void restartServer(INetProperty netProperty) {
-        log().info("Команда на рестарт сервера.");
+        log().info("Command to restart server.");
         try {
             send(netProperty, Uses.TASK_RESTART, null);
         } catch (QException e) {// вывод исключений
@@ -1315,7 +1315,7 @@ public class NetCommander {
      * @param resp        выбранн отзыв
      */
     public static void setResponseAnswer(INetProperty netProperty, QRespItem resp, Long userID, Long serviceID, Long customerID, String clientData) {
-        log().info("Отправка выбранного отзыва.");
+        log().info("Sending the selected review.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.responseId = resp.getId();
@@ -1369,7 +1369,7 @@ public class NetCommander {
      * @return XML-ответ
      */
     public static QAuthorizationCustomer getClientAuthorization(INetProperty netProperty, String id) {
-        log().info("Получение описания авторизованного пользователя.");
+        log().info("Getting the description of an authorized user.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.clientAuthId = id;
@@ -1419,7 +1419,7 @@ public class NetCommander {
     }
 
     /**
-     * Изменение приоритета кастомеру
+     * Set customer priority
      *
      * @param netProperty параметры соединения с сервером
      * @param prioritet
@@ -1427,7 +1427,7 @@ public class NetCommander {
      * @return Текстовый ответ о результате
      */
     public static String setCustomerPriority(INetProperty netProperty, int prioritet, String customer) {
-        log().info("Команда на повышение приоритета кастомеру.");
+        log().info("Set customer priority.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.priority = prioritet;
@@ -1458,7 +1458,7 @@ public class NetCommander {
      * @return Текстовый ответ о результате
      */
     public static TicketHistory checkCustomerNumber(INetProperty netProperty, String customerNumber) {
-        log().info("Команда проверки номера кастомера.");
+        log().info("Break through the customer number. It is queued or delayed or not found at all. Customer: "+customerNumber);
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.clientAuthId = customerNumber;
@@ -1487,7 +1487,7 @@ public class NetCommander {
      * @return список отложенных кастомеров
      */
     public static LinkedList<QCustomer> getPostponedPoolInfo(INetProperty netProperty) {
-        log().info("Команда на обновление пула отложенных.");
+        log().info("Time to update the pending pool.");
         // загрузим ответ
         final String res;
         try {
@@ -1508,13 +1508,13 @@ public class NetCommander {
     }
 
     /**
-     * Получить список забаненных введенных данных
+     * Get a list of banned input data
      *
      * @param netProperty
      * @return список отложенных кастомеров
      */
     public static LinkedList<String> getBanedList(INetProperty netProperty) {
-        log().info("Команда получение списка забаненных.");
+        log().info("Get a list of banned input data.");
         // загрузим ответ
         final String res;
         try {
@@ -1535,7 +1535,7 @@ public class NetCommander {
     }
 
     /**
-     * Вызов отложенного кастомера
+     * Calling the postponed customer
      *
      * @param netProperty
      * @param userId      id юзера который вызывает
@@ -1543,7 +1543,7 @@ public class NetCommander {
      * @return Вызванный из отложенных кастомер.
      */
     public static QCustomer invitePostponeCustomer(INetProperty netProperty, long userId, Long id) {
-        log().info("Команда на вызов кастомера из пула отложенных.");
+        log().info("Calling the postponed customer. Id : "+userId);
         final CmdParams params = new CmdParams();
         params.userId = userId;
         params.customerId = id;
@@ -1568,12 +1568,12 @@ public class NetCommander {
     }
 
     /**
-     * Рестарт главного табло
+     * Main Screen restart
      *
      * @param serverNetProperty
      */
     public static void restartMainTablo(INetProperty serverNetProperty) {
-        log().info("Команда на рестарт главного табло.");
+        log().info("Main Screen Restart.");
         // загрузим ответ
         try {
             send(serverNetProperty, Uses.TASK_RESTART_MAIN_TABLO, null);
@@ -1590,7 +1590,7 @@ public class NetCommander {
      * @param smartData
      */
     public static void changeFlexPriority(INetProperty netProperty, long userId, String smartData) {
-        log().info("Изменение приоритетов услуг оператором.");
+        log().info("Change of priorities of services by the operator.");
         final CmdParams params = new CmdParams();
         params.userId = userId;
         params.textData = smartData;
@@ -1603,15 +1603,15 @@ public class NetCommander {
     }
 
     /**
-     * Изменение бегущей строки на табло из админской проги
+     * Change the running line on the scoreboard from the admin program
      *
      * @param netProperty параметры соединения с сервером
      * @param text        новая строка
      * @param nameSection
      */
     public static void setRunningText(INetProperty netProperty, String text, String nameSection) {
-        log().info("Получение описания авторизованного пользователя.");
-        // загрузим ответ
+        log().info("Change the running line on the scoreboard from the admin program."+text);
+        // load answer
         final CmdParams params = new CmdParams();
         params.textData = text;
         params.infoItemName = nameSection;
@@ -1629,7 +1629,7 @@ public class NetCommander {
      * @return класс нормативов
      */
     public static QStandards getStandards(INetProperty netProperty) {
-        log().info("Команда получение нормативов.");
+        log().info("Team getting standards.");
         // загрузим ответ
         final String res;
         try {
@@ -1658,7 +1658,7 @@ public class NetCommander {
      * @return
      */
     public static boolean setBussy(INetProperty netProperty, long userId, boolean lock) {
-        log().info("Изменение приоритетов услуг оператором.");
+        log().info("Change of priorities of services by the operator.");
         final CmdParams params = new CmdParams();
         params.userId = userId;
         params.requestBack = lock;
@@ -1717,7 +1717,7 @@ public class NetCommander {
      * @return Список свежих свойств
      */
     public static LinkedHashMap<String, ServerProps.Section> saveProperties(INetProperty netProperty, List<QProperty> properties) {
-        log().info("Изменить и сохранить параметеры в ДБ на сервере.");
+        log().info("Modify and save the parameters in DB on the server.");
         final CmdParams params = new CmdParams();
         params.properties = properties;
         // загрузим ответ
@@ -1740,14 +1740,14 @@ public class NetCommander {
     }
 
     /**
-     * Если таких параметров нет, то создать их в ДБ на сервере
+     * If there are no such parameters, then create them in DB on the server
      *
      * @param netProperty
      * @param properties
      * @return Список свежих свойств
      */
     public static LinkedHashMap<String, ServerProps.Section> initProperties(INetProperty netProperty, List<QProperty> properties) {
-        log().info("Если таких параметров нет, то создать их в ДБ на сервере.");
+        log().info("If there are no such parameters, then create them in DB on the server.");
         final CmdParams params = new CmdParams();
         params.properties = properties;
         // загрузим ответ
@@ -1770,7 +1770,7 @@ public class NetCommander {
     }
 
     /**
-     * Выставить параметры рулона с билетами на бабине.
+     * Set the parameters of the roll with tickets on the babin.
      *
      * @param netProperty
      * @param serviceId   эту услугу надо обновить
@@ -1779,7 +1779,7 @@ public class NetCommander {
      * @param current     сейчас в рулоне этот текущий номер
      */
     public static void initRoll(INetProperty netProperty, Long serviceId, int first, int last, int current) {
-        log().info("Изменение приоритетов услуг оператором.");
+        log().info("Set the parameters of the roll with tickets on the babin..");
         final CmdParams params = new CmdParams();
         params.serviceId = serviceId;
         params.first = first;

@@ -88,23 +88,23 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
             report.setName(RepResBundle.getInstance().present(report.getHref()) ? RepResBundle.getInstance().getStringSafe(report.getHref()) : report.getName());
         });
         /*
-         * Это не отчет. это генератор списка отчетов, который проверяет пароль и пользователя и формирует
-         * coocies для браузера, чтоб далее браузер подставлял жти куки в запрос и тем самым сервак "узнавал пользователя".
-         * Сдесь нужен только метод preparation(), т.к. никакой генерации нет.
+         * This is not a report. This is a report list generator that checks the password and the user and generates
+         * coocies for the browser, so that the browser would put cookies into the query and thereby the servic "recognize the user".
+         * Only the preparation () method is needed here, because no generation is present.
          */
         addGenerator(new ReportsList("reportList", ""));
         /*
-         * Отчет по текущему состоянию в разрее услуг
+         * Report on the current state of the service
          */
         addGenerator(new ReportCurrentServices(Uses.REPORT_CURRENT_SERVICES.toLowerCase(), "/ru/apertum/qsystem/reports/templates/currentStateServices.jasper"));
         /*
-         * Отчет по текущему состоянию в разрезе пользователей
+         * Report on the current state in the context of users
          */
         addGenerator(new RepCurrentUsers(Uses.REPORT_CURRENT_USERS.toLowerCase(), "/ru/apertum/qsystem/reports/templates/currentStateUsers.jasper"));
 
         String sel = " selected";
         for (QUser user : QUserList.getInstance().getItems()) {
-            // список пользователей, допущенных до отчетов
+            // list of users allowed before the reports
             if (user.getReportAccess()) {
                 htmlUsersList = htmlUsersList.concat("<option" + sel + ">").concat(user.getName()).concat("</option>\n");
                 sel = "";
@@ -149,7 +149,7 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
     }
 
     /**
-     * Список паролей пользователей имя - пароль
+     * User password list name - password
      */
     private HashMap<String, String> passMap;
 
@@ -158,7 +158,7 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
     }
 
     /**
-     * Генерация отчета по его имени.
+     * Generate a report by its name.
      *
      * @param request запрос пришедший от клиента
      * @return Отчет в виде массива байт.
@@ -167,21 +167,24 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
         final long start = System.currentTimeMillis();
         String url = NetUtil.getUrl(request);
         final String nameReport = url.lastIndexOf('.') == -1 ? url.substring(1) : url.substring(1, url.lastIndexOf('.'));
+        QLog.l().logRep().debug("Trying to get report "+ nameReport);
 
         final IGenerator generator = GENERATORS.get(nameReport.toLowerCase());
-        // если нет такого отчета
+
+        QLog.l().logRep().debug("report generator "+ generator);
+        // if there is no such report
         if (generator == null) {
             return null;
         }
-        // Значит такой отчет есть и его можно сгенерировать
-        // но если запрошен отчет, то должны приехать пароль и пользователь в куках
-        // для определения доступа к отчетам.
-        // Cookie: username=%D0%90%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%BE%D1%80; password=
-        // Проверим правильность доступа, и если все нормально сгенерируем отчет.
-        // Иначе выдадим страничку запрета доступа
-        // Но есть нюанс, формирование списка отчетов - тоже формироватор, и к нему доступ не по кукисам,
-        // а по введеному паролю и пользователю. По этому надо проверить если приехали параметры пароля и пользователя,
-        // введенные юзером, то игнорировать проверку кукисов. Т.е. если гениратор reportList, то не проверяем кукисы
+        // This means that there is such a report and it can be generated
+        // but if the report is requested, the password and the user in the cookies must arrive
+        // to determine access to reports.
+        // Cookie: username =% D0% 90% D0% B4% D0% BC% D0% B8% D0% BD% D0% B8% D1% 81% D1% 82% D1% 80% D0% B0% D1% 82 % D0% BE% D1% 80; password =
+        // Check if the access is correct, and if everything is fine, we will generate the report.
+        // Otherwise, we'll issue a deny access page
+        // But there is a nuance, the formation of the list of reports is also a formulator, and access to it is not by cookies,
+        // and on the entered password and the user. This should be checked if the parameters of the password and the user arrived,
+        // entered by the user, then ignore the check of cookies. Those. if the genener reportList, then do not check the cookies
         if (!"/reportList.html".equals(url)) {
 
             final HashMap<String, String> cookie = new HashMap<>();
@@ -204,9 +207,9 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
             }
         }
         System.out.println("Report build: '" + nameReport + "'\n");
-        QLog.l().logRep().info("Генерация отчета: '" + nameReport + "'");
+        QLog.l().logRep().info("Report generation: '" + nameReport + "'");
         /*
-         * Вот сама генерация отчета.
+         * Here is the report generation.
          */
         final Response result = generator.process(request);
 
@@ -228,7 +231,7 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
     }
 
     /**
-     * Загрузим страничку ввода пароля и пользователя
+     * Download the password and user login page
      *
      * @return страница в виде массива байт.
      */
@@ -240,10 +243,10 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
             try {
                 result = Uses.readInputStream(inStream);
             } catch (IOException ex) {
-                throw new ReportException("Ошибка чтения ресурса логирования. " + ex);
+                throw new ReportException("Error reading logging resource. " + ex);
             }
         } else {
-            final String s = "<html><head><meta http-equiv = \"Content-Type\" content = \"text/html; charset=windows-1251\" ></head><p align=center>Ресурс для входа не найден.</p></html>";
+            final String s = "<html><head><meta http-equiv = \"Content-Type\" content = \"text/html; charset=windows-1251\" ></head><p align=center>The resource for the input was not found.</p></html>";
             return new Response(s.getBytes());
         }
         Response res = null;

@@ -63,14 +63,14 @@ ORDER BY c.`stand_time`]]>
 				<textElement textAlignment="Center">
 					<font size="18" isBold="true" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Отчет по авторизованным персонам за период]]></text>
+				<text><![CDATA[Informe sobre las personas autorizadas para el período]]></text>
 			</staticText>
 			<textField pattern="">
 				<reportElement uuid="3218f961-9580-4162-a4a1-7635f2fd7efd" x="1" y="35" width="551" height="24"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="18" isBold="true" isUnderline="false" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["с даты " + (new java.text.SimpleDateFormat("dd.MM.yyyy")).format($P{sd}) + " по дату " + (new java.text.SimpleDateFormat("dd.MM.yyyy")).format($P{fd})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["a partir de la fecha " + (new java.text.SimpleDateFormat("dd.MM.yyyy")).format($P{sd}) + " по дату " + (new java.text.SimpleDateFormat("dd.MM.yyyy")).format($P{fd})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="04fb9581-c8b4-4975-9511-a8e7382bfc7c" x="1" y="59" width="551" height="24"/>
@@ -91,7 +91,7 @@ ORDER BY c.`stand_time`]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="koi8-r" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Время]]></text>
+				<text><![CDATA[m]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="35290414-ed1a-48f5-a8ee-1a0791404fc8" mode="Opaque" x="114" y="12" width="56" height="30" backcolor="#CCCCCC"/>

@@ -144,20 +144,20 @@ public abstract class AGenerator implements IGenerator {
     abstract protected String validate(HttpRequest request, HashMap<String, String> params);
 
     /**
-     * Метод получения документа-отчета или другого какого документа в виде массива байт. Сдесь испольщуем методы интерфейса IFormirovator для получения отчета.
+     * Method of obtaining a document-report or other document in the form of an array of bytes. We use the IFormirovator interface methods to get the report.
      *
      * @param request ? какого формата отчет хотим получить(html, pdf, rtf)
      * @return данные документа.
      */
     @Override
     public Response process(HttpRequest request) {
-        lRep().debug("Генерируем : \"" + href + "\"");
+        lRep().debug("Generating : \"" + href + "\"");
 
         /*
-         * Перед формированием отчета возможно необходимо получить некие параметры.
-         * Для этого надо выдать клиенту форму для заполнения и принять от него введенные данные.
-         * А по этим данным уже формировать отчетные данные. 
-         */
+        * Antes de formar un informe, es posible obtener ciertos parámetros.
+        * Para hacer esto, debe proporcionar al cliente un formulario para completar y aceptar los datos ingresados de él.
+        * Y en estos datos ya forman los datos de informes.
+        */
         /*
          * Логика следующая:
          *

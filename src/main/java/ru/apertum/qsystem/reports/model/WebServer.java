@@ -27,7 +27,8 @@ import ru.apertum.qsystem.common.exceptions.ReportException;
 import ru.apertum.qsystem.reports.net.RunnableSocket;
 
 /**
-
+ * A reporting server acting as a Web server that processes requests for reports
+ * A class of threads that handle HTTP requests for reporting
  *
  * @author Evgeniy Egorov
  */
@@ -55,7 +56,7 @@ public class WebServer {
     private Thread webTread = null;
 
     /**
-     * запуск вэбсервера
+     * launch web server
      *
      * @param port На каком порту
      */
@@ -66,10 +67,10 @@ public class WebServer {
             return;
         }
 
-        // привинтить сокет на локалхост, порт port
+        // screw the socket to localhost, port port
         QLog.l().logger().info("The reporting server captures the port \"" + port + "\".");
 
-        // поток вэбсервера, весит параллельно и обслуживает запросы
+        // thread of the Web server, weighs in parallel and serves requests
         webTread = new Thread() {
 
             @Override
@@ -80,8 +81,8 @@ public class WebServer {
                     QLog.l().logRep().info("Report server for QSystem started.");
 
                     while (isActive && !webTread.isInterrupted()) {
-                        // ждём нового подключения, после чего запускаем обработку клиента
-                        // в новый вычислительный поток и увеличиваем счётчик на единичку
+                        // wait for a new connection, and then start processing the client
+                        // into the new computational flow and increase the counter by one
                         try {
                             final Socket socket = reportSocket.accept();
                             final RunnableSocket rs = new RunnableSocket();
@@ -110,7 +111,7 @@ public class WebServer {
     }
 
     /**
-     * Останов вэбсервера
+     * Stop Web Server
      */
     public synchronized void stopWebServer() {
         if (isActive) {

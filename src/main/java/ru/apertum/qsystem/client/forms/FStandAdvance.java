@@ -82,7 +82,7 @@ public class FStandAdvance extends javax.swing.JDialog {
      */
     public static RpcStandInService showAdvanceStandDialog(Frame parent, boolean modal, INetProperty netProperty, boolean fullscreen, int delay) {
         FStandAdvance.delay = delay;
-        QLog.l().logger().info("Ввод кода предварительной записи");
+        QLog.l().logger().info("Ingresar el código de pre-registro");
         if (standAdvance == null) {
             standAdvance = new FStandAdvance(parent, modal);
             standAdvance.setTitle(getLocaleMessage("dialog.input_code"));
