@@ -266,10 +266,10 @@ public class FWelcome extends javax.swing.JFrame {
                 Thread.sleep(100);//waiting
                 data = URLDecoder.decode(new String(Uses.readInputStream(is)).trim(), "utf-8");
             } catch (IOException ex) {
-                throw new ServerException("Ошибка при чтении из входного потока: " + Arrays.toString(ex.getStackTrace()));
+                throw new ServerException("Error reading from input stream: " + Arrays.toString(ex.getStackTrace()));
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
-                throw new ServerException("Проблема со сном: " + Arrays.toString(ex.getStackTrace()));
+                throw new ServerException("Trouble sleeping: " + Arrays.toString(ex.getStackTrace()));
             }
             QLog.l().logger().trace("Task:\n" + data);
 
@@ -299,8 +299,8 @@ public class FWelcome extends javax.swing.JFrame {
                 reinit(rpc.getParams());
             }
 
-            // выводим данные:
-            QLog.l().logger().trace("Ответ: " + stateWindow + upp);
+            // output data:
+            QLog.l().logger().trace("Respuesta: " + stateWindow + upp);
             final String rpc_resp;
             final Gson gson_resp = GsonPool.getInstance().borrowGson();
             try {
@@ -309,11 +309,11 @@ public class FWelcome extends javax.swing.JFrame {
                 GsonPool.getInstance().returnGson(gson_resp);
             }
             try (final PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
-                // Передача данных ответа
+                // Sending response data
                 writer.print(rpc_resp);
                 writer.flush();
             } catch (IOException e) {
-                throw new ServerException("Ошибка при записи в поток: " + Arrays.toString(e.getStackTrace()));
+                throw new ServerException("Error writing to stream: " + Arrays.toString(e.getStackTrace()));
             }
 
             //Если команда была "выключить"
