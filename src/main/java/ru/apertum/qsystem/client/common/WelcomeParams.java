@@ -40,7 +40,7 @@ import ru.apertum.qsystem.common.exceptions.ClientException;
 import ru.apertum.qsystem.server.model.QProperty;
 
 /**
- * Класс загрузки и предоставления настроек пункта регистрации
+ * Class of loading and submission of settings for the registration point
  *
  * @author Evgeniy Egorov
  */
@@ -60,7 +60,7 @@ public class WelcomeParams {
 
     private Properties settings = null;
     /**
-     * Константы хранения параметров в файле.
+     * Constants for storing parameters in a file.
      */
     private static final String POINT_PARAM = "point";
     private static final String PAPER_WIDHT = "paper_widht";
@@ -74,9 +74,9 @@ public class WelcomeParams {
     private static final String PRNAME = "printer.Name";
     private static final String EXECUTIVE = "printer.MediaSizeName.EXECUTIVE";
     private static final String PRINTABLE_AREA = "printer.MediaPrintableArea";
-    // параметр размера бумаги. A0 A1 ... A10 B0 B2 ... B10 C0 C1 ... C6. Пустое или неверное значение - отключен
+    // paper size setting. A0 A1 ... A10 B0 B2 ... B10 C0 C1 ... C6. Empty or invalid value - disabled
     private static final String MEDIA_SIZE_NAME = "printer.MediaSizeName";
-    // параметр размера бумаги <ширина,длинна>. Пустое или неверное значение - отключен
+    // paper size parameter <width, length>. Empty or invalid value - disabled
     private static final String FIND_MEDIA = "printer.findMedia";
     private static final String ORIENTATION_PRINT = "printer.OrientationRequested";
     private static final String LOGO_PARAM = "logo";
@@ -98,7 +98,7 @@ public class WelcomeParams {
     private static final String BOTTOM_GAP = "bottom_gap";
     private static final String ASK_LIMIT = "ask_limit";
     private static final String PAGE_LINES_COUNT = "page_lines_count";
-    private static final String INFO_BUTTON = "info_button";// кнопка информационной системы на пункте регистрации
+    private static final String INFO_BUTTON = "info_button";// information system button on the registration point
     private static final String RESPONSE_BUTTON = "response_button";// - кнопка обратной связи на пункте регистрации
     private static final String ADVANCE_BUTTON = "advance_button";// - кнопка предварительной записи на пункте регистрации
     private static final String STAND_ADVANCE_BUTTON = "stand_advance_button";// - присутствие кнопки предварительной записи на пункте регистрации (0/1)
@@ -136,7 +136,6 @@ public class WelcomeParams {
     private static final String ADVANCE_DAYS_HEADER_TODAY = "preregistration_days_header_today";
     private static final String ADVANCE_CLOSE_BUTTON_EMPTY = "preregistration_close_button_empty";
 
-    //#RU Примерный объем талонов в рулоне
     //#EN Approximate amount of tickets in a roll
     private static final String PAPER_SIZE_ALARM_PARAM = "paper_size_alarm";
     private static final String PAPER_ALARM_STEP_PARAM = "paper_alarm_step";
@@ -146,16 +145,16 @@ public class WelcomeParams {
         loadSettings();
     }
 
-    public boolean print = true; // Печатаем на принтере или нет
-    public int point; // указание для какого пункта регистрации услуга, 0-для всех, х-для киоска х.
-    public int paperWidht; // ширина талона в пикселах
+    public boolean print = true; // Print on the printer or not
+    public int point; // an indication for which point of registration the service is, 0-for all, x-for the kiosk x.
+    public int paperWidht; //ticket width in pixels
     public int leftMargin; // отступ слева
     public int topMargin; // отступ сверху
     public int lineHeigth = 12; // Ширина строки
     public int lineLenght = 40; // Длинна стоки на квитанции
     public double scaleVertical = 0.8; // маштабирование по вертикале
     public double scaleHorizontal = 0.8; // машcтабирование по горизонтали
-    public PrintRequestAttributeSet printAttributeSet = new HashPrintRequestAttributeSet(); // атрибуты печати ринтера
+    public PrintRequestAttributeSet printAttributeSet = new HashPrintRequestAttributeSet(); // printer attributes
     public boolean logo = true; // присутствие логотипа на квитанции
     public int barcode = 1; // присутствие штрихкода на квитанции
     public boolean input_data_qrcode = true; // присутствие qr-штрихкода на квитанции если клиент ввел свои персональные данные
@@ -264,10 +263,10 @@ public class WelcomeParams {
         print = getProp(PRINTER_PRINT, true);
         point = getProp(POINT_PARAM, 1); // an indication for which point of registration the service is, 0-for all, x-for the kiosk x.
         paperWidht = getProp(PAPER_WIDHT, 250); // coupon width in pixels
-        leftMargin = getProp(LEFT_MARGIN, 4); // left indent
-        topMargin = getProp(TOP_MARGIN, 4); //  top indent
-        lineHeigth = getProp(LINE_HEIGTH, 12); // Ширина строки
-        lineLenght = getProp(LINE_LENGTH, 28); // Длинна стоки на квитанции
+        leftMargin = getProp(LEFT_MARGIN, 4); // left margin
+        topMargin = getProp(TOP_MARGIN, 4); //  top  margin
+        lineHeigth = getProp(LINE_HEIGTH, 12); // line height
+        lineLenght = getProp(LINE_LENGTH, 28); // line length
         scaleVertical = getProp(SCALE_VERTICAL, 1.0); // маштабирование по вертикале
         scaleHorizontal = getProp(SCALE_HORIZONTAL, 1.0);  // машcтабирование по вертикале
         logo = getProp(LOGO_PARAM, true); // присутствие логотипа на квитанции
@@ -277,7 +276,7 @@ public class WelcomeParams {
         logoTop = getProp(LOGO_TOP, 1);  // Отступ печати логотипа сверху
         delayPrint = getProp(DELAY_PRINT, 5000);  // Задержка заставки при печати в мсек.
         delayBack = getProp(DELAY_BACK, 15000);  // Задержка заставки при печати в мсек.
-        logoImg = getProp(LOGO_IMG, "/ru/apertum/qsystem/client/forms/resources/logo_ticket_a.png");
+        logoImg = getProp(LOGO_IMG, "/ru/apertum/qsystem/client/forms/resources/gvalogo.jpg");
         backgroundImg = getProp(BACKGROUND_IMG, "/ru/apertum/qsystem/client/forms/resources/fon_welcome.jpg");
         if (!new File(backgroundImg).exists()) {
             backgroundImg = "/ru/apertum/qsystem/client/forms/resources/fon_welcome.jpg";
@@ -516,12 +515,14 @@ public class WelcomeParams {
         }
         if (!"".equals(getProp(PRINTABLE_AREA, "")) && getProp(PRINTABLE_AREA, "").split(",").length == 4) {
             final String[] ss = getProp(PRINTABLE_AREA, "").split(",");
+            QLog.log().debug("Printable area "+ ss[0]+" ; " + ss[1] + " ; " + ss[2] + " ; " + ss[3]);
             printAttributeSet.add(new MediaPrintableArea(
-                    Integer.parseInt(ss[0]), // отсуп слева 
-                    Integer.parseInt(ss[1]), // отсуп сверху 
-                    Integer.parseInt(ss[2]), // ширина 
-                    Integer.parseInt(ss[3]), // высота 
+                    Integer.parseInt(ss[0]), // left indent
+                    Integer.parseInt(ss[1]), // top margin
+                    Integer.parseInt(ss[2]), // width
+                    Integer.parseInt(ss[3]), // height
                     MediaPrintableArea.MM));
+
         }
         if (!"".equals(getProp(FIND_MEDIA, "")) && getProp(FIND_MEDIA, "").split(",").length == 2) {
             final String[] ss = getProp(FIND_MEDIA, "").split(",");

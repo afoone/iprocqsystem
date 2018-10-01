@@ -58,12 +58,12 @@ public abstract class AUDPServer implements Runnable {
 
         byte[] buffer = new byte[1024];
 
-        QLog.l().logger().trace("Старт UDP сервера на порту \"" + port + "\"");
+        QLog.l().logger().trace("Start the UDP server on the port \"" + port + "\"");
         try {
             socket = new DatagramSocket(port);
         } catch (SocketException ex) {
             isActive = false;
-            throw new ServerException("Невозможно создать UDP-сокет на порту " + port + ". " + ex.getMessage());
+            throw new ServerException("Unable to create UDP socket on port " + port + ". " + ex.getMessage());
         }
         while (!Thread.interrupted()) {
             isActive = true;
@@ -74,14 +74,14 @@ public abstract class AUDPServer implements Runnable {
             } catch (IOException ex) {
                 isActive = false;
                 if (Thread.interrupted()) {
-                    throw new ServerException("Невозможно принять UDP-сообщение. " + ex.getMessage());
+                    throw new ServerException("Unable to receive UDP message. " + ex.getMessage());
                 }
             }
             InetAddress client = packet.getAddress();
             if (client != null) {// это когда закрывает прогу .. грязный хак
                 int packetPort = packet.getPort();
                 final String message = new String(buffer, packet.getOffset(), packet.getLength());
-                QLog.l().logger().trace("Приём UDP сообшение \"" + message + "\" ОТ адреса \"" + client.getHostName() + "\" с порта \"" + port + "\"");
+                QLog.l().logger().trace("Receiving a UDP message \"" + message + "\" FROM address \"" + client.getHostName() + "\" from the port \"" + port + "\"");
                 getData(message, client, packetPort);
             }
         }

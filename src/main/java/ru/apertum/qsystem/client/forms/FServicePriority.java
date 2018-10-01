@@ -87,7 +87,7 @@ public class FServicePriority extends javax.swing.JDialog {
      * @param userId
      */
     public static void show(INetProperty netProperty, JFrame owner, SelfSituation plan, Long userId) {
-        QLog.l().logger().info("Диалог управления приоритетами.");
+        QLog.l().logger().info("Priority management dialog.");
         if (dialog == null) {
             dialog = new FServicePriority(owner, true);
         }

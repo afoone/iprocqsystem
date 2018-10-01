@@ -114,7 +114,7 @@ public final class FClient extends javax.swing.JFrame {
      */
     private final QTray tray;
     /**
-     * Кастомер, с которым работает юзер.
+     * Customer with which the user works.
      */
     private QCustomer customer = null;
 
@@ -202,10 +202,10 @@ public final class FClient extends javax.swing.JFrame {
                 break;
             }
             default: {
-                throw new ClientException("Не известное состояние клиента \"" + customer.getState() + "\" для данного случая.");
+                throw new ClientException("Unknown customer status \"" + customer.getState() + "\" for this case.");
             }
         }
-        //нефиг счелкать касторами пока процесс вызывания идет при параллельном приеме
+        //nefig skip casters while the process of evocation is a parallel reception
         if (user.getParallelAccess()) {
             listParallelClients.setEnabled(CustomerState.STATE_WORK.equals(customer.getState()) || CustomerState.STATE_WORK_SECONDARY.equals(customer.getState()));
         }

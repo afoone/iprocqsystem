@@ -361,7 +361,7 @@ public class NetCommander {
      * @return Created customer.
      */
     public static QCustomer standInService(INetProperty netProperty, long serviceId, String password, int priority, String inputData) {
-        log().info("Встать в очередь.");
+        log().info("Queuing...");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.serviceId = serviceId;

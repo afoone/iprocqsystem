@@ -66,7 +66,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.URLDecoder;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -1129,6 +1128,17 @@ public class FWelcome extends javax.swing.JFrame {
         return i;
     }
 
+    /**
+     * Escribe un elemento en el final
+     * @param g2
+     * @param text
+     * @param line
+     * @param x
+     * @param kx
+     * @param ky
+     * @param initY
+     * @return
+     */
     private static int write(Graphics2D g2, String text, int line, int x, double kx, double ky, int initY) {
         g2.scale(kx, ky);
         final int y = (int) Math.round((initY + line * WelcomeParams.getInstance().lineHeigth) / ky);
@@ -1136,6 +1146,26 @@ public class FWelcome extends javax.swing.JFrame {
         g2.scale(1 / kx, 1 / ky);
         return y;
     }
+
+
+    /**
+     * NP-3511: Corta el papel
+     *
+     *
+     */
+    private static int cutPaper(Graphics2D g2, int line, int x, int initY) {
+        final int y = (int) Math.round((initY + line * WelcomeParams.getInstance().lineHeigth) );
+        byte[] bytes;
+        try {
+           bytes = "prueba de corte".getBytes( "ISO-8859-1" );
+            g2.drawBytes(bytes,0,3,x,y);
+        } catch (Exception e){
+
+        }
+        return y;
+    }
+
+
 
     /**
      * @param str       text for positioning
@@ -1238,21 +1268,28 @@ public class FWelcome extends javax.swing.JFrame {
         printTicket(customer);
     }
 
+    /**
+     * Prints a ticket
+     * @param customer
+     * @author eegorov
+     * @authot afoone@hotmail.com
+     *
+     */
     public static synchronized void printTicket(final QCustomer customer) {
         if (!WelcomeParams.getInstance().print) {
             return;
         }
         increaseTicketCount(1);
-        // поддержка расширяемости плагинами
+        // support extensibility plug-ins
         boolean flag = false;
         for (final IPrintTicket event : ServiceLoader.load(IPrintTicket.class)) {
-            QLog.l().logger().info("Вызов SPI расширения. Описание: " + event.getDescription());
+            QLog.l().logger().info("Call the SPI extension. Description: " + event.getDescription());
             try {
                 flag = event.printTicket(customer, FWelcome.caption);
             } catch (Exception tr) {
-                QLog.l().logger().error("Вызов SPI расширения завершился ошибкой. Описание: ", tr);
+                QLog.l().logger().error("The SPI extension call failed. Description: ", tr);
             }
-            // раз напечатили и хорошь
+            // una vez impreso
             if (flag) {
                 return;
             }
@@ -1262,12 +1299,18 @@ public class FWelcome extends javax.swing.JFrame {
 
             private int initY = WelcomeParams.getInstance().topMargin;
 
+
+
             private final JLabel comp = new JLabel();
             Graphics2D g2;
 
             @Override
             public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
                 initY = WelcomeParams.getInstance().topMargin;
+
+
+                QLog.log().debug("Preparando ticket. Posicion "+initY);
+
                 if (pageIndex >= 1) {
                     return Printable.NO_SUCH_PAGE;
                 }
@@ -1279,13 +1322,34 @@ public class FWelcome extends javax.swing.JFrame {
                     f_standard = g2.getFont();
                 }
                 g2.setFont(f_standard);
-                g2.drawLine(WelcomeParams.getInstance().paperWidht + 20, 0, WelcomeParams.getInstance().paperWidht + 20, 20);
+              //  g2.drawLine(WelcomeParams.getInstance().paperWidht + 20, 0, WelcomeParams.getInstance().paperWidht + 20, 20);
+
                 if (WelcomeParams.getInstance().logo) {
-                    g2.drawImage(Uses.loadImage(this, WelcomeParams.getInstance().logoImg, "/ru/apertum/qsystem/client/forms/resources/logo_ticket_a.png"), WelcomeParams.getInstance().logoLeft, WelcomeParams.getInstance().logoTop, null);
+                    g2.drawImage(Uses.loadImage(this,
+                            WelcomeParams.getInstance().logoImg,
+                            "/ru/apertum/qsystem/client/forms/resources/logo_ticket_a.png"),
+                            WelcomeParams.getInstance().logoLeft,
+                            WelcomeParams.getInstance().logoTop,
+                            null);
+               } else
+                {
+                    QLog.l().logger().debug("No logo in printer.");
                 }
+
+                QLog.log().debug("Logo impreso. Posicion "+initY);
+
+
+
                 g2.scale(WelcomeParams.getInstance().scaleHorizontal, WelcomeParams.getInstance().scaleVertical);
-                //позиционируем начало координат 
-                g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+
+                //position of origin
+               // if (WelcomeParams.getInstance().logo) {
+                    g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+           //     } else {
+             //       g2.translate(0,0);
+              //  }
+
+                QLog.log().debug("Empezando a imprimir lineas. Posicion "+initY);
 
                 int line = 0;
 
@@ -1295,8 +1359,14 @@ public class FWelcome extends javax.swing.JFrame {
                     initY = ptintLines(g2, caption, 0, 1, 1, initY, line);
                     initY = initY + WelcomeParams.getInstance().lineHeigth / 3;
                 }
+
+
                 g2.setFont(f_standard);
                 write(g2, getLocaleMessage("ticket.your_number"), ++line, getHAlignment(g2, getLocaleMessage("ticket.your_number"), 0, 1), 1, 1, initY);
+
+              //  write(g2,"mierda del culo",++line,1, 1,1,1);
+                // Sending cut paper information
+                cutPaper(g2,line++,1,1);
 
                 final String num = customer.getFullNumber();
                 g2.setFont(new Font(g2.getFont().getName(), g2.getFont().getStyle(), WelcomeParams.getInstance().ticketFontH1Size / (num.length() < 6 ? 1 : (num.length() < 10 ? 2 : 3))));
@@ -1326,14 +1396,16 @@ public class FWelcome extends javax.swing.JFrame {
                                 ? Locales.getInstance().format_for_print.format(customer.getStandTime())
                                 : Locales.getInstance().format_for_print_short.format(customer.getStandTime()))),
                         ++line, WelcomeParams.getInstance().leftMargin, 1, 1, initY);
-                // если клиент что-то ввел, то напечатаем это на его талоне
+                // if the customer has entered something, then we print it on his ticket
                 if (customer.getService().getInput_required()) {
                     initY = initY + WelcomeParams.getInstance().lineHeigth / 3;
                     g2.setFont(new Font(g2.getFont().getName(), Font.BOLD, g2.getFont().getSize()));
                     write(g2, customer.getService().getTextToLocale(QService.Field.INPUT_CAPTION).replaceAll("<.*?>", ""), ++line, WelcomeParams.getInstance().leftMargin, 1, 1, initY);
                     g2.setFont(f_standard);
                     write(g2, customer.getInput_data(), ++line, WelcomeParams.getInstance().leftMargin, 1, 1, initY);
-                    // если требуется, то введеное напечатаем как qr-код для быстрого считывания сканером
+
+
+                    // if required, then typed typed as qr-code for quick reading by the scanner
                     if (WelcomeParams.getInstance().input_data_qrcode) {
                         try {
                             final int matrixWidth = 130;
@@ -1352,26 +1424,33 @@ public class FWelcome extends javax.swing.JFrame {
                             }
                             line = line + 9;
                         } catch (WriterException ex) {
-                            QLog.l().logger().error("Ошибка вывода штрихкода QR. " + ex);
+                            QLog.l().logger().error("Error outputting a barcode QR. " + ex);
                         }
                     }
                 }
-                // если в услуге есть что напечатать на талоне, то напечатаем это на его талоне
+
+
+                //
                 if (customer.getService().getTextToLocale(QService.Field.TICKET_TEXT) != null && !customer.getService().getTextToLocale(QService.Field.TICKET_TEXT).isEmpty()) {
                     initY = initY + WelcomeParams.getInstance().lineHeigth / 3;
                     String tt = customer.getService().getTextToLocale(QService.Field.TICKET_TEXT);
                     initY = ptintLines(g2, tt, -1, 1, 1, initY, ++line);
                 }
 
+                // Texto de espera
                 String wText = WelcomeParams.getInstance().waitText == null || WelcomeParams.getInstance().waitText.isEmpty() ? ("[c]" + getLocaleMessage("ticket.wait")) : WelcomeParams.getInstance().waitText;
                 if (wText != null && !wText.trim().isEmpty() && !".".equals(wText)) {
                     initY = initY + WelcomeParams.getInstance().lineHeigth / 3;
-                    write(g2, getTrim(wText), ++line, getHAlignment(g2, getTrim(wText), getAlign(wText, -1), 1.45), 1.45, 1, initY);
+                    write(g2, getTrim(wText), ++line, getHAlignment(g2, getTrim(wText), getAlign(wText, -1), 1), 0.9, 1, initY);
                 }
+
+                // Texto promocional
                 wText = WelcomeParams.getInstance().promoText;
                 if (wText != null && !wText.isEmpty() && !".".equals(wText)) {
                     write(g2, getTrim(wText), ++line, getHAlignment(g2, getTrim(wText), getAlign(wText, -1), 0.7), 0.7, 0.4, initY);
                 }
+
+                // Si hay código de barras
 
                 if (WelcomeParams.getInstance().barcode != 0) {
                     int y = write(g2, "", ++line, 0, 1, 1, initY);
@@ -1392,7 +1471,7 @@ public class FWelcome extends javax.swing.JFrame {
                             }
                             line = line + 6;
                         } catch (WriterException ex) {
-                            QLog.l().logger().error("Ошибка вывода штрихкода QR. " + ex);
+                            QLog.l().logger().error(" Error outputting a barcode QR. " + ex);
                         }
                     }
 
@@ -1406,12 +1485,14 @@ public class FWelcome extends javax.swing.JFrame {
                             barcode.draw(g2, (WelcomeParams.getInstance().paperWidht - barcode.getSize().width) / 2, y - 7);
                             line = line + 2;
                         } catch (BarcodeException | OutputException ex) {
-                            QLog.l().logger().error("Ошибка вывода штрихкода 128B. " + ex);
+                            QLog.l().logger().error("Error outputting a barcode 128B. " + ex);
                         }
                     }
                 }
 
-                //Напечатаем текст внизу билета
+
+
+                //We will print the text at the bottom of the ticket
                 name = WelcomeParams.getInstance().bottomText;
                 int al = getAlign(name, -1);
                 name = getTrim(name);
@@ -1422,6 +1503,8 @@ public class FWelcome extends javax.swing.JFrame {
                     write(g2, ".", ++line + WelcomeParams.getInstance().bottomGap, 0, 1, 1, initY);
                 }
 
+         //       write(g2, "fin de ticket", ++line , 0, 1, 1, initY);
+
                 return Printable.PAGE_EXISTS;
             }
         };
@@ -1430,15 +1513,23 @@ public class FWelcome extends javax.swing.JFrame {
             try {
                 job.setPrintService(WelcomeParams.getInstance().printService);
             } catch (PrinterException ex) {
-                QLog.l().logger().error("Ошибка установки принтера: ", ex);
+                QLog.l().logger().error("Error installing printer: ", ex);
             }
         }
         job.setPrintable(canvas);
         try {
             job.print(WelcomeParams.getInstance().printAttributeSet);
             //job.print();
+
+       //     final PrinterJob cutjob=PrinterJob.getPrinterJob();
+        //    cutjob.setPrintable(new Printa);
+            /**
+             * @todo: ¿cut paper?
+             */
+
+
         } catch (PrinterException ex) {
-            QLog.l().logger().error("Ошибка печати: ", ex);
+            QLog.l().logger().error("Error printing: ", ex);
         }
     }
 
@@ -1452,16 +1543,16 @@ public class FWelcome extends javax.swing.JFrame {
             return;
         }
         increaseTicketCount(1);
-        // поддержка расширяемости плагинами
+        // support extensibility plug-ins
         boolean flag = false;
         for (final IPrintTicket event : ServiceLoader.load(IPrintTicket.class)) {
-            QLog.l().logger().info("Вызов SPI расширения. Описание: " + event.getDescription());
+            QLog.l().logger().info("Call the SPI extension. Description: " + event.getDescription());
             try {
                 flag = event.printTicketAdvance(advCustomer, FWelcome.caption);
             } catch (Exception tr) {
-                QLog.l().logger().error("Вызов SPI расширения завершился ошибкой. Описание: " + tr);
+                QLog.l().logger().error("The SPI extension call failed. Description: " + tr);
             }
-            // раз напечатили и хорошь
+            // once printed and horosh
             if (flag) {
                 return;
             }
@@ -1540,7 +1631,7 @@ public class FWelcome extends javax.swing.JFrame {
                 write(g2, Locales.getInstance().isRuss() ? Uses.getRusDate(new Date(), "dd MMMM HH:mm")
                         : Locales.getInstance().format_for_print_short.format(new Date()), ++line, WelcomeParams.getInstance().leftMargin, 1, 1, initY);
 
-                // если клиент что-то ввел, то напечатаем это на его талоне
+                // if the customer has entered something, then we print it on his ticket
                 if (advCustomer.getService().getInput_required()) {
                     initY = initY + WelcomeParams.getInstance().lineHeigth / 3;
                     g2.setFont(new Font(g2.getFont().getName(), Font.BOLD, g2.getFont().getSize()));
