@@ -119,7 +119,7 @@ public final class FClient extends javax.swing.JFrame {
     private QCustomer customer = null;
 
     /**
-     * We install a customer for work. Can not be NULL
+     * Muestra el cliente siguiente .. Can not be NULL
      *
      * @param customer We work with him. Can not be NULL.
      */
@@ -130,7 +130,7 @@ public final class FClient extends javax.swing.JFrame {
             textAreaComments.setText("");
             return;
         }
-        QLog.l().logger().trace("Install the customer to the working client and output it.");
+        QLog.l().logger().trace("Set the customer to the working client and output it.");
         // we will display on the screen some information about the invited customer
         final String textCust = customer.getFullNumber();
         // Let's display the number of the called.
@@ -176,8 +176,8 @@ public final class FClient extends javax.swing.JFrame {
                 + "</div>");
         textAreaComments.setText(customer.getTempComments());
         textAreaComments.setCaretPosition(0);
-        // прикроем кнопки, которые недоступны на этом этапе работы с кастомером.
-        // тут в зависимости от состояния кастомера открываем разные наборы кнопок
+        // we'll cover the buttons that are not available at this stage of work with the customer.
+        // here, depending on the status of the customizer, we open different sets of buttons
         switch (customer.getState()) {
             case STATE_INVITED: {
                 setBlinkBoard(true);
@@ -545,8 +545,9 @@ public final class FClient extends javax.swing.JFrame {
 
         }
 
-        // отрехтуем дизайн формы.
+        // we shall re-design the form.
         jPanel4.setVisible(false);
+        QLog.log().debug("hiding jpanel4");
         labelNextNumber.setContentType("text/html");
         labelNextNumber.setText("<html><br><p align=center><span style='font-size:24.0pt;color:black'>" + getLocaleMessage("messages.noCall") + "</span></p>");
         printCustomerNumber("", null, -1);
@@ -672,6 +673,7 @@ public final class FClient extends javax.swing.JFrame {
      * @param cfgFile the display configuration file arrives from Spring
      */
     private static void initIndicatorBoard(final String cfgFile) throws DocumentException {
+
         File f = new File(cfgFile);
         if (indicatorBoard == null && f.exists()) {
 
@@ -750,9 +752,9 @@ public final class FClient extends javax.swing.JFrame {
         final DefaultMutableTreeNode root = new DefaultMutableTreeNode("ROOT");
         final DefaultTreeModel tree = new DefaultTreeModel(root);
         haveRoll = false;
-        // построим новую html с описанием состояния очередей
+        // build a new html with a description of the status of the queues
         for (SelfService serv : plan.getSelfservices()) {
-            haveRoll = haveRoll || serv.isRoll();// есть ли услуга-рулон в наличии.
+            haveRoll = haveRoll || serv.isRoll();// whether there is a service-roll available.
             final int count = serv.getCountWait();
             final String serviceName = serv.getServiceName();
 
@@ -791,8 +793,8 @@ public final class FClient extends javax.swing.JFrame {
             tray.getTrayIcon().getActionListeners()[0].actionPerformed(null);
         }
         customersCountForUser = inCount;
-        // посмотрим, не приехал ли кастомер, который уже вызванный
-        // если приехал, то его надо учесть
+        // Let's see if the customer that has already been called arrived
+        // if you come, then it should be taken into account
         setCustomer(plan.getCustomer());
         if (plan.getCustomer() != null) {
             QLog.l().logger().trace("A customer came from the server, which is processed by the user.");
@@ -813,6 +815,9 @@ public final class FClient extends javax.swing.JFrame {
             printCustomerNumber("", null, -1);
             textAreaComments.setText("");
         }
+
+
+
         //при параллельном приеме могут быть кастомеры в работе. Отобразим их.
         if (user.getParallelAccess() && plan.getParallelList() != null) {
             listParallelClients.setModel(new DefaultComboBoxModel<>(plan.getParallelList().toArray(new QCustomer[plan.getParallelList().size()])));
@@ -930,36 +935,48 @@ public final class FClient extends javax.swing.JFrame {
     private long lastInvite = 0;
 
     /**
-     * Действие по нажатию кнопки "Вызов"
+     * Action by pressing the "Call" button
      *
      * @param evt
      */
     @Action
     public void inviteNextCustomer(ActionEvent evt) {
+
+        QLog.log().debug("Calling next customer");
+
+        // Esto espera para los que pulsan como si tuvieran parkinson
         if (System.currentTimeMillis() - lastInvite < 10_000) {
             return;
         }
+
+        // Invitamos
         try {
             lastInvite = go();
-            // Вызываем кастомера
+            // Call the customer
             final QCustomer cust = NetCommander.inviteNextCustomer(netProperty, user.getId());
             if (cust != null && cust.getPostponPeriod() > 0) {
                 JOptionPane.showMessageDialog(this,
                         getLocaleMessage("invite.posponed.mess.1") + " " + cust.getPostponPeriod() + " " + getLocaleMessage("invite.posponed.mess.2") + " \"" + cust.getPostponedStatus() + "\".",
                         getLocaleMessage("invite.posponed.title"),
                         JOptionPane.INFORMATION_MESSAGE);
+                QLog.log().debug("showing message dialog because postponed");
             }
-            // проговорим голосом вызов с компа оператора если есть настроичка
+
+
+            // let us speak with a voice from the operator's computer if there is a setting
             if (cust != null && QConfig.cfg().needVoice()) {
+                QLog.log().debug("playing invite sound");
                 final boolean isFirst = customer == null || !customer.getSemiNumber().equalsIgnoreCase(cust.getSemiNumber());
                 new Thread(() -> {
                     SoundPlayer.inviteClient(cust.getService(), cust, cust.getPrefix() + (cust.getNumber() < 1 ? "" : cust.getNumber()), user.getPoint(), isFirst);
                 }).start();
             }
 
-            // Показываем обстановку
+            // We show the situation
             setSituation(NetCommander.getSelfServices(netProperty, user.getId()));
-            // поддержка расширяемости плагинами
+
+
+            // support extensibility plug-ins
             extPluginIStartClientPressButton(user, netProperty, getUserPlan(), evt, 1);
             end(lastInvite);
         } catch (HeadlessException | QException th) {
@@ -970,12 +987,13 @@ public final class FClient extends javax.swing.JFrame {
     private boolean fkill = false;
 
     /**
-     * Действие по нажатию кнопки "Отклонить"
+     * Action by pressing the "Reject" button
      *
      * @param evt
      */
     @Action
     public void killCustomer(ActionEvent evt) {
+        QLog.log().debug("rejecting customer");
         try {
             if (customer.getService().getExpectation() != 0 && (new Date().getTime() - customer.getStandTime().getTime()) / 1000 / 60 < customer.getService().getExpectation()) {
                 if (fkill) {
@@ -1020,7 +1038,7 @@ public final class FClient extends javax.swing.JFrame {
     }
 
     /**
-     * Действие по нажатию кнопки "Начать прием"
+     * Action by pressing the "Start reception" button
      *
      * @param evt
      */
@@ -1699,7 +1717,7 @@ public final class FClient extends javax.swing.JFrame {
         });
         fileMenu.add(exitMenuItem);
 
-        menuBar.add(fileMenu);
+    //    menuBar.add(fileMenu);
 
         optionsMenu.setText(resourceMap.getString("optionsMenu.text")); // NOI18N
         optionsMenu.setName("optionsMenu"); // NOI18N
@@ -1721,7 +1739,7 @@ public final class FClient extends javax.swing.JFrame {
         });
         optionsMenu.add(menuItemId);
 
-        menuBar.add(optionsMenu);
+      //  menuBar.add(optionsMenu);
 
         editMenu.setText(resourceMap.getString("editMenu.text")); // NOI18N
         editMenu.setName("editMenu"); // NOI18N
@@ -1758,7 +1776,7 @@ public final class FClient extends javax.swing.JFrame {
         menuItemHelp.setAction(actionMap.get("help")); // NOI18N
         menuItemHelp.setText(resourceMap.getString("menuItemHelp.text")); // NOI18N
         menuItemHelp.setName("menuItemHelp"); // NOI18N
-        helpMenu.add(menuItemHelp);
+     //   helpMenu.add(menuItemHelp);
 
         aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
         aboutMenuItem.setName("aboutMenuItem"); // NOI18N
@@ -1842,7 +1860,7 @@ public final class FClient extends javax.swing.JFrame {
     }
 
     /**
-     * Табло вывода кастомера.
+     * Customer output
      */
     private static FIndicatorBoard indicatorBoard = null;
     private static boolean clientboardFX = false;
@@ -1896,8 +1914,8 @@ public final class FClient extends javax.swing.JFrame {
         final QUser user = FLogin.logining(netProperty, null, true, 3, FLogin.LEVEL_USER);
         Uses.showSplash();
         try {
-            //Определим, надо ли выводить кастомера на второй экран.
-            // Для этого должны быть переданы две координаты для определения этого монитора
+            // Determine whether to output the customer to the second screen.н.
+            // For this, two coordinates must be transmitted to determine this monitor
             // -posx x -posy y
             if (new File(QConfig.cfg().getBoardCfgFile()).exists()) {
                 initIndicatorBoard(QConfig.cfg().getBoardCfgFile());

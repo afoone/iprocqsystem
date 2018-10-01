@@ -276,7 +276,8 @@ public class FIndicatorBoard extends javax.swing.JFrame {
             panelMain.setVisible(false);
         }
         if (mainElement != null && !QConfig.cfg().getModule().isClient() && !QConfig.cfg().getModule().isDesktop()) {
-            callDialog = new FCallDialog(this, false, mainElement);
+           // callDialog = new FCallDialog(this, false, mainElement);
+            callDialog= null;
         } else {
             callDialog = null;
         }

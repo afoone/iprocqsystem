@@ -661,7 +661,7 @@ public class NetCommander {
      */
     public static QCustomer inviteNextCustomer(INetProperty netProperty, long userId) {
         log().info("Getting the next user from the queues that are processed by the user.");
-        // загрузим ответ
+        // load answer
         final CmdParams params = new CmdParams();
         params.userId = userId;
         final String res;

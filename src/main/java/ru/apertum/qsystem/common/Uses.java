@@ -921,7 +921,7 @@ public final class Uses {
         }
 
     /**
-     * Создание и показ сплэш-заставки без блокировки запуска второй копии
+     * Create and display a splash screen without locking the second copy
      */
     public static void showSplash() {
         sh = true;

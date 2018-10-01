@@ -79,7 +79,7 @@ public class FServicePriority extends javax.swing.JDialog {
     }
 
     /**
-     * Показать список обрабатываемых услуг с возможностью менять им приоритеты
+     * Show the list of processed services with the ability to change their priorities
      *
      * @param netProperty свойства коннекта
      * @param owner       для модальности

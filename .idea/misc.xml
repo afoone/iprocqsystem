@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectPlainTextFileTypeManager">
     <file url="file://$PROJECT_DIR$/src/main/java/ru/apertum/qsystem/client/forms/FAdmin.form" />
+    <file url="file://$PROJECT_DIR$/src/main/java/ru/apertum/qsystem/client/forms/FCallDialog.form" />
+    <file url="file://$PROJECT_DIR$/src/main/java/ru/apertum/qsystem/client/forms/FClient.form" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/classes" />

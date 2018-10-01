@@ -100,13 +100,13 @@ public final class FAbout extends javax.swing.JDialog {
     }
 
     /**
-     * Опредилить Singleton.
+     * About Singleton.
      *
      * @param parent относительно этого контрола модальность и позиционирование
      * @param modal  режим модальности
      */
     private static void getForm(JFrame parent, boolean modal, String verDB) {
-        log().info("Демонстрация информации о программе.");
+        log().info("Showing the program about.");
         if (aboutForm == null) {
             aboutForm = new FAbout(parent, modal);
         }

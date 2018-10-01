@@ -42,7 +42,7 @@ import ru.apertum.qsystem.common.Uses;
 public class FCallDialog extends javax.swing.JDialog {
 
     /**
-     * Настройки из xml, что поделаешь, архаизм
+     * Settings from xml, what can you do, archaism
      */
     private final transient Element cfg;
 
@@ -71,8 +71,9 @@ public class FCallDialog extends javax.swing.JDialog {
      * @param mainElement
      */
     public FCallDialog(java.awt.Frame parent, boolean modal, Element mainElement) {
-        super(parent, modal);
+       super(parent, modal);
         initComponents();
+        QLog.log().debug("creating call dialog in "+parent.getTitle());
         prnt = parent;
         cfg = mainElement;
         delay = Integer.parseInt(Uses.elementsByAttr(cfg, Uses.TAG_BOARD_NAME, Uses.TAG_BOARD_CALL_PANEL_DELAY).get(0).attributeValue(Uses.TAG_BOARD_VALUE)) * 1000;
@@ -108,7 +109,7 @@ public class FCallDialog extends javax.swing.JDialog {
                     setVisible(true);
                     Thread.sleep(delay);
                 } catch (InterruptedException ex) {
-                    QLog.l().logger().error("Не дождались получения номера вызванного для показа в диалоге на главном табло. " + ex);
+                    QLog.l().logger().error("They did not wait for the number called for display in the dialogue on the main scoreboard. " + ex);
                 }
             }
         }
