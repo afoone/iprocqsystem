@@ -513,7 +513,7 @@ CREATE TABLE `results` (
 
 LOCK TABLES `results` WRITE;
 /*!40000 ALTER TABLE `results` DISABLE KEYS */;
-INSERT INTO `results` VALUES (1,'Complite'),(2,'Problems...'),(3,'Solving...');
+INSERT INTO `results` VALUES (1,'Completando formularios'),(2,'Problemas'),(3,'Otros');
 /*!40000 ALTER TABLE `results` ENABLE KEYS */;
 UNLOCK TABLES;
 

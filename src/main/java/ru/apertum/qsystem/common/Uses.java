@@ -131,8 +131,10 @@ public final class Uses {
     public static final LinkedHashMap<Integer, String> COEFF_WORD = new LinkedHashMap<>();
 
     public static LinkedHashMap<Integer, String> get_COEFF_WORD() {
-        COEFF_WORD.put(SERVICE_REMAINS, FServicePriority.getLocaleMessage("service.priority.low"));
-        COEFF_WORD.put(SERVICE_NORMAL, FServicePriority.getLocaleMessage("service.priority.basic"));
+     //   COEFF_WORD.put(SERVICE_REMAINS, FServicePriority.getLocaleMessage("service.priority.low"));
+      //  COEFF_WORD.put(SERVICE_NORMAL, FServicePriority.getLocaleMessage("service.priority.basic"));
+        COEFF_WORD.put(SERVICE_REMAINS, "Baja");
+        COEFF_WORD.put(SERVICE_NORMAL, "Normal");
         int n = 0;
         if (QConfig.cfg().getModule().isAdminApp()) {
             n = ServerProps.getInstance().getProps().getExtPriorNumber();
@@ -778,9 +780,13 @@ public final class Uses {
                 }
             }
         }
-        COEFF_WORD.put(SERVICE_REMAINS, FServicePriority.getLocaleMessage("service.priority.low"));
-        COEFF_WORD.put(SERVICE_NORMAL, FServicePriority.getLocaleMessage("service.priority.basic"));
-        COEFF_WORD.put(SERVICE_VIP, FServicePriority.getLocaleMessage("service.priority.vip"));
+        //COEFF_WORD.put(SERVICE_REMAINS, FServicePriority.getLocaleMessage("service.priority.low"));
+        //COEFF_WORD.put(SERVICE_NORMAL, FServicePriority.getLocaleMessage("service.priority.basic"));
+        //COEFF_WORD.put(SERVICE_VIP, FServicePriority.getLocaleMessage("service.priority.vip"));
+
+        COEFF_WORD.put(SERVICE_REMAINS, "Baja");
+        COEFF_WORD.put(SERVICE_NORMAL, "Normal");
+        COEFF_WORD.put(SERVICE_VIP, "VIP");
     }
 
     /**

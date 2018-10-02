@@ -23,8 +23,8 @@ import java.util.ListIterator;
 import javax.swing.AbstractListModel;
 
 /**
- * Список услуг, обрабатываемых пользователем. Класс - рулит списком услуг юзера. Должен строиться для каждого юзера и он же должен отображаться в админской
- * проге. Элементы списка это QPlanService. Пока пустой. Нужен для того чтобы при необходимости чот-то переопределить.
+ * Lista de servicios para ser procesados por el usuario. Clase: lista de servicios de usuario. Debe construirse para cada usuario y debe mostrarse en admin
+ * prog. Los elementos de la lista son QPlanService. Mientras está vacío Es necesario redefinir si es necesario.
  *
  * @author Evgeniy Egorov
  */

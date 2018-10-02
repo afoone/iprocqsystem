@@ -303,7 +303,7 @@ public class QUser implements IidGetter, Serializable {
     @JoinColumn(name = "user_id", insertable = false, nullable = false, updatable = false)
     //MOSCOW
     @Fetch(FetchMode.SELECT)
-    // Это отсечение дублирования при джойне таблици, т.к. в QPlanService есть @OneToOne к QService, и в нем есть @OneToMany к QServiceLang - дублится по количеству переводов
+    // Esto es un recorte de la duplicación con una tabla; en QPlanService hay @OneToOne en QService, y hay @OneToMany en QServiceLang - duplicado por el número de traducciones
     public List<QPlanService> getPlanServices() {
         return planServices;
     }
@@ -340,7 +340,7 @@ public class QUser implements IidGetter, Serializable {
                 return qPlanService;
             }
         }
-        throw new ServerException("Не найдена обрабатываемая услуга по ID \"" + serviceId + "\" у услуги c ID = " + id);
+        throw new ServerException("service not found for  ID \"" + serviceId + "\" service∫ ID = " + id);
     }
 
     /**

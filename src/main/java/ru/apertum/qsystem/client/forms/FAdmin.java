@@ -638,7 +638,7 @@ public class FAdmin extends javax.swing.JFrame {
     private boolean changeUser = true;
 
     /**
-     * Действия по смене выбранного итема в списке пользоватеолей.
+     * Acciones para cambiar el elemento seleccionado en la lista de usuarios.
      */
     private void userListChange() {
         if (listUsers.getLastVisibleIndex() == -1) {
@@ -1582,7 +1582,7 @@ public class FAdmin extends javax.swing.JFrame {
             final int del = service.getParent().getIndex(service);
             final int col = service.getParent().getChildCount();
             ((QServiceTree) treeServices.getModel()).removeNodeFromParent(service);
-            // Удалим эту услугу привязанную как ярлык
+            // Remove this service tied as a shortcut
             QServiceTree.sailToStorm(((QServiceTree) treeServices.getModel()).getRoot(), (TreeNode srv) -> {
                 final QService serv = (QService) srv;
                 if (serv.getLink() != null && serv.getLink().getId().equals(service.getId())) {
@@ -2905,7 +2905,7 @@ public class FAdmin extends javax.swing.JFrame {
 
         jPanel26.setName("jPanel26"); // NOI18N
 
-        jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jScrollPane4.border.title"))); // NOI18N
+        jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jScrollPane4.border.title")));
         jScrollPane4.setName("jScrollPane4"); // NOI18N
 
         listUserService.setFont(resourceMap.getFont("listUserService.font")); // NOI18N
@@ -5330,8 +5330,13 @@ public class FAdmin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_treeServicesMouseClicked
 
+    /**
+     * Server restart
+     * @author afoone@hotmail.com
+     * @param evt
+     */
     private void buttonRestartServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRestartServerActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "Ты точно хочешь проделать эту богомерскую операцию?", "Подумай три раза, о мышкатыкатель!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 1) {
+        if (JOptionPane.showConfirmDialog(null, "¿Quiere reiniciar el servidor?", "Reinicio del servidor", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 1) {
             return;
         }
         NetCommander.restartServer(new ServerNetProperty());
@@ -6421,7 +6426,7 @@ public class FAdmin extends javax.swing.JFrame {
                 service.setSchedule(null);
             });
 
-            // Удалим это расписание как специальное у календарей.
+            // Delete this schedule as a special calendar.
             QCalendarList.getInstance().getItems().forEach(calc -> {
                 final LinkedList<QSpecSchedule> fordel = new LinkedList<>();
                 calc.getSpecSchedules().forEach(sps -> {
