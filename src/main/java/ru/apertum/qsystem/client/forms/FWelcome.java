@@ -1148,22 +1148,6 @@ public class FWelcome extends javax.swing.JFrame {
     }
 
 
-    /**
-     * NP-3511: Corta el papel
-     *
-     *
-     */
-    private static int cutPaper(Graphics2D g2, int line, int x, int initY) {
-        final int y = (int) Math.round((initY + line * WelcomeParams.getInstance().lineHeigth) );
-        byte[] bytes;
-        try {
-           bytes = "prueba de corte".getBytes( "ISO-8859-1" );
-            g2.drawBytes(bytes,0,3,x,y);
-        } catch (Exception e){
-
-        }
-        return y;
-    }
 
 
 
@@ -1364,9 +1348,6 @@ public class FWelcome extends javax.swing.JFrame {
                 g2.setFont(f_standard);
                 write(g2, getLocaleMessage("ticket.your_number"), ++line, getHAlignment(g2, getLocaleMessage("ticket.your_number"), 0, 1), 1, 1, initY);
 
-              //  write(g2,"mierda del culo",++line,1, 1,1,1);
-                // Sending cut paper information
-                cutPaper(g2,line++,1,1);
 
                 final String num = customer.getFullNumber();
                 g2.setFont(new Font(g2.getFont().getName(), g2.getFont().getStyle(), WelcomeParams.getInstance().ticketFontH1Size / (num.length() < 6 ? 1 : (num.length() < 10 ? 2 : 3))));
