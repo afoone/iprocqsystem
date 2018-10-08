@@ -2563,6 +2563,8 @@ public class FAdmin extends javax.swing.JFrame {
             }
         });
 
+
+        // Botón para desbloquear el kiosco
         buttonUnlock.setText(resourceMap.getString("buttonUnlock.text")); // NOI18N
         buttonUnlock.setName("buttonUnlock"); // NOI18N
         buttonUnlock.addActionListener(new java.awt.event.ActionListener() {
