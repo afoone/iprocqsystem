@@ -51,7 +51,7 @@ import ru.apertum.qsystem.hibernate.SqlServers.SqlServer;
 import ru.apertum.qsystem.server.ChangeContext;
 
 /**
- * Created on 25 Май 2009 г., 13:11 Форма конфигурирования подключения к СУБД и COM-порту
+ * Created on 25 Май 2009 г., 13:11 Configuration form for connecting to the DBMS and COM port
  *
  * @author Evgeniy Egorov
  */

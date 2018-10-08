@@ -28,7 +28,7 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 
 /**
- * Сетевые настройки системы. Класс работает как с XML, так и с hibernate.
+ * Network system settings. The class works with both XML and hibernate.
  *
  * @author Evgeniy Egorov
  */
@@ -177,7 +177,7 @@ public class QNet implements Serializable {
         this.firstNumber = firstNumber;
     }
     /**
-     * 0 - общая нумерация, 1 - для каждой услуги своя нумерация
+     * 0 - general numbering, 1 - for each service its own numbering
      */
     @Column(name = "numering")
     private Boolean numering;

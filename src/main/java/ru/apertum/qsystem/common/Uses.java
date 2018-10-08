@@ -101,11 +101,11 @@ import ru.apertum.qsystem.server.model.QProperty;
  */
 public final class Uses {
 
-    // ключи системных параметров
+    // system parameter keys
     public static final String KEY_ROLL = "ticket_roll";
     public static final String KEY_TICKET_NUMBERING = "ticket_numbering";
 
-    // значения приоритета "очередника"
+    // Priority Priority Values
     public static final int PRIORITY_LOW = 0;
     public static final int PRIORITY_NORMAL = 1;
     public static final int PRIORITY_HI = 2;

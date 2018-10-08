@@ -155,9 +155,9 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     private Integer status;
 
     /**
-     * Состояние услуги. Влияет на состояние кнопки на киоске, при редиректе
+     * The state of the service. Affects the state of the button on the kiosk, with redirect
      *
-     * @return 1 - доступна, 0 - недоступна, -1 - невидима, 2 - только для предвариловки, 3 - заглушка, 4 - не для предвариловки, 5 - рулон
+     * @return 1 - available, 0 - unavailable, -1 - invisible, 2 - only for predvarovki, 3 - cap, 4 - not for predvarlovki, 5 - roll
      */
     public Integer getStatus() {
         return status;
@@ -595,14 +595,14 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * последний номер, выданный последнему кастомеру при номерировании клиентов обособлено в услуге. тут такой замут. когда услугу создаешь из json где-то на
-     * клиенте, то там же спринг-контекст не поднят да и нужно это только в качестве данных.
+     * the last number issued to the last customer when nominating customers is separated in the service. there is such a muddle. when you create a service from json somewhere on
+     * client, the same spring-context is not raised, and it is necessary only as data.
      */
     @Transient
     private int lastNumber = Integer.MIN_VALUE;
     /**
-     * последний номер, выданный последнему кастомеру при номерировании клиентов общем рядом для всех услуг. Ограничение самого минимально возможного номера
-     * клиента при сквозном нумерировании происходит при определении параметров нумерации.
+     * the last number issued to the last customer when numbering clients is common for all services. Limit the lowest possible number
+     * client with end-to-end numbering occurs when determining the numbering parameters.
      */
     @Transient
     private static volatile int lastStNumber = Integer.MIN_VALUE;
@@ -617,15 +617,18 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Получить номер для сделующего кастомера. Произойдет инкремент счетчика номеров.
+     * Get a number for a customer. There will be an increment counter numbers.
      *
      * @return
      */
     public int getNextNumber() {
         synchronized (QService.class) {
+
             final int firstNum;
             final int lastNum;
+
             final QProperty propNum = ServerProps.getInstance().getProperty(getSectionName(), Uses.KEY_TICKET_NUMBERING);
+            QLog.log().debug("propNum "+propNum);
             if (propNum != null && Uses.getIntsFromString2(propNum.getValue()).length > 1) {
                 final int[] ints = Uses.getIntsFromString2(propNum.getValue());
                 firstNum = ints[0];
@@ -635,8 +638,8 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
                 lastNum = ServerProps.getInstance().getProps().getLastNumber();
             }
 
-            // услуга-рулон сбрасывается по своему, у нее в пропертях есть первый и последний номер.
-            // У услуги-рулона всегда своя нумерация! Не сквозная.
+            // roll service is reset in its own way, it has the first and last number in the print
+            // The roll service always has its own numbering! Not through.
             if (getStatus() == 5) {
                 QProperty prop = ServerProps.getInstance().getProperty(getSectionName(), Uses.KEY_ROLL);
                 if (prop != null && !prop.getComment().matches("^-?\\d+$")) {
@@ -668,7 +671,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
                     clearNextStNumber();
                 }
             }
-            // учтем вновь поставленного. прибавим одного к количеству сегодня пришедших к данной услуге
+            // take into account the newly delivered. let's add one to the number of those who came to this service today
             final int today = new GregorianCalendar().get(GregorianCalendar.DAY_OF_YEAR);
             if (today != day) {
                 day = today;
