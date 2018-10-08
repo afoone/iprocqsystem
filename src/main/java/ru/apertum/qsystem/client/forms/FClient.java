@@ -1739,7 +1739,7 @@ public final class FClient extends javax.swing.JFrame {
         });
         optionsMenu.add(menuItemId);
 
-      //  menuBar.add(optionsMenu);
+        menuBar.add(optionsMenu);
 
         editMenu.setText(resourceMap.getString("editMenu.text")); // NOI18N
         editMenu.setName("editMenu"); // NOI18N
