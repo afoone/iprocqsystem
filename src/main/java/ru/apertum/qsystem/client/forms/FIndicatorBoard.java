@@ -106,7 +106,7 @@ public class FIndicatorBoard extends javax.swing.JFrame {
     private transient Element root = null;
     private final boolean fractal;
     /**
-     * Режим. Главное табло или клиентское.
+     * Mode. The main board or client.
      */
     private static boolean isMain = true;
 

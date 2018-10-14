@@ -93,10 +93,10 @@ public class DistributionWaitDayUsers extends AFormirovator {
             }
         } catch (SQLException ex) {
             users_select.setLength(0);
-            throw new ReportException("Ошибка выполнения запроса для диалога ввода пользователя. " + ex);
+            throw new ReportException("Error al ejecutar la solicitud del diálogo de entrada del usuario. " + ex);
         }
         try {
-            result.setData(new String(result.getData(), "UTF-8").replaceFirst("#DATA_FOR_TITLE#", "Распределение среднего времени ожидания внутри дня для пользователя:").replaceFirst("#DATA_FOR_USERS#", users_select.toString()).getBytes("UTF-8"));
+            result.setData(new String(result.getData(), "UTF-8").replaceFirst("#DATA_FOR_TITLE#", "Distribución del tiempo de espera medio").replaceFirst("#DATA_FOR_USERS#", users_select.toString()).getBytes("UTF-8"));
         } catch (UnsupportedEncodingException ex) {
         }
         users_select.setLength(0);
@@ -119,14 +119,14 @@ public class DistributionWaitDayUsers extends AFormirovator {
                 user_id = Long.parseLong(params.get("user_id"));
                 user = params.get("user");
             } catch (NumberFormatException | ParseException ex) {
-                return "<br>Ошибка ввода параметров! Не все параметры введены корректно (дд.мм.гггг).";
+                return "<br>¡Error al ingresar los parámetros! No todos los parámetros ingresados correctamente (dd.mm.yyyy).";
             }
             paramMap.put("sdate", sdate);
             paramMap.put("date", date);
             paramMap.put("user_id", user_id);
             paramMap.put("user", user);
         } else {
-            return "<br>Ошибка ввода параметров!";
+            return "<br>¡Error al ingresar los parámetros!";
         }
         return null;
     }
