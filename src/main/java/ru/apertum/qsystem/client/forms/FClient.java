@@ -1724,7 +1724,7 @@ public final class FClient extends javax.swing.JFrame {
 
         menuItemFlexPriority.setAction(actionMap.get("manageFlexPriority")); // NOI18N
         menuItemFlexPriority.setText(resourceMap.getString("menuItemFlexPriority.text")); // NOI18N
-        menuItemFlexPriority.setName("menuItemFlexPriority"); // NOI18N
+        menuItemFlexPriority.setName("menuItemFlexPriority");
         optionsMenu.add(menuItemFlexPriority);
 
         jSeparator3.setName("jSeparator3"); // NOI18N

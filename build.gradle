@@ -26,7 +26,6 @@ if (f1.exists()) {
     props.load(new FileInputStream(f1))
     version = props.version
 
-
     print 'Prepare data... '
     props.date = new Date().format("dd.MM.yyyy");
     println(props.date)
@@ -53,7 +52,7 @@ if (f1.exists()) {
 //******   COMMON   *****************************************************
 //*****************************************************************************
 
-// это для плагина izpack
+// esto es para el plugin izpack
 buildscript {
     repositories {
         jcenter()
@@ -77,8 +76,7 @@ repositories {
 
 dependencies {
     compile project(":QResources")
-
-    // это для плагина izpack
+    // esto es para el plugin izpack
     izpack('org.codehaus.izpack:izpack:5.1.2') { transitive = true }
     izpack('org.codehaus.izpack:izpack-ant:5.1.2') { transitive = true }
     izpack('org.codehaus.izpack:izpack-core:5.1.2') { transitive = true }
@@ -131,12 +129,6 @@ dependencies {
     compile(group: 'antlr', name: 'antlr', version: '2.7.7') { transitive = false }
     compile(group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.6.1') { transitive = false }
     compile(group: 'log4j', name: 'log4j', version: '1.2.15') { transitive = false }
-    /*
-    compile(group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.0') { transitive = false }
-    compile(group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0') { transitive = false }
-    compile(group: 'org.apache.logging.log4j', name: 'log4j-1.2-api', version: '2.11.0') { transitive = false }
-     */
-
 
     compile(group: 'com.lowagie', name: 'itext', version: '4.2.1') { transitive = false }
     compile(group: 'net.java.dev.beansbinding', name: 'beansbinding', version: '1.2.1') { transitive = false }
@@ -550,20 +542,20 @@ task copylib(type: Copy) {
     from 'build/libs'
     into 'dist/'
 }
-// выполнить этот такс чтобы собрать папку после компиляции на манер анта
+// Ejecuta esta tarea para recolectar la carpeta después de la compilación
 task dist() {
     dependsOn copylib
 }
 
-// зависимости выполняются по алфавиту по ходу.
+// Las dependencias se realizan alfabéticamente a lo largo del camino.
 task acls() {
     doFirst {
         println 'remove temp folders... '
-        delete 'build', 'dist', 'out' //TODO uncomment it
+        delete 'build', 'dist', 'out'
     }
 }
 
-// выполнить этот таск для сбора инсталляхи. Инсталяха собитерся батником дляустановленного фреймворка.
+// Realice esta tarea para recoger la instalación. El archivo por lotes para el marco instalado instalará la instalyakha.
 task makeinstall(type: Exec) {
 
     doFirst {
@@ -593,7 +585,7 @@ String getBranch() {
     }
 }
 
-// зависимости выполняются по алфавиту по ходу.
+// Las dependencias se descargan alfabéticamente a lo largo del camino.
 task aCiVersion() {
     doFirst {
         println 'Prepare version... '
@@ -612,7 +604,7 @@ task aCiVersion() {
     }
 }
 
-// выполнить этот таск для CI и сбора инсталляхи, инсталяха собирется градлом, подтягивая зависимости.
+// Para ejecutar esta tarea para CI y recolectar la instalación, la instalación se ensamblará con un granizo, levantando las dependencias.
 task ci() {
 
     doFirst {
@@ -625,7 +617,7 @@ task ci() {
     }
 }
 
-// выполнить этот таск чтобы все пересобрать и собрать инсталяху. Сборка инсталяхи будет подтянутыми из m2 библиотеками.
+// Ejecuta esta tarea para reconstruir tot y ensamblarlo. Se reforzará la edificación de las bibliotecas de m2.
 task makebuild() {
 
     doFirst {
@@ -681,7 +673,7 @@ task bzipCi(type: Zip) {
 
 }
 
-// это для плагина izpack, просто нужно чтоб работал плагин, т.е. настройки и параметры
+// Esto es para el complemento izpack, solo necesita el complemento para que funcione, es decir, ajustes y parámetros
 task izpack {
     baseDir = file("installation")
     installFile = file('installation/install.xml')
@@ -692,7 +684,7 @@ task izpack {
     appProperties = ['app.group': group, 'app.name': 'QSystem', 'app.title': 'QMS QSystem', 'app.version': version, 'app.subpath': "QSystem-$version"]
 }
 
-// выполнить что бы создать sh файл move.sh в папке ci/qsystem
+// ejecute para crear el archivo sh move.sh en la carpeta ci / qsystem
 task createsh {
 
     doFirst {
@@ -709,13 +701,13 @@ task createsh {
     }
 }
 
-// тут не забываем что зависимости разрешаются в алфавитном порядке. Нужен установленный IzPack
+// Aquí no olvidamos que las dependencias se resuelven en orden alfabético. Necesito un IzPack instalado
 makeinstall.dependsOn(acls)
 makeinstall.dependsOn(build)
 makeinstall.dependsOn(copylib)
 makeinstall.finalizedBy(bzip)
 
-// выполнить этот таск ci чтобы все пересобрать и собрать инсталяху в папку ci.
+// ejecute esta tarea ci para reconstruir tot y ensamblarla en la carpeta ci.
 aCiVersion.dependsOn(clean)
 ci.dependsOn(createsh)
 ci.dependsOn(aCiVersion)
@@ -724,7 +716,7 @@ ci.dependsOn(build)
 ci.dependsOn(copylib)
 ci.finalizedBy(bzipCi)
 
-// выполнить этот таск makebuild чтобы все пересобрать и собрать инсталяху.
+// ejecuta esta tarea makebuild para reconstruir y ensamblar todo.
 makebuild.dependsOn(acls)
 makebuild.dependsOn(build)
 makebuild.dependsOn(copylib)

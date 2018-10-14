@@ -51,8 +51,8 @@ import ru.apertum.qsystem.reports.common.Response;
 import ru.apertum.qsystem.reports.net.NetUtil;
 
 /**
- * Базовый класс генераторов отчетов. сам себя складывает в HashMap [ String, IGenerator ] generators. Для получения отчета генератор использует методы
- * интерфейса IFormirovator. метод process генерирует отчет.
+ * Generadores de informes de la clase base. se pone en los generadores HashMap [String, IGenerator]. Para generar un informe, el generador utiliza métodos.
+ * Interfaz IFormirovator. El método de proceso genera un informe.
  *
  * @author Evgeniy Egorov
  */
@@ -60,7 +60,7 @@ import ru.apertum.qsystem.reports.net.NetUtil;
 public abstract class AGenerator implements IGenerator {
 
     /**
-     * только для hibernate.
+     * Esto es para hibernate
      */
     public AGenerator() {
         // javax.imageio.ImageIO.read(getClass().getResource("/ru/apertum/qsystem/reports/eximbank/resources/banner1.jpg"));
@@ -93,7 +93,7 @@ public abstract class AGenerator implements IGenerator {
     }
 
     /**
-     * Абстрактный метод формирования данных отчета.
+     * Método abstracto para generar datos de informe.
      *
      * @param request
      * @return
@@ -101,7 +101,7 @@ public abstract class AGenerator implements IGenerator {
     abstract protected JRDataSource getDataSource(HttpRequest request);
 
     /**
-     * Абстрактный метод формирования параметров для отчета.
+     * Método abstracto de conformación de parámetros para el informe.
      *
      * @param request
      * @return
@@ -109,7 +109,7 @@ public abstract class AGenerator implements IGenerator {
     abstract protected Map getParameters(HttpRequest request);
 
     /**
-     * Метод получения коннекта к базе если отчет строится через коннект.
+     * El método para obtener una conexión a la base de datos si el informe se crea a través de una conexión.
      *
      * @param request
      * @return коннект соединения к базе или null.
@@ -159,16 +159,16 @@ public abstract class AGenerator implements IGenerator {
         * Y en estos datos ya forman los datos de informes.
         */
         /*
-         * Логика следующая:
-         *
-         * если параметров нет, то вызвать метод возвращающий страницу запроса параметров
-         * и если этот метод вернет null, то параметры не требуются. Если этот метод вернет массив
-         * байт, то отдать его пользователю для ввода параметров.
-         *
-         * Если по запросу страници параметров получили null, то нужно отвалидировать параметры
-         * валидация null если все нормально и по getParameters(...) можно получать параметры.
-         * если косяк, то нужно каким-то образом перевыдать форму ввода параметров с сообщением
-         * что накосячили в прошлый раз.
+         * La lógica es la siguiente:
+         *
+         * Si no hay parámetros, llame al método que devuelve la página de solicitud de parámetros
+         * y si este método devuelve un valor nulo, no se requieren parámetros. Si este método devuelve una matriz
+         * bytes, luego dáselo al usuario para que ingrese los parámetros.
+         *
+         * Si, si se solicita, las páginas de parámetros tienen un valor nulo, deberá validar los parámetros.
+         * la validación es nula si la totalidad está bien y los parámetros se pueden obtener mediante getParameters (...).
+         * Si no puede, debe volver a emitir el formulario para ingresar parámetros con el mensaje
+         * Ese nakosyachili la última vez.
          */
         //сначала диалог для параметров
         final HashMap<String, String> params = NetUtil.getParameters(request);
@@ -187,18 +187,18 @@ public abstract class AGenerator implements IGenerator {
             }
         }
 
-        // ну и если что можно еще что нибудь замастырить
+        // bueno, si algo más puede ser dominado
         final Response before = preparationReport(request);
         if (before != null) {
             return before;
         }
 
-        // Компиляция отчета, попробуем без компиляции, есть же уже откампиленные
+        // Compilar el informe, intente sin compilar, ya están volcados
         //InputStream is = getClass().getResourceAsStream(template);
         //JasperReport jasperReport = JasperCompileManager.compileReport(is);
-        // Получение готового к экспорту отчета
+        // Preparando el informe para la exportación
         //JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, hm, xmlDataSource); - это вариант с предкампиляцией
-        // это тип полученных данных, пойдет в http заголовок
+        // este es el tipo de datos recibidos, irá al encabezado http
         String dataType = null;
         try {
             // Шаблон может быть в виде файла, иначе в виде ресурса
@@ -237,10 +237,10 @@ public abstract class AGenerator implements IGenerator {
                 final JRHtmlExporter exporter = new JRHtmlExporter();
                 exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 
-                // сгенерим отчет во временный файл
-                // это нужно для того, что если совместно с html генеряться картинки, например графики,
-                // то их сбросить на диск и потом с диска выдать по запросу броузера.
-                // для этого нужно чтоб вебсервер умел выдовать и файла с диска и файлы из временных папок.
+                // generar el informe en un archivo temporal
+                // esto es necesario por el hecho de que si junto con las imágenes html se generan, por ejemplo, gráficos,
+                // luego restablézcalos en el disco y luego emita un disco desde el disco a pedido.
+                // para esto, es necesario que el servidor web pueda generar tanto el archivo del disco como los archivos de las carpetas temporales.
                 final JRHtmlExporter exporterToTempFile = new JRHtmlExporter();
                 exporterToTempFile.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
                 exporterToTempFile.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, Uses.TEMP_FOLDER + File.separator + "temphtml.html");
@@ -301,20 +301,19 @@ public abstract class AGenerator implements IGenerator {
             }
             return new Response(result, dataType);
         } catch (FileNotFoundException ex) {
-            throw new ReportException("Не найден файл шрифтов для генерации PDF. " + ex);
+            throw new ReportException("Archivo de fuente no encontrado para la generación de PDF. " + ex);
         } catch (IOException ex) {
-            throw new ReportException("Ошибка декодирования при вводе/выводе. " + ex);
+            throw new ReportException("Error de decodificación durante la entrada / salida. " + ex);
         } catch (JRException ex) {
-            throw new ReportException("Ошибка генерации. " + ex);
+            throw new ReportException("Error al generar informe. " + ex);
         }
 
     }
 
     /**
-     * Метод генерации PDF-отчетов через файл. Вынесен в отдельный метод для синхронизации.
-     *
-     * @param jasperPrint этот готовый отчет и экспортим в PDF
-     * @return возвращает готовый отчет в виде массива байт
+     * Método para generar informes en PDF a través de un archivo. Entregado a un método separado para la sincronización.     *
+     * @param jasperPrint Este informe listo y exportar a PDF
+     * @return devuelve el informe terminado en forma de una matriz de bytes
      * @throws net.sf.jasperreports.engine.JRException
      * @throws java.io.FileNotFoundException
      * @throws java.io.IOException
