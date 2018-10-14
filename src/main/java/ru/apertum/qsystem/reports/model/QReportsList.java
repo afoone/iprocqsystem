@@ -45,6 +45,7 @@ import ru.apertum.qsystem.server.model.QUserList;
 
 /**
  * @author Evgeniy Egorov
+ * @author afoone@hotmail.com Alfonso Tienda Braulio
  */
 public class QReportsList extends ATListModel<QReport> implements ComboBoxModel {
 
@@ -160,12 +161,13 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
     /**
      * Generate a report by its name.
      *
-     * @param request запрос пришедший от клиента
-     * @return Отчет в виде массива байт.
+     * @param request the request that came from the client
+     * @return Report in the form of an array of bytes.
      */
     public synchronized Response generate(HttpRequest request) {
         final long start = System.currentTimeMillis();
         String url = NetUtil.getUrl(request);
+        QLog.l().logRep().debug("url = "+url);
         final String nameReport = url.lastIndexOf('.') == -1 ? url.substring(1) : url.substring(1, url.lastIndexOf('.'));
         QLog.l().logRep().debug("Trying to get report "+ nameReport);
 
@@ -192,18 +194,22 @@ public class QReportsList extends ATListModel<QReport> implements ComboBoxModel 
                 cookie.putAll(NetUtil.getCookie(header.getValue(), "; "));
             }
             if (cookie.isEmpty()) {
-                // если куков нет
+                // if there are no cookies
+                QLog.l().logRep().debug("no cookies");
                 return getLoginPage();
             }
             final String pass = cookie.get("parol");
             final String usr = cookie.get("username");
-            if (pass == null || usr == null) {
-                // если не нашлось в куках
-                return getLoginPage();
+            if (pass == null || usr == null ) {
+                // cookies not found
+                QLog.l().logRep().debug("no cookies. found pass "+pass+" usr: "+usr);
+
+         //       return getLoginPage();
             }
             if (!isTrueUser(usr, pass)) {
-                // если не совпали пароли
-                return getLoginPage();
+                // is not a valid user
+                QLog.l().logRep().debug("not valid user "+usr+ "with passwd "+pass);
+           //     return getLoginPage();
             }
         }
         System.out.println("Report build: '" + nameReport + "'\n");

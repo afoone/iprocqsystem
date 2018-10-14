@@ -75,7 +75,7 @@ public class HttpQSystemReportsHandler implements HttpRequestHandler {
                 }
             }
 
-            // Выдаем ресурс  "/ru/apertum/qsystem/reports/web/"
+            // Emitimos un recurso  "/ru/apertum/qsystem/reports/web/"
             final InputStream inStream = getClass().getResourceAsStream("/ru/apertum/qsystem/reports/web" + subject);
             if (inStream == null) {
                 QLog.l().logRep().warn("Ресурс не найден: \"/ru/apertum/qsystem/reports/web" + subject + "\"");

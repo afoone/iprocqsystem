@@ -183,6 +183,7 @@ import ru.apertum.qsystem.server.model.schedule.QSpecSchedule;
  * Created on 1 Декабрь 2008 г., 18:51
  *
  * @author Evgeniy Egorov
+ * @author afoone@hotmail.com
  */
 public class FAdmin extends javax.swing.JFrame {
 
@@ -196,7 +197,7 @@ public class FAdmin extends javax.swing.JFrame {
     }
 
     /**
-     * Константы хранения параметров в файле.
+     * Constants for storing parameters in a file.
      */
     private static final String SERVER_ADRESS = "server_adress";
     private static final String SERVER_PORT = "server_port";
@@ -207,10 +208,10 @@ public class FAdmin extends javax.swing.JFrame {
     private final transient QTray tray;
     //******************************************************************************************************************
     //******************************************************************************************************************
-    //***************************************** таймер автоматического запроса******************************************
+    //***************************************** automatic query timer ******************************************
     private static final int DELAY_BLINK = 30000;
     /**
-     * Таймер опроса компонент системы.
+     * The polling timer component system.
      */
     private final StartTimer timer = new StartTimer(DELAY_BLINK, new TimerPrinter());
 
@@ -232,7 +233,7 @@ public class FAdmin extends javax.swing.JFrame {
     }
 
     /**
-     * Собыите автосканирования сервера и пункта регистрации на таймер.
+     * Event autoscan server and registration point to timer.
      */
     private class TimerPrinter implements ActionListener {
 
