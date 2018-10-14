@@ -97,7 +97,7 @@ public class AuthorizedClientsPeriodServices extends AFormirovator {
             throw new ReportException("Ошибка выполнения запроса для диалога ввода пользователя. " + ex);
         }
         try {
-            result.setData(new String(result.getData(), "UTF-8").replaceFirst("#DATA_FOR_TITLE#", "Отчет по авторизованным персонам за период для услуги:").replaceFirst("#DATA_FOR_USERS#", users_select.toString()).getBytes("UTF-8"));
+            result.setData(new String(result.getData(), "UTF-8").replaceFirst("#DATA_FOR_TITLE#", "El informe sobre las personas autorizadas para el período del servicio:").replaceFirst("#DATA_FOR_USERS#", users_select.toString()).getBytes("UTF-8"));
         } catch (UnsupportedEncodingException ex) {
         }
         users_select.setLength(0);

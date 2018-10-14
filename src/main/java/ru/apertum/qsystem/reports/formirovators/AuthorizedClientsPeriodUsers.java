@@ -97,7 +97,7 @@ public class AuthorizedClientsPeriodUsers extends AFormirovator {
         }
 
         try {
-            result.setData(new String(result.getData(), "UTF-8").replaceFirst("#DATA_FOR_TITLE#", "Отчет по авторизованным персонам за период для пользователя:").replaceFirst("#DATA_FOR_USERS#", users_select.toString()).getBytes("UTF-8"));
+            result.setData(new String(result.getData(), "UTF-8").replaceFirst("#DATA_FOR_TITLE#", "Informe de personas autorizadas para el período del usuario:").replaceFirst("#DATA_FOR_USERS#", users_select.toString()).getBytes("UTF-8"));
         } catch (UnsupportedEncodingException ex) {
         }
         users_select.setLength(0);

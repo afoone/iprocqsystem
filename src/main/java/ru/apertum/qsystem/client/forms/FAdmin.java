@@ -3936,6 +3936,7 @@ public class FAdmin extends javax.swing.JFrame {
 
         jPanel33.setName("jPanel33"); // NOI18N
 
+        // Es nombre de la respuesta
         jLabel16.setText(resourceMap.getString("jLabel16.text")); // NOI18N
         jLabel16.setName("jLabel16"); // NOI18N
 

@@ -51,7 +51,7 @@ import ru.evgenic.rxtx.serialPort.RxtxSerialPort;
 public class UBForm extends JFrame {
 
     /**
-     * Системный трей.
+     * SYSTEM TRAY.
      */
     private final transient QTray tray;
     private static ResourceMap localeMap = null;
@@ -506,7 +506,7 @@ public class UBForm extends JFrame {
 
     private void buttonRefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRefeshActionPerformed
         final JFileChooser fc = new JFileChooser();
-        fc.setDialogTitle("Выберите файл конфигурации");
+        fc.setDialogTitle("Select a configuration file");
         fc.setFileFilter(new FileFilter() {
 
             @Override
@@ -516,7 +516,7 @@ public class UBForm extends JFrame {
 
             @Override
             public String getDescription() {
-                return "Файлы свойств (*.cfg)";
+                return "Property Files (*.cfg)";
             }
         });
 
@@ -570,8 +570,8 @@ public class UBForm extends JFrame {
         } catch (Exception ex) {
             System.err.println(ex);
             JOptionPane.showMessageDialog(this,
-                    "Порт не захватился. " + ex,
-                    "Отсыл",
+                    "The port is not captured. " + ex,
+                    "Send",
                     JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         }

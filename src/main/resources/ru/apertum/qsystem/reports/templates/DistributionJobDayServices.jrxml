@@ -58,21 +58,21 @@
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="18" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Распредение нагрузки внутри дня]]></text>
+				<text><![CDATA[Distribución de carga diaria]]></text>
 			</staticText>
 			<textField>
 				<reportElement uuid="10ea3153-4838-4a69-a86a-918eeee59a64" x="1" y="33" width="551" height="24"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="18" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["для услуги \"" + $P{service} + "\""]]></textFieldExpression>
+				<textFieldExpression><![CDATA["para el servicio \"" + $P{service} + "\""]]></textFieldExpression>
 			</textField>
 			<textField pattern="">
 				<reportElement uuid="1d9028a2-46c4-4db1-8991-98415e2b8865" x="1" y="57" width="551" height="24"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="18" isBold="true" isUnderline="false" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["на дату " + (new java.text.SimpleDateFormat("dd.MM.yyyy")).format($P{date})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["para la fecha " + (new java.text.SimpleDateFormat("dd.MM.yyyy")).format($P{date})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -100,11 +100,11 @@
 				<barPlot isShowTickMarks="false">
 					<plot/>
 					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
-					<categoryAxisLabelExpression><![CDATA["часы"]]></categoryAxisLabelExpression>
+					<categoryAxisLabelExpression><![CDATA["hora"]]></categoryAxisLabelExpression>
 					<categoryAxisFormat>
 						<axisFormat/>
 					</categoryAxisFormat>
-					<valueAxisLabelExpression><![CDATA["количество посетителей"]]></valueAxisLabelExpression>
+					<valueAxisLabelExpression><![CDATA["número de visitantes"]]></valueAxisLabelExpression>
 					<valueAxisFormat>
 						<axisFormat/>
 					</valueAxisFormat>
@@ -115,7 +115,7 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Количество посетителей услуги за день: " + $V{amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Número de clientes del servicio en el día: " + $V{amount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -145,7 +145,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="10" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Страница " + $V{PAGE_NUMBER} + " из "]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " из "]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="false">
 				<reportElement uuid="e53d95f9-d719-416e-92a1-5ced8eb59fa1" key="textField" x="1" y="2" width="209" height="19" forecolor="#000000" backcolor="#FFFFFF"/>

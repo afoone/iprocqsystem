@@ -87,7 +87,7 @@ public class FServiceChangeDialod extends javax.swing.JDialog {
     }
 
     /**
-     * Основной метод редактирования услуги.
+     * El  método principal de edición de servicios.
      *
      * @param parent        родительская форма
      * @param modal         модальность
@@ -572,10 +572,10 @@ public class FServiceChangeDialod extends javax.swing.JDialog {
         jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
         jLabel8.setName("jLabel8"); // NOI18N
 
-        checkBoxResultRequired.setText(resourceMap.getString("checkBoxResultRequired.text")); // NOI18N
+        checkBoxResultRequired.setText("Requiere al usuario valorar la atención tras poner en cola"); // NOI18N
         checkBoxResultRequired.setName("checkBoxResultRequired"); // NOI18N
 
-        checkBoxInputRequired.setText(resourceMap.getString("checkBoxInputRequired.text")); // NOI18N
+        checkBoxInputRequired.setText("Requiere información adicional del usuario"); // NOI18N
         checkBoxInputRequired.setName("checkBoxInputRequired"); // NOI18N
         checkBoxInputRequired.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1295,7 +1295,9 @@ public class FServiceChangeDialod extends javax.swing.JDialog {
         jLabel27.setText(resourceMap.getString("jLabel27.text")); // NOI18N
         jLabel27.setName("jLabel27"); // NOI18N
 
-        labelLink.setText(resourceMap.getString("labelLink.text")); // NOI18N
+
+
+        labelLink.setText("Como atajo a otro servicio"); // NOI18N
         labelLink.setName("labelLink"); // NOI18N
 
         panelTreeCmbx.setBorder(new javax.swing.border.MatteBorder(null));
@@ -1312,7 +1314,7 @@ public class FServiceChangeDialod extends javax.swing.JDialog {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
+        jButton1.setText("Desenlazar"); // NOI18N
         jButton1.setName("jButton1"); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

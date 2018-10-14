@@ -95,7 +95,7 @@ public class DistributionJobDayServices extends AFormirovator {
             throw new ReportException("Ошибка выполнения запроса для диалога ввода пользователя. " + ex);
         }
         try {
-            result.setData(new String(result.getData(), "UTF-8").replaceFirst("#DATA_FOR_TITLE#", "Распределение нагрузки внутри дня для услуги:").replaceFirst("#DATA_FOR_SERVICES#", services_select.toString()).getBytes("UTF-8"));
+            result.setData(new String(result.getData(), "UTF-8").replaceFirst("#DATA_FOR_TITLE#", "Distribución de carga de trabajo de un servicio en un día:").replaceFirst("#DATA_FOR_SERVICES#", services_select.toString()).getBytes("UTF-8"));
         } catch (UnsupportedEncodingException ex) {
         }
         services_select.setLength(0);

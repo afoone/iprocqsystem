@@ -62,21 +62,21 @@
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="18" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Распределение среднего времени ожидания]]></text>
+				<text><![CDATA[Distribución del tiempo medio de espera]]></text>
 			</staticText>
 			<textField>
 				<reportElement uuid="1a0d4ff4-08e5-41e9-b457-62fc5b76050e" x="1" y="33" width="551" height="24"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="18" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[" внутри дня для пользователя \"" + $P{user} + "\""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" dentro de un día para el usuario \"" + $P{user} + "\""]]></textFieldExpression>
 			</textField>
 			<textField pattern="">
 				<reportElement uuid="15cd6aa2-cbdd-4f2c-bb1a-54ae2c9fee63" x="1" y="57" width="551" height="24"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="18" isBold="true" isUnderline="false" pdfFontName="tahoma.ttf" pdfEncoding="KOI8-R" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["на дату " + (new java.text.SimpleDateFormat("dd.MM.yyyy")).format($P{date})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["para la fecha " + (new java.text.SimpleDateFormat("dd.MM.yyyy")).format($P{date})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
