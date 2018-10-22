@@ -7,7 +7,7 @@
 	 
     <bean id="conf" class="ru.apertum.qsystem.hibernate.AnnotationSessionFactoryBean"/>
 
-    <!-- Параметры коннекта к базе -->
+    <!-- Connection parameters to the database -->
     <bean id="c3p0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <!--property name="driverClass" value="com.mysql.jdbc.Driver"/-->
         <property name="driverClass" value="#{conf.driver}"/>
@@ -31,8 +31,8 @@
         <property name="testConnectionOnCheckin"><value>true</value></property-->
     </bean>
 
-    <!-- Фабрика получения сессии работы с БД. Перечисление аннотированных классов для hibernate. -->
-    <!-- база не требуется -->
+    <!-- Factory receiving session work with the database. Listing annotated classes for hibernate. -->
+    <!-- base not required -->
     <bean id="mySessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" lazy-init="false" autowire="default">
         <!--property name="dataSource" ref="myDataSource"/-->
         <property name="dataSource" ref="c3p0DataSource"/>
