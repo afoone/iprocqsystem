@@ -209,8 +209,8 @@ public final class FClient extends javax.swing.JFrame {
         if (user.getParallelAccess()) {
             listParallelClients.setEnabled(CustomerState.STATE_WORK.equals(customer.getState()) || CustomerState.STATE_WORK_SECONDARY.equals(customer.getState()));
         }
-        // ну и разрешим параллельный вызов если есть доступ и есть кого вызывать. 
-        // И если нет процесса вызывания, этот процесс должен быть завершен и не остался висеть в параллели
+        // Permite una llamada paralela si hay acceso y hay alguien a quien llamar.
+        // Y si no hay un proceso de llamada, este proceso debe completarse y no dejarse colgado en paralelo
         if (user.getParallelAccess() && (CustomerState.STATE_WORK.equals(customer.getState()) || CustomerState.STATE_WORK_SECONDARY.equals(customer.getState()))) {
             buttonInvite.setEnabled(customersCountForUser != 0);
             menuItemInvitePostponed.setEnabled(listPostponed.getModel().getSize() != 0); // тут тоже надо, для парралельных
@@ -355,14 +355,14 @@ public final class FClient extends javax.swing.JFrame {
                     my = true;
                 }
             }
-            //Если кастомер встал в очередь, обрабатываемую этим юзером, то апдейтим состояние очередей.
+            //If the customer has joined the queue being processed by this user, then update the status of the queues.
             if (my || user.getId().toString().equals(data)) {
                 //Получаем состояние очередей для юзера
                 refreshSituation();
                 return;
             }
             if (Uses.TASK_REFRESH_POSTPONED_POOL.equals(data)) {
-                //Получаем состояние пула отложенных
+                //Get the status of the pending pool
                 LinkedList<QCustomer> custs = NetCommander.getPostponedPoolInfo(netProperty);
                 LinkedList<QCustomer> rem = new LinkedList<>();
                 custs.stream().filter((cust) -> (cust.getIsMine() != null && !cust.getIsMine().equals(user.getId()))).forEach((cust) -> {
@@ -875,9 +875,9 @@ public final class FClient extends javax.swing.JFrame {
     }
 
     /**
-     * Механизм включения/отключения кнопок
+     * The mechanism on / off buttons
      *
-     * @param regim Конфигурация кнопок
+     * @param regim Button configuration
      */
     public void setKeyRegim(String regim) {
         keys_current = regim;
@@ -1560,6 +1560,7 @@ public final class FClient extends javax.swing.JFrame {
         jScrollPane4.setBorder(new javax.swing.border.MatteBorder(null));
         jScrollPane4.setName("jScrollPane4"); // NOI18N
 
+        // Aquí se configura la lista de diferidos (postponed)
         listPostponed.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         listPostponed.setModel(new javax.swing.AbstractListModel() {
             String[] strings = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};

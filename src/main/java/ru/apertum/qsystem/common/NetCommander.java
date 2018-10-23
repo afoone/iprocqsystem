@@ -781,7 +781,7 @@ public class NetCommander {
     }
 
     /**
-     * Перемещение вызванного юзером кастомера в пул отложенных.
+     * Moving a user-induced custom to the pool of deferred.
      *
      * @param netProperty     параметры соединения с сервером
      * @param userId
@@ -806,7 +806,7 @@ public class NetCommander {
      * @param strict          false - Если потребуется искать кастомера не только своего вызванного, но и произвольного из всей толпы для отложения.
      */
     public static void customerToPostpone(INetProperty netProperty, long userId, Long customerId, String status, int postponedPeriod, boolean isMine, Boolean strict) {
-        log().info("Перемещение вызванного юзером кастомера в пул отложенных.");
+        log().info("Moving a user-induced custom to the pool of deferred.");
         // загрузим ответ
         final CmdParams params = new CmdParams();
         params.userId = userId;

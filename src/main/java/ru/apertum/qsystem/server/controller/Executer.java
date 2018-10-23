@@ -989,7 +989,7 @@ public final class Executer {
         }
     };
     /**
-     * Перемещение вызванного юзером кастомера в пул отложенных.
+     * Moving a user-induced customer to the pool of deferred.
      */
     final Task customerToPostponeTask = new Task(Uses.TASK_CUSTOMER_TO_POSTPON) {
 
@@ -1033,35 +1033,35 @@ public final class Executer {
                                 return new JsonRPC20OK();
                             }
                         } catch (Exception ex) {
-                            throw new ServerException("Ошибка при постановке произвольного клиента в отложенные" + " " + ipAdress + ex);
+                            throw new ServerException("Error when setting an arbitrary client to postponed" + " " + ipAdress + ex);
                         } finally {
                             CLIENT_TASK_LOCK.unlock();
                         }
                     }
                 } else {
                     user.setCustomer(parallelCust);
-                    QLog.l().logger().debug("Юзер \"" + user + "\" переключился на кастомера \"" + parallelCust.getFullNumber() + "\"" + " " + ipAdress);
+                    QLog.l().logger().debug("User \"" + user + "\" switched to custom \"" + parallelCust.getFullNumber() + "\"" + " " + ipAdress);
                 }
             }
             // вот над этим пациентом
             final QCustomer customer = user.getCustomer();
             if (customer == null) {
-                // Такое может быть если начать откладывать валюнтаристски.
+                // This can be if you start to postpone Monumentist.
                 return new JsonRPC20Error(REQUIRED_CUSTOMER_NOT_FOUND);
             }
             // статус
             customer.setPostponedStatus(cmdParams.textData);
             // на сколько отложили. 0 - бессрочно
             customer.setPostponPeriod(cmdParams.postponedPeriod);
-            // если отложили бессрочно и поставили галку, то можно видеть только отложенному
+            // if postponed indefinitely and put a daw, then you can only see the deferred
             customer.setIsMine(cmdParams.isMine);
-            // в этом случае завершаем с пациентом
-            //"все что хирург забыл в вас - в пул отложенных"
-            // но сначала обозначим результат работы юзера с кастомером, если такой результат найдется в списке результатов
-            // кастомер переходит в состояние "Завершенности", но не "мертвости"
+            // in this case we complete with the patient
+            // "all that the surgeon forgot in you is in the pool of deferred"
+            // but first we denote the result of the user's work with the customer, if such a result is in the list of results
+            // casteur goes into the state of "Completion", but not "dead"
             customer.setState(CustomerState.STATE_POSTPONED);
             try {
-                user.setCustomer(null);//бобик сдох но медалька осталось, отправляем в пулл
+                user.setCustomer(null);//Bobby is dead but the medal is left, send to pull
                 customer.setUser(null);
                 QPostponedList.getInstance().addElement(customer);
                 // сохраняем состояния очередей.

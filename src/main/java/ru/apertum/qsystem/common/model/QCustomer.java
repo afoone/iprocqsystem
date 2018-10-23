@@ -52,8 +52,12 @@ import ru.apertum.qsystem.server.model.IidGetter;
 import ru.apertum.qsystem.server.model.response.QRespEvent;
 
 /**
- * @author Evgeniy Egorov Реализация клиета Наипростейший "очередник". Используется для организации простой очереди. Если используется СУБД, то сохранение
- * происходит при смене ссостояния. ВАЖНО! Всегда изменяйте статус кастомера при его изменении, особенно при его удалении.
+ * Implementation of the client The simplest "waiting list". Used to organize a simple queue.
+ * If a DBMS is used, then saving occurs when changing the state.
+ * IMPORTANT! Always change the status of the custom when it changes, especially when it is deleted.
+ * @author Evgeniy Egorov
+ * @author Alfonso Tienda afoone@hotmail.com
+ *
  */
 @Entity
 @Table(name = "clients")
@@ -147,7 +151,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
     }
 
     /**
-     * Специально для редиректа и возврата после редиректа
+     * Especially for redirect and return after redirect
      *
      * @param state
      * @param newServiceId - при редиректе и возврате после редиректа тут будет ID той услуги куда редиректим или возвращвем, причем услуга у кастомера все еще
@@ -160,14 +164,14 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
         this.state = state;
         stateIn = state.ordinal();
 
-        // можно будет следить за тенью кастомера у юзера и за его изменениями
+        // it will be possible to follow the shadow of the customer with the user and his changes
         if (getUser() != null) {
             getUser().getShadow().setCustomerState(state);
         }
 
         switch (state) {
             case STATE_DEAD:
-                QLog.l().logger().debug("Статус: Кастомер с номером \"" + getPrefix() + getNumber() + "\" идет домой по неявке");
+                QLog.l().logger().debug("Status: Customer number \"" + getPrefix() + getNumber() + "\" goes home on a non-appearance");
                 if (getUser().hasService(getService())) {
                     getUser().getPlanService(getService()).inkKilled();
                 } else {
@@ -197,24 +201,24 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
                 setCallTime(new Date());
                 break;
             case STATE_INVITED_SECONDARY:
-                QLog.l().logger().debug("Статус: Пригласили повторно в цепочке обработки кастомера с номером \"" + getPrefix() + getNumber() + "\"");
+                QLog.l().logger().debug("Status: Invited again in the customer processing chain with a number \"" + getPrefix() + getNumber() + "\"");
                 // ставим время вызова
                 setCallTime(new Date());
                 break;
             case STATE_REDIRECT:
-                QLog.l().logger().debug("Статус: Кастомера редиректили с номером \"" + getPrefix() + getNumber() + "\"");
+                QLog.l().logger().debug("Status: Customer redirected with a number \"" + getPrefix() + getNumber() + "\"");
                 if (getUser().hasService(getService())) {
                     getUser().getPlanService(getService()).inkWorked(System.currentTimeMillis() - getStartTime().getTime());
                 } else {
                     QLog.l().logger().warn("Service \"" + getService() + "\" doesn't found at the user \"" + getUser() + "\"");
                 }
                 setFinishTime(new Date());
-                // сохраним кастомера в базе
+                // save the customer in the database
                 saveToSelfDB();
                 setStandTime(new Date());
                 break;
             case STATE_WORK:
-                QLog.l().logger().debug("Начали работать с кастомером с номером \"" + getPrefix() + getNumber() + "\"");
+                QLog.l().logger().debug("Began to work with the customer number \"" + getPrefix() + getNumber() + "\"");
                 setStartTime(new Date());
                 if (getUser().hasService(getService())) {
                     getUser().getPlanService(getService()).upWait(getStartTime().getTime() - getStandTime().getTime());
@@ -223,7 +227,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
                 }
                 break;
             case STATE_WORK_SECONDARY:
-                QLog.l().logger().debug("Статус: Далее по цепочки начали работать с кастомером с номером \"" + getPrefix() + getNumber() + "\"");
+                QLog.l().logger().debug("Status: Next on the chain began to work with the customer number \"" + getPrefix() + getNumber() + "\"");
                 setStartTime(new Date());
                 if (getUser().hasService(getService())) {
                     getUser().getPlanService(getService()).upWait(getStartTime().getTime() - getStandTime().getTime());
@@ -232,11 +236,11 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
                 }
                 break;
             case STATE_BACK:
-                QLog.l().logger().debug("Статус: Кастомер с номером \"" + getPrefix() + getNumber() + "\" вернут в преднюю услугу");
+                QLog.l().logger().debug("Status: Customer number \"" + getPrefix() + getNumber() + "\" return to the previous service");
                 setStandTime(new Date());
                 break;
             case STATE_FINISH:
-                QLog.l().logger().debug("Статус: С кастомером с номером \"" + getPrefix() + getNumber() + "\" закончили работать");
+                QLog.l().logger().debug("Status: With customer number \"" + getPrefix() + getNumber() + "\" finished work");
                 setFinishTime(new Date());
                 if (getUser().hasService(getService())) {
                     getUser().getPlanService(getService()).inkWorked(getFinishTime().getTime() - getStartTime().getTime());
@@ -247,26 +251,26 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
                 saveToSelfDB();
                 break;
             case STATE_POSTPONED:
-                QLog.l().logger().debug("Кастомер с номером \"" + getPrefix() + getNumber() + "\" идет ждать в список отложенных");
+                QLog.l().logger().debug("Customer number \"" + getPrefix() + getNumber() + "\" goes to wait on pending");
                 setFinishTime(new Date());
                 if (getUser().hasService(getService())) {
                     getUser().getPlanService(getService()).inkWorked(getFinishTime().getTime() - getStartTime().getTime());
                 } else {
                     QLog.l().logger().warn("Service \"" + getService() + "\" doesn't found at the user \"" + getUser() + "\"");
                 }
-                // сохраним кастомера в базе
+                // save the customer in the database
                 saveToSelfDB();
                 setStandTime(new Date());
                 break;
         }
 
-        // поддержка расширяемости плагинами
+        // plugin extensibility support
         for (final IChangeCustomerStateEvent event : ServiceLoader.load(IChangeCustomerStateEvent.class)) {
-            QLog.l().logger().info("Вызов SPI расширения. Описание: " + event.getDescription());
+            QLog.l().logger().info("Call SPI extensions. Description: " + event.getDescription());
             try {
                 event.change(this, state, newServiceId);
             } catch (Exception tr) {
-                QLog.l().logger().error("Вызов SPI расширения завершился ошибкой. Описание: " + tr);
+                QLog.l().logger().error("Call SPI extension failed. Description: " + tr);
             }
         }
     }
@@ -620,7 +624,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
     }
 
     /**
-     * ID того кто видит отложенного, NULL для всех
+     * ID of the one who sees the deferred, NULL for all
      */
     @Expose
     @SerializedName("is_mine")
@@ -636,7 +640,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
     }
 
     /**
-     * Количество повторных вызовов этого клиента
+     * The number of repeated calls this client
      */
     @Expose
     @SerializedName("recall_cnt")
@@ -662,7 +666,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
     }
 
     /**
-     * Когда был отложен в милисекундах;
+     * When was postponed in milliseconds;
      */
     @Expose
     @SerializedName("start_postpone_period")
@@ -681,21 +685,26 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
         return finishPontpone;
     }
 
+
+
     /**
-     * Вернет строку, описывающую кастомера
+     * Returns a string describing the customer
      *
-     * @return строка, описывающую кастомера
+     * @return custom string
      */
     @Override
     public String toString() {
+
         return getFullNumber()
                 + (getInput_data() == null ? "" : (" " + getInput_data()))
                 + (postponedStatus == null || postponedStatus.isEmpty() ? "" :
                 (" " + postponedStatus + " ("
                         + (postponPeriod > 0 ? postponPeriod : "...") + " / "
                         + (System.currentTimeMillis() - startPontpone) / 1000 / 60 + " min.)"
-                        + (isMine != null ? " Private!" : "")));
+                        + (isMine != null ? " Privado" : "")));
     }
+
+
 
     @Transient
     @Override
@@ -722,7 +731,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
     }
 
     /**
-     * Та локаль, которую кастомер выбрал при выборе услуги на киоске
+     * The locale that the customer chose when choosing a service at the kiosk
      */
     @Expose
     @SerializedName("lng")

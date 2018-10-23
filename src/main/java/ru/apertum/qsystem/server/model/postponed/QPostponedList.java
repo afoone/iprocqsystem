@@ -61,7 +61,7 @@ public class QPostponedList extends DefaultListModel {
     }
 
     /**
-     * Таймер по которому будем выгонять временных отложенных
+     * Timer for which we will expel temporary pending
      */
     private Timer timerOut;
 
@@ -75,7 +75,7 @@ public class QPostponedList extends DefaultListModel {
                         final ArrayList<QCustomer> forDel = new ArrayList<>();
                         for (QCustomer customer : getPostponedCustomers()) {
                             if (customer.getPostponPeriod() > 0 && customer.getFinishPontpone() < System.currentTimeMillis()) {
-                                QLog.l().logger().debug("Перемещение по таймеру из отложенных кастомера №" + customer.getPrefix() + customer.getNumber() + " в услугу \"" + customer.getService().getName() + "\"");
+                                QLog.l().logger().debug("Moves timer from deferred custom number" + customer.getPrefix() + customer.getNumber() + " to the service \"" + customer.getService().getName() + "\"");
                                 // время сидения вышло, пора отправляться в очередь.
                                 forDel.add(customer);
                                 // в очередь, сукины дети
@@ -94,12 +94,12 @@ public class QPostponedList extends DefaultListModel {
                         }
                         forDel.stream().forEach(qCustomer -> removeElement(qCustomer));
                     } catch (Exception ex) {
-                        throw new ServerException("Ошибка при постановке клиента в очередь", ex);
+                        throw new ServerException("Error queuing client ", ex);
                     } finally {
                         Executer.CLIENT_TASK_LOCK.unlock();
                     }
                 } catch (Exception ex) {
-                    throw new ServerException("Ошибка при перемещении в очередь отложенного из пула по таймеру " + ex);
+                    throw new ServerException("Error moving to pending queue from timer pool " + ex);
                 } finally {
                     Executer.POSTPONED_TASK_LOCK.unlock();
                 }
@@ -124,7 +124,7 @@ public class QPostponedList extends DefaultListModel {
     }
 
     /**
-     * Может вернуть NULL если не нашлось
+     * Can return NULL if not found
      *
      * @param id
      * @return
