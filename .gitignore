@@ -30,4 +30,4 @@ db/JournalDB.mv.db
 .idea/sonarlint/*
 ci/*.*
 .hg
-.idea
+.idea/**

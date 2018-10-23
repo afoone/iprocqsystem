@@ -6,7 +6,10 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/QResources/QResources_main.iml" filepath="$PROJECT_DIR$/.idea/modules/QResources/QResources_main.iml" group="QResources" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/QResources/QResources_test.iml" filepath="$PROJECT_DIR$/.idea/modules/QResources/QResources_test.iml" group="QResources" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/QSystem.iml" filepath="$PROJECT_DIR$/.idea/modules/QSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/QSystem.iml" filepath="$PROJECT_DIR$/.idea/modules/QSystem.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/QSystem_main.iml" filepath="$PROJECT_DIR$/.idea/modules/QSystem_main.iml" group="QSystem" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/QSystem_main.iml" filepath="$PROJECT_DIR$/.idea/modules/QSystem_main.iml" group="QSystem" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/QSystem_test.iml" filepath="$PROJECT_DIR$/.idea/modules/QSystem_test.iml" group="QSystem" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/QSystem_test.iml" filepath="$PROJECT_DIR$/.idea/modules/QSystem_test.iml" group="QSystem" />
     </modules>
   </component>
