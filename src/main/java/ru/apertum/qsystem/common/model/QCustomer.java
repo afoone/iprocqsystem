@@ -627,6 +627,22 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
      * ID of the one who sees the deferred, NULL for all
      */
     @Expose
+    @SerializedName("postponed_by")
+    private String postponedBy = null;
+
+    @Transient
+    public String getPostponedBy() {
+        return postponedBy;
+    }
+
+    public void setPostponedBy(String userName) {
+        this.postponedBy = userName;
+    }
+
+    /**
+     * ID of the one who sees the deferred, NULL for all
+     */
+    @Expose
     @SerializedName("is_mine")
     private Long isMine = null;
 
@@ -701,6 +717,7 @@ public final class QCustomer implements Comparable<QCustomer>, Serializable, Iid
                 (" " + postponedStatus + " ("
                         + (postponPeriod > 0 ? postponPeriod : "...") + " / "
                         + (System.currentTimeMillis() - startPontpone) / 1000 / 60 + " min.)"
+                        + "por " + postponedBy
                         + (isMine != null ? " Privado" : "")));
     }
 

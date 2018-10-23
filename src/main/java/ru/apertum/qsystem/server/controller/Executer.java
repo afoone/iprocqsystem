@@ -1027,6 +1027,8 @@ public final class Executer {
                             if ((customer = QPostponedList.getInstance().getById(cmdParams.customerId)) != null) {
                                 customer.setPostponedStatus(cmdParams.textData);
                                 customer.setIsMine(cmdParams.isMine);
+                                // me guardo quién ha pospuesto el cliente
+                                customer.setPostponedBy(user.getName());
                                 //разослать оповещение о том, что посетителя вызвали, состояние очереди изменилось
                                 //рассылаем широковещетельно по UDP на определенный порт
                                 Uses.sendUDPBroadcast(Uses.TASK_REFRESH_POSTPONED_POOL, ServerProps.getInstance().getProps().getClientPort());
@@ -1055,6 +1057,8 @@ public final class Executer {
             customer.setPostponPeriod(cmdParams.postponedPeriod);
             // if postponed indefinitely and put a daw, then you can only see the deferred
             customer.setIsMine(cmdParams.isMine);
+            // me guardo quién ha pospuesto el cliente
+            customer.setPostponedBy(user.getName());
             // in this case we complete with the patient
             // "all that the surgeon forgot in you is in the pool of deferred"
             // but first we denote the result of the user's work with the customer, if such a result is in the list of results
