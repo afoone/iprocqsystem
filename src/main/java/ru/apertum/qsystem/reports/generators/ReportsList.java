@@ -44,7 +44,7 @@ public class ReportsList extends AGenerator {
 
     @Override
     protected JRDataSource getDataSource(HttpRequest request) {
-        throw new ReportException("Ошибочное обращение к методу.");
+        throw new ReportException("Wrong method call.");
     }
 
     @Override
@@ -93,12 +93,12 @@ public class ReportsList extends AGenerator {
 
     @Override
     protected Connection getConnection(HttpRequest request) {
-        throw new ReportException("Ошибочное обращение к методу.");
+        throw new ReportException("Wrong method call.");
     }
 
     @Override
     protected Response getDialog(HttpRequest request, String errorMessage) {
-        throw new ReportException("Ошибочное обращение к методу.");
+        throw new ReportException("Wrong method call. Maybe you're not loged");
     }
 
     @Override
