@@ -128,7 +128,7 @@ dependencies {
     compile(group: 'dom4j', name: 'dom4j', version: '1.6.1') { transitive = false }
     compile(group: 'antlr', name: 'antlr', version: '2.7.7') { transitive = false }
     compile(group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.6.1') { transitive = false }
-    compile(group: 'log4j', name: 'log4j', version: '1.2.15') { transitive = false }
+    compile(group: 'log4j', name: 'log4j', version: '1.2.16') { transitive = false }
 
     compile(group: 'com.lowagie', name: 'itext', version: '4.2.1') { transitive = false }
     compile(group: 'net.java.dev.beansbinding', name: 'beansbinding', version: '1.2.1') { transitive = false }

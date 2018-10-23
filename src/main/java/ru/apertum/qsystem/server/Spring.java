@@ -89,10 +89,10 @@ public class Spring {
                     + "Бин с ошибкой \"" + ex.getBeanName() + "\""
                     + "Сообщение об ошибке: \"" + ex.getCause().getMessage() + "\"\n" + ex);
         } catch (BeansException ex) {
-            throw new ServerException("Ошибка класса-бина контекста приложения: \"" + ex.getCause().getMessage() + "\"\n"
-                    + "Сообщение об ошибке: \"" + ex.getCause().getMessage() + "\"\n" + ex);
+            throw new ServerException("Application Context Bean Class Error: \"" + ex.getCause().getMessage() + "\"\n"
+                    + "Error message: \"" + ex.getCause().getMessage() + "\"\n" + ex);
         } catch (Exception ex) {
-            throw new ServerException("Ошибка создания контекста приложения: " + ex);
+            throw new ServerException("Error creating application context: " + ex);
         }
 
         final ComboPooledDataSource bds = (ComboPooledDataSource) factory.getBean("c3p0DataSource");
