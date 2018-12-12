@@ -31,3 +31,6 @@ db/JournalDB.mv.db
 ci/*.*
 .hg
 .idea/**
+dist.zip
+languages.zip
+
