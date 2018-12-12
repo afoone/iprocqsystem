@@ -57,10 +57,11 @@ import ru.apertum.qsystem.server.model.QService;
 
 
 /**
- * Created on 27.08.2009, 10:15:34 Сетка-календарь для предварительной записи. Имеет метод для осуществления всех действий. Вся логика инкапсулирована в этом
+ * Created on 27.08.2009, 10:15:34 Grid calendar for an advance appointment. Has a method for the implementation of all actions. All logic is encapsulated in this.
  * классе.
  *
  * @author Evgeniy Egorov
+ * @author Alfonso Tienda afoone@hotmail.com
  */
 public class FAdvanceCalendar extends javax.swing.JDialog {
 
@@ -88,6 +89,7 @@ public class FAdvanceCalendar extends javax.swing.JDialog {
 
     private static INetProperty netProperty;
     private static QService service;
+    // The QAdvanceCustomer to return
     private static QAdvanceCustomer result = null;
     private static int delay = 10000;
     private static long advancedCustomer = -1;
@@ -95,11 +97,11 @@ public class FAdvanceCalendar extends javax.swing.JDialog {
     private static String comments = "";
 
     /**
-     * Статический метод который показывает модально диалог выбора времени для предварительной записи клиентов.
+     * A static method that shows a modal timing dialog for pre-registering clients.
      *
-     * @param parent      фрейм относительно которого будет модальность
-     * @param modal       модальный диалог или нет
-     * @param netProperty свойства работы с сервером
+     * @param parent      frame relative to which will be modality
+     * @param modal       modal dialogue or not
+     * @param netProperty server operation properties
      * @param service     услугa, в которую происходит предварительная запись
      * @param fullscreen  растягивать форму на весь экран и прятать мышку или нет
      * @param delay       задержка перед скрытием диалога. если 0, то нет автозакрытия диалога
@@ -114,12 +116,13 @@ public class FAdvanceCalendar extends javax.swing.JDialog {
         FAdvanceCalendar.advancedCustomer = advCustomer;
         FAdvanceCalendar.inputData = inputData;
         FAdvanceCalendar.comments = comments;
-        QLog.l().logger().info("Выбор времени для предварительной записи");
+        QLog.l().logger().info("Timing for pre-register");
         if (advanceCalendar == null) {
             advanceCalendar = new FAdvanceCalendar(parent, modal);
-            advanceCalendar.setTitle("Выбор времени предварительной записи.");
+            advanceCalendar.setTitle("Calendario de pre-registro.");
         }
         advanceCalendar.changeTextToLocale();
+        // Result is a global variable in this class
         result = null;
         Uses.setLocation(advanceCalendar);
         FAdvanceCalendar.netProperty = netProperty;
@@ -144,7 +147,7 @@ public class FAdvanceCalendar extends javax.swing.JDialog {
     }
 
     /**
-     * Таймер, по которому будем выходить в корень меню.
+     * El temporizador en el que iremos a la raíz del menú.
      */
     public transient ATalkingClock clockBack = new ATalkingClock(delay, 1) {
 
@@ -687,10 +690,10 @@ public class FAdvanceCalendar extends javax.swing.JDialog {
     private Date firstWeekDay;
 
     /**
-     * Показать недельную сетку для выбора предварительной записи
+     * Mostrar cuadrícula semanal para preselección
      *
-     * @param firstWeekDay первый день недели
-     * @return получилось отобразить или нет
+     * @param firstWeekDay first day of the week
+     * @return
      */
     private boolean showWeek(Date firstWeekDay) {
         final GregorianCalendar gc = new GregorianCalendar();
@@ -700,7 +703,7 @@ public class FAdvanceCalendar extends javax.swing.JDialog {
         gc.set(GregorianCalendar.MINUTE, 0);
         this.firstWeekDay = gc.getTime();
         /**
-         * Получим грид доступности часов для записи
+         * Get the availability grid for register
          */
         final GridAndParams res = NetCommander.getGridOfWeek(netProperty, service.getId(), this.firstWeekDay, advancedCustomer);
         if (res.getSpError() != null) {
@@ -792,9 +795,9 @@ public class FAdvanceCalendar extends javax.swing.JDialog {
                     if (clockBack.isActive()) {
                         clockBack.stop();
                     }
-                    // ставим предварительного кастомера
+                    // We put an preregistered customer
                     result = NetCommander.standInServiceAdvance(netProperty, service.getId(), date, advancedCustomer, inputData, comments);
-                    // закрываем диалог выбора предварительного выбора времени
+                    // close the pre-select time dialog
                     setVisible(false);
                 }, dd, true));
             }

@@ -1163,19 +1163,19 @@ public class NetCommander {
     }
 
     /**
-     * Предварительная запись в очередь.
+     * Pre-registration to the queue.
      *
-     * @param netProperty      netProperty параметры соединения с сервером.
-     * @param serviceId        услуга, в которую пытаемся встать.
-     * @param date             Дата записи
-     * @param advancedCustomer ID авторизованного кастомер. -1 если нет авторизации
-     * @param inputData        введеные по требованию услуги данные клиентом, может быть null если не вводили
-     * @param comments         комментарий по предварительно ставящемуся клиенту если ставят из админки или приемной
-     * @return предварительный кастомер
+     * @param netProperty      netProperty server connection settings.
+     * @param serviceId        the service that we are trying to queue in
+     * @param date             Register date
+     * @param advancedCustomer ID authorized user -1 if there is no authorization
+     * @param inputData        data entered by the client upon request of the service, may be null if not entered
+     * @param comments         comment on a pre-set client if they are set from the admin or the reception desk
+     * @return preregistered customer
      */
     public static QAdvanceCustomer standInServiceAdvance(INetProperty netProperty, long serviceId, Date date, long advancedCustomer, String inputData, String comments) {
-        log().info("Записать предварительно в очередь.");
-        // загрузим ответ
+        log().info("Write pre-queued.");
+        // load the answer
         final CmdParams params = new CmdParams();
         params.serviceId = serviceId;
         params.date = date.getTime();
@@ -1185,7 +1185,7 @@ public class NetCommander {
         final String res;
         try {
             res = send(netProperty, Uses.TASK_ADVANCE_STAND_IN, params);
-        } catch (QException ex) {// вывод исключений
+        } catch (QException ex) {// exception output
             throw new ClientException(locMes("command_error"), ex);
         }
         final Gson gson = GsonPool.getInstance().borrowGson();

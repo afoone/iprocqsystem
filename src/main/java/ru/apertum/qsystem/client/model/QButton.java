@@ -336,15 +336,15 @@ public class QButton extends JButton {
                         return;
                     }
 
-                    //  в зависимости от активности формируем сообщение и шлем запрос на сервер об статистике
+                    //  depending on the activity, we form a message and send a request to the server about statistics
                     if (isActive) {
-                        // Услуга активна. Посмотрим не предварительная ли это запись.
-                        // Если Предварительная запись, то пытаемся предватительно встать и выходим из обработке кнопки.
+                        // Service is active. See if this is a preliminary record.
+                        // If Pre-recording, then we try to get up prematurely and exit the button processing.
                         if (FWelcome.isAdvanceRegim()) {
                             form.setAdvanceRegim(false);
 
-                            //Если услуга требует ввода данных пользователем, то нужно получить эти данные из диалога ввода, т.к. потом при постановки в очередь предварительных
-                            // нет ввода данных, только номера регистрации.
+                            // If the service requires user input, then you need to get this data from the input dialog, because then when queuing pre
+                            // no data entry, only registration numbers.
                             String inputData = null;
                             if (service.getInput_required()) {
                                 inputData = FInputDialog.showInputDialog(form, true, FWelcome.netProperty, false, WelcomeParams.getInstance().delayBack, service.getTextToLocale(QService.Field.INPUT_CAPTION));
@@ -354,27 +354,27 @@ public class QButton extends JButton {
                             }
 
                             final QAdvanceCustomer res = FAdvanceCalendar.showCalendar(form, true, FWelcome.netProperty, service, true, WelcomeParams.getInstance().delayBack * 2, form.advancedCustomer, inputData, "");
-                            //Если res == null значит отказались от выбора
+                            // If res == null, then refused
                             if (res == null) {
                                 form.showMed();
                                 return;
                             }
 
-                            // приложим введенное клиентом чтобы потом напечатать.
+                            // attach entered by the client to print later.
                             if (service.getInput_required()) {
                                 res.setAuthorizationCustomer(new QAuthorizationCustomer(inputData));
                             }
 
                             for (final IWelcome event : ServiceLoader.load(IWelcome.class)) {
-                                QLog.l().logger().info("Вызов SPI расширения. Описание: " + event.getDescription());
+                                QLog.l().logger().info("Call SPI extensions. Description: " + event.getDescription());
                                 try {
                                     event.readyNewAdvCustomer(QButton.this, res, service);
                                 } catch (Throwable tr) {
-                                    QLog.l().logger().error("Вызов SPI расширения завершился ошибкой. Описание: " + tr);
+                                    QLog.l().logger().error("Expansion call SPI failed. Description: " + tr);
                                 }
                             }
 
-                            //вешаем заставку
+                            //hang screensaver
                             final GregorianCalendar gc_time = new GregorianCalendar();
                             gc_time.setTime(res.getAdvanceTime());
                             int t = gc_time.get(GregorianCalendar.HOUR_OF_DAY);
@@ -394,12 +394,12 @@ public class QButton extends JButton {
                                             + "</span>"
                                             + "</p>",
                                     WelcomeParams.getInstance().getTicketImg);
-                            // печатаем результат
+                            // print the result
                             new Thread(() -> {
-                                QLog.l().logger().info("Печать этикетки бронирования.");
+                                QLog.l().logger().info("Print booking label.");
                                 FWelcome.printTicketAdvance(res);
                             }).start();
-                            // выходим, т.к. вся логика предварительной записи в форме предварительного календаря
+                            // quit because all pre-appointment logic in the form of a pre-calendar
                             return;
                         }
 

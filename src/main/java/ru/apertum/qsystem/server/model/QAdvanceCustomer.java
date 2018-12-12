@@ -32,9 +32,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * Класс предварительно записанного кастомера.
- * Должен уметь работать с БД, генерировать XML. И прочая логика.
+ * Pre-recorded customer class.
+ * Must be able to work with the database, generate XML. And other logic.
  * @author Evgeniy Egorov
+ * @author Alfonso Tienda
  */
 @Entity
 @Table(name = "advance")
@@ -50,20 +51,18 @@ public class QAdvanceCustomer implements Serializable {
     public QAdvanceCustomer(String inputData) {
         this.inputData = inputData;
     }
+
+
+    /**
+     * El id se genera a partir del time. Realmente es una mierda.
+     */
     @Id
     @Column(name = "id")
-    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Expose
     @SerializedName("id")
     private Long id = new Date().getTime() % 1000000;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
     @Column(name = "advance_time")
     @Temporal(TemporalType.TIMESTAMP)
     @Expose
@@ -103,7 +102,7 @@ public class QAdvanceCustomer implements Serializable {
         this.service = service;
     }
     /**
-     * Связь с таблицей клиентов(фамилии, имена, адреса...) если клиент авторизовался перед тем как записаться на будующее время
+     * Contact customer table (surnames, names, addresses ...) if the customer has logged in before registering for the next time
      */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "clients_authorization_id")
@@ -142,4 +141,18 @@ public class QAdvanceCustomer implements Serializable {
     public void setComments(String comments) {
         this.comments = comments;
     }
+
+
+    // Getters y setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+
 }

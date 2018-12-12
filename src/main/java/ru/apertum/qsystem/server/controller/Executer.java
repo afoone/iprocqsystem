@@ -1505,7 +1505,7 @@ public final class Executer {
                                     }
                                 }
                             }
-                            // если еще количество записавшихся не привысило ограничение по услуге, то добавил этот час как доступный для записи
+                            // if the number of those who signed up did not raise the limit on the service, then added this hour as available for recording
                             for (int i = cnt; i < service.getAdvanceLimit(); i++) {
                                 atime.addACustomer(new QAdvanceCustomer(0L));
                             }
@@ -1649,7 +1649,8 @@ public final class Executer {
     };
 
     /**
-     * Записать кастомера предварительно в услугу.
+     * Pre-Register in service
+     * @author Alfonso Tienda afoone@hotmail.com
      */
     final Task standAdvanceInService = new Task(Uses.TASK_ADVANCE_STAND_IN) {
 
@@ -1658,18 +1659,18 @@ public final class Executer {
             super.process(cmdParams, ipAdress, ip);
 
             final QService service = QServiceTree.getInstance().getById(cmdParams.serviceId);
-            QLog.l().logger().trace("Предварительно записываем c ID=" + cmdParams.customerId + " к услуге \"" + service.getName() + "\"(" + service.getPrefix() + "/" + cmdParams.serviceId + ")" + " ко времени " + new Date(cmdParams.date) + " " + ipAdress);
-            // Создадим вновь испеченного кастомера
+            QLog.l().logger().trace("Preregister customer ID=" + cmdParams.customerId + " to service \"" + service.getName() + "\"(" + service.getPrefix() + "/" + cmdParams.serviceId + ")" + " on datetime " + new Date(cmdParams.date) + " " + ipAdress);
+            // Create a newly baked customer
             final QAdvanceCustomer customer = new QAdvanceCustomer(cmdParams.textData);
 
-            // Определим ID авторизованного пользователя, если небыло авторизации, то оно = -1
+            // We define the ID of the authorized user, if there was no authorization, then it = -1
             final Long authCustonerID = cmdParams.customerId;
-            // выкачаем из базы зарегинова
+            // we will pump zareginov from the base
             QAuthorizationCustomer acust = new QAuthorizationCustomer();
             if (cmdParams.customerId != -1) {
                 Spring.getInstance().getHt().load(acust, authCustonerID);
                 if (acust.getId() == null || acust.getName() == null) {
-                    throw new ServerException("Авторизация не успешна." + " " + ipAdress);
+                    throw new ServerException("Login failed." + " " + ipAdress);
                 }
             } else {
                 acust = null;
@@ -1707,6 +1708,9 @@ public final class Executer {
             return new RpcGetAdvanceCustomer(customer);
         }
     };
+
+
+
     /**
      * Поставить кастомера в очередь предварительно записанного. Проверить бронь, поставить или отказать.
      */

@@ -223,7 +223,7 @@ public final class Uses {
     public static final String TASK_FOR_ALL_SITE = "Для всех сайтов домена";
     public static final String TASK_STAND_IN = "STAND IN";
     public static final String TASK_STAND_COMPLEX = "Поставить в несколько очередей";
-    public static final String TASK_ADVANCE_STAND_IN = "Поставить в очередь предварительно";
+    public static final String TASK_ADVANCE_STAND_IN = "PREREGISTER_IN_QUEUE";
     public static final String TASK_ADVANCE_CHECK_AND_STAND = "Поставить предварительно записанного";
     public static final String TASK_REMOVE_ADVANCE_CUSTOMER = "Удалить предварительно записанного";
     public static final String TASK_REDIRECT_CUSTOMER = "Переадресовать клиента к другой услуге";

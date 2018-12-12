@@ -153,7 +153,7 @@ public class FWelcome extends javax.swing.JFrame {
     public static QService root;
     public int pageNumber = 0;// на одном уровне может понадобиться листать услуги, не то они расползуться. Это вместо скрола.
     /**
-     * XML-список отзывов. перврначально null, грузится при первом обращении. Использовать через геттер.
+     * Lista XML de revisiones. Inicialmente nulo, cargado cuando se accede por primera vez. Utilizar a través de getter.
      */
     private static QRespItem response = null;
 
@@ -208,7 +208,7 @@ public class FWelcome extends javax.swing.JFrame {
      */
     private final transient Thread server = new Thread(new CommandServer());
     /**
-     * Флаг завершения сервера удаленного управления
+     * Indicador de finalización del servidor de control remoto
      */
     boolean exitServer = false;
 
@@ -221,7 +221,7 @@ public class FWelcome extends javax.swing.JFrame {
             try {
                 server = new ServerSocket(netProperty.getClientPort());
             } catch (IOException e) {
-                throw new ClientException("Ошибка при создании серверного сокета: " + e);
+                throw new ClientException("Error al crear el socket del servidor: " + e);
             }
 
             try {
@@ -251,6 +251,10 @@ public class FWelcome extends javax.swing.JFrame {
             }
         }
 
+        /**
+         * Ejecuta un comando a través del socket
+         * @param socket
+         */
         private void doCommand(Socket socket) {
             // From the client's socket we take the stream of incoming data
             final String data;
@@ -321,9 +325,9 @@ public class FWelcome extends javax.swing.JFrame {
             }
         }
     }
-    //*****************************************Сервер удаленного управления ********************************************
+    //***************************************** Servidor de control remoto  ********************************************
     /**
-     * Таймер, по которому будем выходить в корень меню.
+     * El temporizador en el que iremos a la raíz del menú.
      */
     public transient ATalkingClock clockBack = new ATalkingClock(WelcomeParams.getInstance().delayBack, 1) {
 
@@ -334,7 +338,7 @@ public class FWelcome extends javax.swing.JFrame {
         }
     };
     /**
-     * Таймер, по которому будем разблокировать и выходить в корень меню.
+     * El temporizador, que se desbloqueará e irá a la raíz del menú.
      */
     public transient ATalkingClock clockUnlockBack = new ATalkingClock(WelcomeParams.getInstance().delayPrint, 1) {
 
@@ -357,7 +361,7 @@ public class FWelcome extends javax.swing.JFrame {
         Uses.loadPlugins("./plugins/");
         Locale.setDefault(Locales.getInstance().getLangCurrent());
 
-        // выберем нужные языки на велкоме если первый раз запускаем или ключ -clangs
+        // seleccione los idiomas requeridos en el Welcome si ejecuta la primera vez o el interruptor -clangs
         if ((Locales.getInstance().isWelcomeMultylangs() && Locales.getInstance().isWelcomeFirstLaunch()) || QConfig.cfg().isChangeLangs()) {
 
             JFrame form = new FLangsOnWelcome();
@@ -415,7 +419,7 @@ public class FWelcome extends javax.swing.JFrame {
         switch (QConfig.cfg().getWelcomeMode()) {
             case KEY_WELCOME_KBD: {
                 // ***************************************************************************************************************************************
-                // ***  Это клавиатурный ввод символа
+                // ***  This is a keyboard character input.
                 // ***************************************************************************************************************************************
                 QLog.l().logger().info("Keyboard mode is starting...");
 
@@ -750,7 +754,7 @@ public class FWelcome extends javax.swing.JFrame {
                 //setAlwaysOnTop(true);
                 //setResizable(false);
 
-                // спрячем курсор мыши
+                // hide the mouse cursor
                 if (QConfig.cfg().isHideCursor()) {
                     final int[] pixels = new int[16 * 16];
                     final Image image = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, pixels, 0, 16));
@@ -791,7 +795,7 @@ public class FWelcome extends javax.swing.JFrame {
         } catch (MalformedURLException ex) {
             System.err.println("Button icons! " + ex);
         }
-        //На верхней панели пункта регистрации, там где заголовок и картинка в углу, можно вывести вэб-контент по URL. Оставьте пустым если не требуется
+        //On the top panel of the registration point, where the title and the picture are in the corner, you can display the web content by URL. Leave blank if not required.
         if (!WelcomeParams.getInstance().topURL.isEmpty()) {
             panelCaption.removeAll();
             final BrowserFX bro = new BrowserFX();
@@ -894,7 +898,7 @@ public class FWelcome extends javax.swing.JFrame {
     }
 
     /**
-     * Загрузка и инициализация неких параметров из корня дерева описания для старта или реинициализации.
+     * Loading and initialization of certain parameters from the root of the description tree for starting or reinitialization.
      */
     private void loadRootParam() {
         FWelcome.caption = root.getTextToLocale(QService.Field.NAME);
@@ -905,9 +909,9 @@ public class FWelcome extends javax.swing.JFrame {
     }
 
     /**
-     * Это когда происходит авторизация клиента при постановке в очередь, например перед выбором услуге в регистуре, то сюда попадает ID этого авторизованного
-     * пользователя. Дальше этот ID передать в команду постановки предварительного и там если по нему найдется этот клиент, то он должен попасть в табличку
-     * предварительно зарегиных.
+     * This is when the client is authorized when enqueuing, for example, before selecting a service in the registry, then the ID of this authorized gets
+     * user. Then transfer this ID to the pre-production team, and if there is this client on it, then it should go to the nameplate
+     * pre-registered.
      */
     public long advancedCustomer = -1;
 
@@ -942,7 +946,7 @@ public class FWelcome extends javax.swing.JFrame {
                 serialPort.free();
             }
         } catch (Exception ex) {
-            throw new ClientException("Ошибка освобождения порта. " + ex);
+            throw new ClientException("Port freeing error. " + ex);
         }
         super.finalize();
     }
@@ -1007,8 +1011,8 @@ public class FWelcome extends javax.swing.JFrame {
         int cols = 3;
         int rows = 5;
 
-        // посмотрим сколько реальных кнопок нужно отобразить
-        // тут есть невидимые услуги и услуги не с того киоска
+        // see how many real buttons you need to display
+        // there are invisible services and services from the wrong kiosk
         int childCount = 0;
         childCount = current.getChildren().stream().filter((service) -> (!(isAdvanceRegim() && service.getAdvanceLimit() == 0) && service.getStatus() != -1 && (WelcomeParams.getInstance().point == 0 || (service.getPoint() == 0 || service.getPoint() == WelcomeParams.getInstance().point)))).map((_item) -> 1).reduce(childCount, Integer::sum);
 
@@ -1063,12 +1067,12 @@ public class FWelcome extends javax.swing.JFrame {
                     if (btnFreeDesign) {
                         button.setBounds(service.getButX(), service.getButY(), service.getButB(), service.getButH());
                     }
-                    buttonForwardPage.setEnabled((i + 1) != childCount); // это чтоб кнопки листания небыли доступны когда листать дальше некуда
+                    buttonForwardPage.setEnabled((i + 1) != childCount); // This is so that the paging buttons are not available when there is nowhere to scroll further
                 }
                 i++;
             }
         }
-        buttonBackPage.setEnabled(pageNumber > 0); // это чтоб кнопки листания небыли доступны когда листать дальше некуда
+        buttonBackPage.setEnabled(pageNumber > 0); // This is so that the paging buttons are not available when there is nowhere to scroll further
 
         setVisible(true);
         buttonBack.setVisible(current != root);
@@ -1519,6 +1523,10 @@ public class FWelcome extends javax.swing.JFrame {
         printTicketAdvance(advCustomer);
     }
 
+    /**
+     * Prints the ticket for an scheduled appointment
+     * @param advCustomer
+     */
     public static synchronized void printTicketAdvance(final QAdvanceCustomer advCustomer) {
         if (!WelcomeParams.getInstance().print) {
             return;
@@ -1638,12 +1646,12 @@ public class FWelcome extends javax.swing.JFrame {
                             }
                             line = line + 9;
                         } catch (WriterException ex) {
-                            QLog.l().logger().error("Ошибка вывода штрихкода QR. " + ex);
+                            QLog.l().logger().error("Barcode output error on QR. " + ex);
                         }
                     }
                 }
 
-                // если в услуге есть что напечатать на талоне, то напечатаем это на его талоне
+                // if the service has something to print on the ticket, then we will print it on its ticket.
                 if (advCustomer.getService().getTextToLocale(QService.Field.TICKET_TEXT) != null && !advCustomer.getService().getTextToLocale(QService.Field.TICKET_TEXT).isEmpty()) {
                     initY = initY + WelcomeParams.getInstance().lineHeigth / 3;
                     String tt = advCustomer.getService().getTextToLocale(QService.Field.TICKET_TEXT);
@@ -1671,7 +1679,7 @@ public class FWelcome extends javax.swing.JFrame {
                             line = line + 6;
                             write(g2, advCustomer.getId().toString(), ++line, getHAlignment(g2, advCustomer.getId().toString(), 0, 2), 2.0, 1.7, initY);
                         } catch (WriterException ex) {
-                            QLog.l().logger().error("Ошибка вывода штрихкода QR. " + ex);
+                            QLog.l().logger().error("Error : QR barcode failed. " + ex);
                         }
                     }
 
