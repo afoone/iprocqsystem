@@ -131,8 +131,8 @@ import ru.evgenic.rxtx.serialPort.ISerialPort;
 import ru.evgenic.rxtx.serialPort.RxtxSerialPort;
 
 /**
- * Модуль показа окна выбора услуги для постановки в очередь. Created on 8 Сентябрь 2008 г., 16:07 Класс, который покажит форму с кнопками, соответствующими
- * услуга. При нажатии на кнопку, кастомер пытается встать в очередь.
+ * El módulo para mostrar la ventana de selección de servicio para la cola. Creado el 8 de septiembre de 2008 a las 4:07 pm Una clase que muestra un
+ * formulario con botones correspondientes a servicio. Cuando presionas un botón, el cliente intenta ponerse en cola.
  *
  * @author Evgeniy Egorov
  */
