@@ -29,8 +29,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Тут локализация на разные языки текста услуги
+ * Aquí la localización en diferentes idiomas del texto del servicio.
  * @author Evgeniy Egorov
+ * @author afoone@hotmail.com
  *
  */
 @Entity
@@ -53,9 +54,9 @@ public class QServiceLang implements Serializable, IidGetter {
         this.id = id;
     }
     /**
-     * Заголовок окна при вводе на пункте регистрации клиентом каких-то
-     * данных перед постановкой в очередь после выбора услуги.
-     * Также печатается на талоне рядом с введенными данными.
+     * The title of the window when entering at the point of registration by the client of some
+     * data before queuing after selecting a service.
+     * Also printed on the ticket next to the entered data.
      */
     @Column(name = "input_caption")
     @Expose
@@ -70,8 +71,8 @@ public class QServiceLang implements Serializable, IidGetter {
         this.input_caption = input_caption;
     }
     /**
-     * html текст информационного сообщения перед постановкой в очередь
-     * Если этот параметр пустой, то не требуется показывать информационную напоминалку на пункте регистрации
+     * html informational text before queuing
+     * If this parameter is empty, then there is no need to display an information reminder at the registration point.
      */
     @Column(name = "pre_info_html")
     @Expose
@@ -86,7 +87,7 @@ public class QServiceLang implements Serializable, IidGetter {
         this.preInfoHtml = preInfoHtml;
     }
     /**
-     * текст для печати при необходимости перед постановкой в очередь
+     * text to print, if necessary, before enqueuing
      */
     @Column(name = "pre_info_print_text")
     @Expose
@@ -101,7 +102,7 @@ public class QServiceLang implements Serializable, IidGetter {
         this.preInfoPrintText = preInfoPrintText;
     }
     /**
-     * текст для печати при необходимости перед постановкой в очередь
+     * text to print, if necessary, before enqueuing
      */
     @Column(name = "ticket_text")
     @Expose
@@ -117,7 +118,7 @@ public class QServiceLang implements Serializable, IidGetter {
     }
     
     /**
-     * текст для вывода на главное табло в шаблоны панели вызванного и третью колонку пользователя
+     * text to be displayed on the main board in the templates of the panel called and the third column of the user
      */
     @Column(name = "tablo_text")
     @Expose
@@ -125,7 +126,7 @@ public class QServiceLang implements Serializable, IidGetter {
     private String tabloText = "";
 
     /**
-     * текст для вывода на главное табло в шаблоны панели вызванного и третью колонку пользователя
+     * text to be displayed on the main board in the templates of the panel called and the third column of the user
      * @return строчеп из БД
      */
     public String getTabloText() {
@@ -145,7 +146,7 @@ public class QServiceLang implements Serializable, IidGetter {
         return getLang() + " " + getName();
     }
     /**
-     * Описание услуги.
+     * Description of services.
      */
     @Expose
     @SerializedName("description")
@@ -160,7 +161,7 @@ public class QServiceLang implements Serializable, IidGetter {
         return description;
     }
     /**
-     * Идентификатор языка, вообще любой текст, хоть кaрело-финский заводи
+     * Language identifier, generally any text, even Finnish creek
      */
     @Expose
     @SerializedName("lang")
@@ -175,7 +176,7 @@ public class QServiceLang implements Serializable, IidGetter {
         this.lang = lang;
     }
     /**
-     * Наименование услуги.
+     * Name of service.
      */
     @Expose
     @SerializedName("name")
@@ -191,7 +192,7 @@ public class QServiceLang implements Serializable, IidGetter {
         return name;
     }
     /**
-     * Надпись на кнопке услуги.
+     * The inscription on the service button.
      */
     @Expose
     @SerializedName("buttonText")
