@@ -1712,7 +1712,8 @@ public final class Executer {
 
 
     /**
-     * Поставить кастомера в очередь предварительно записанного. Проверить бронь, поставить или отказать.
+     * Put the customer in the pre-recorded queue. Check booking, deliver or refuse.
+     * @author afoone@hotmail.com
      */
     final Task standAdvanceCheckAndStand = new Task(Uses.TASK_ADVANCE_CHECK_AND_STAND) {
 
@@ -1723,9 +1724,9 @@ public final class Executer {
             // Вытащим из базы предварительного кастомера
             final QAdvanceCustomer advCust = Spring.getInstance().getHt().get(QAdvanceCustomer.class, cmdParams.customerId);
             if (advCust == null || advCust.getId() == null || advCust.getAdvanceTime() == null) {
-                QLog.l().logger().debug("не найден клиент по его ID=" + cmdParams.customerId + " " + ipAdress);
+                QLog.l().logger().debug("client not found by its ID=" + cmdParams.customerId + " " + ipAdress);
                 // Шлем отказ
-                return new RpcStandInService(null, "Не верный номер предварительной записи.");
+                return new RpcStandInService(null, "Código de pre-registro inválido.");
             }
             final GregorianCalendar gc = new GregorianCalendar();
             gc.setTime(advCust.getAdvanceTime());
@@ -1743,10 +1744,10 @@ public final class Executer {
                     protected void doInTransactionWithoutResult(TransactionStatus status) {
                         try {
                             Spring.getInstance().getHt().delete(advCust);
-                            QLog.l().logger().debug("Удалили предварителньную запись о кастомере." + " " + ipAdress);
+                            QLog.l().logger().debug("Removed the preliminary record of the customer." + " " + ipAdress);
                         } catch (Exception ex) {
                             status.setRollbackOnly();
-                            throw new ServerException("Ошибка при удалении \n" + ex.toString() + "\n" + Arrays.toString(ex.getStackTrace()) + " " + ipAdress);
+                            throw new ServerException("Delete error \n" + ex.toString() + "\n" + Arrays.toString(ex.getStackTrace()) + " " + ipAdress);
                         }
                     }
                 });
@@ -1769,7 +1770,7 @@ public final class Executer {
         }
     };
     /**
-     * Удалить предварительно записанного кастомера
+     * Delete pre-registered custom
      */
     final Task removeAdvanceCustomer = new Task(Uses.TASK_REMOVE_ADVANCE_CUSTOMER) {
 

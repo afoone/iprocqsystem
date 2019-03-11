@@ -1,5 +1,5 @@
 ./gradlew aCiVersion
 ./gradlew build
 ./gradlew copylib
-i#./gradlew izPackCreateInstaller
+#./gradlew izPackCreateInstaller
 #./gradlew bzipCi

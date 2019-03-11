@@ -27,9 +27,9 @@ public class JsonRPC20Error extends AJsonRPC20 {
 
     public enum ErrorMsg {
         UNKNOWN_ERROR(-1, "Unknown error."),
-        RESPONCE_NOT_SAVE(2, "Не сохранили отзыв в базе."),
-        POSTPONED_NOT_FOUND(3, "Отложенный пользователь не найден по его ID."),
-        ADVANCED_NOT_FOUND(4, "Не верный номер предварительной записи."),
+        RESPONCE_NOT_SAVE(2, "Do not save feedback in the database."),
+        POSTPONED_NOT_FOUND(3, "The postponed user was not found by his ID."),
+        ADVANCED_NOT_FOUND(4, "Código de pre-registro inválido."),
         REQUIRED_CUSTOMER_NOT_FOUND(5, "Customer not found but required.");
 
         final String message;
