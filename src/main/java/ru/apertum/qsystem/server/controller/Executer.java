@@ -123,13 +123,13 @@ public final class Executer {
      * Конструктор пула очередей Также нужно оперделить способ вывода информации для клиентов на табло.
      */
     private Executer() {
-        // поддержка расширяемости плагинами
+        // plugin extensibility support
         for (final ITask task : ServiceLoader.load(ITask.class)) {
             QLog.l().logger().info("Load extra task: " + task.getDescription());
             try {
                 tasks.put(task.getName(), task);
             } catch (Exception tr) {
-                QLog.l().logger().error("Вызов SPI расширения завершился ошибкой. Описание: " + tr);
+                QLog.l().logger().error("Expansion failed. Call SPI . Description: " + tr);
             }
         }
     }
@@ -186,15 +186,15 @@ public final class Executer {
     }
 
     /**
-     * Ключ блокировки для манипуляции с кстомерами
+     * Lock key for manipulation with kstomery
      */
     public static final Lock CLIENT_TASK_LOCK = new ReentrantLock();
     /**
-     * Ключ блокировки для манипуляции с отложенными. Когда по таймеру они выдергиваются. Не нужно чтоб перекосило вызовом от пользователя
+     * Key lock for manipulation with deferred. When on the timer they are pulled out. No need to skew a call from the user
      */
     public static final Lock POSTPONED_TASK_LOCK = new ReentrantLock();
     /**
-     * Ставим кастомера в очередь.
+     * Put the customer in the queue.
      */
     final AddCustomerTask addCustomerTask = new AddCustomerTask(Uses.TASK_STAND_IN);
 
@@ -261,7 +261,7 @@ public final class Executer {
     }
 
     /**
-     * Ставим кастомера в очередь к нескольким услугам.
+     * We put the customer in a queue for several services.
      *
      * @return
      */
@@ -273,7 +273,7 @@ public final class Executer {
 
             Long serviceID = null;
 
-            // поддержка расширяемости плагинами
+            // plugin extensibility support
             for (final ISelectNextService event : ServiceLoader.load(ISelectNextService.class)) {
                 QLog.l().logger().info("Вызов SPI расширения. Описание: " + event.getDescription() + " " + ipAdress);
                 try {
@@ -314,11 +314,11 @@ public final class Executer {
                 }
             }
             if (serviceID == null) {
-                throw new ServerException("Ошибка поставить в очередь к многим услугам. Услуг не найдено." + " " + ipAdress);
+                throw new ServerException("Error to queue to many services. Services not found." + " " + ipAdress);
             }
 
-            // создаем кастомера вызвав задание по созданию кастомера
-            // загрузим задание
+            // create custom by calling custom creation task
+            // load the task
             cmdParams.serviceId = serviceID;
             final RpcStandInService txtCustomer = addCustomerTask.process(cmdParams, ipAdress, ip);
             txtCustomer.getResult().setComplexId(cmdParams.complexId);
@@ -326,8 +326,10 @@ public final class Executer {
 
         }
     };
+
+
     /**
-     * Пригласить кастомера, первого в очереди.
+     * Invite a customer first in line.
      */
     final Task inviteCustomerTask = new Task(Uses.TASK_INVITE_NEXT_CUSTOMER) {
 
@@ -360,7 +362,7 @@ public final class Executer {
                     } catch (Exception ex) {
                         QLog.l().logger().error("Error of sound player!", ex);
                     }
-                    // Должно высветитьсяна основном табло
+                    // Should be highlighted on the main board
                     MainBoard.getInstance().inviteCustomer(user, user.getCustomer());
                 }
                 usrs.remove(user);
