@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Logger;
 
 import org.dom4j.DocumentHelper;
 import org.hibernate.criterion.DetachedCriteria;
@@ -335,13 +336,19 @@ public final class Executer {
 
         private final HashSet<QUser> usrs = new HashSet<>();
 
+
+
+
         class MyRun implements Runnable {
 
             private QUser user;
             private boolean isFrst;
 
+
+
             @Override
             public void run() {
+                QLog.l().logger().error("inviting next customer now");
                 final long delta = System.currentTimeMillis() - user.getCustomer().getStandTime().getTime();
                 if (delta < QConfig.cfg().getDelayFirstInvite() * 1000) {
                     try {
@@ -350,7 +357,7 @@ public final class Executer {
                         Thread.currentThread().interrupt();
                     }
                 }
-                // просигналим звуком
+                // beep sound
                 if (user.getCustomer() != null && (user.getCustomer().getState() == CustomerState.STATE_WAIT
                         || user.getCustomer().getState() == CustomerState.STATE_INVITED_SECONDARY
                         || user.getCustomer().getState() == CustomerState.STATE_INVITED
@@ -383,15 +390,15 @@ public final class Executer {
         }
 
         /**
-         * Cинхронизируем, а-то вызовут одного и того же. А еще сдесь надо вызвать метод, который "проговорит" кого и куда вазвали. Может случиться ситуация
-         * когда двое вызывают последнего кастомера, первому достанется, а второму нет.
+         * Synchronize, but something will cause the same. And here it is necessary to call a method that "speaks" of whom and where they called. Situation might happen
+                   * when two call the last customer, the first will get, and the second will not.
          */
         @Override
         public synchronized RpcInviteCustomer process(CmdParams cmdParams, String ipAdress, byte[] ip) {
             super.process(cmdParams, ipAdress, ip);
-            // Определить из какой очереди надо выбрать кастомера.
-            // Пока без учета коэфициента.
-            // Для этого смотрим первых кастомеров во всех очередях и ищем первого среди первых.
+            // Determine which queue to choose from.
+            // So far, without taking into account the coefficient.
+            // To do this, look at the first customers in all queues and look for the first among the first.
             final QUser user = QUserList.getInstance().getById(cmdParams.userId); // юзер
             final boolean isRecall = user.getCustomer() != null && (CustomerState.STATE_INVITED.equals(user.getCustomer().getState()) || CustomerState.STATE_INVITED_SECONDARY.equals(user.getCustomer().getState()));
 

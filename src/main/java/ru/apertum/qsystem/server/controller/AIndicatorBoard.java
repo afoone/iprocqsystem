@@ -27,22 +27,23 @@ import ru.apertum.qsystem.common.model.QCustomer;
 import ru.apertum.qsystem.server.model.QUser;
 
 /**
- * Базовый класс для классов вывода. Сдесь реализован движок хранения и управления строками и прочий инфой для вывода инфы. При непосредственным выводом на
- * табло нужно вызвать этот метод markShowed(), чтоб промаркировать записи как начавшие висеть.
+ * Base class for output classes. Here is implemented the engine for storing and managing strings and other info for displaying information. With direct output to
+ * the board needs to call this method markShowed () to mark the records as started to hang.
  *
  * @author Evgeniy Egorov
+ * @author Alfonso Tienda
  */
 abstract public class AIndicatorBoard implements IIndicatorBoard {
 
     /**
-     * Количество строк на табло. Реализовать под конкретное табло.
+     * The number of lines on the scoreboard. Implement a specific scoreboard.
      *
-     * @return Количество строк на табло.
+     * @return The number of lines on the scoreboard.
      */
     abstract protected Integer getLinesCount();
 
     /**
-     * Задержка обновления главного табло в секундах.
+     * Delay update the main display in seconds.
      */
     private Integer pause = 0;
 
@@ -54,14 +55,15 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
         this.pause = pause;
     }
     //***********************************************************************
-    //*************** Работа с хранением строк ******************************
+    //*************** Working with storing strings ******************************
     /**
-     * Список отображаемых строк Название юзера, создавшего эту строку на табло(Это идентификатор строк, т.к. имя позьзователя уникально в системе) - строка
+     * List of displayed lines The name of the user who created this line on the display (
+     * This is the identifier of the lines, because the name of the user is unique in the system) - the line
      */
     protected final LinkedHashMap<String, Record> records = new LinkedHashMap<>();
 
     /**
-     * Добавляет запись в хвост списка отображения Делает ее еще не отображенной. Мигание переехало в табло.
+     * Adds an entry to the tail of the display list. Makes it not yet displayed. Blinking moved to the board.
      *
      * @param record
      */
@@ -107,7 +109,7 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
     }
 
     /**
-     * Класс одной строки.
+     * Class one line, esto es un registro de un elemento a llamar, de la cola
      */
     public class Record implements Comparable<Record> {
 
@@ -120,8 +122,21 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
             return customerNumber + "-" + point;
         }
 
+        public String toJSON() {
+            return "{ \"customerPrefix\": \""+customerPrefix+"\", "+
+                    "\"customerNumber\": \""+customerNumber+"\", " +
+                    "\"point\": \""+point+"\", " +
+                    "\"userName\": \""+userName+"\", " +
+                    "\"addressRS\": \""+adressRS+"\", " +
+                    "\"ext_data\": \""+ext_data+"\", " +
+                    "\"interval\": \""+interval+"\", " +
+                    "\"isShowed\": \""+isShowed+"\", " +
+                    "\"state\": \""+state+"\" " + //Última línea sin coma..
+                    "}";
+        }
+
         /**
-         * Название юзера, создавшего эту строку на табло. Это идентификатор строк, т.к. имя позьзователя уникально в системе.
+         * The name of the user who created this line on the scoreboard. This is the row ID, because The name of the user is unique in the system.
          */
         final private String userName;
 
@@ -131,17 +146,17 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
 
         final public Integer interval;
         /**
-         * При RS это адрес устройства. При мониторе это норядковый номер вывода
+         * With RS, this is the device address. When the monitor is the normal output number
          */
         final public Integer adressRS;
         final public String ext_data;
         /**
-         * Отвесела на табло или нет.
+         * Gone on the scoreboard or not.
          */
         private boolean isShowed = false;
 
         /**
-         * Уже показалась сколько надо
+         * Already seemed how much you need
          *
          * @return
          */
@@ -150,7 +165,7 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
         }
 
         /**
-         * значения состояния "очередника"
+         * state values of "waiting list"
          */
         private CustomerState state = CustomerState.STATE_INVITED;
 
@@ -163,12 +178,12 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
         }
 
         /**
-         * При создании строка попадает в список отображения с признаком того что еще не отвесела. Таймер висения включеется когда строка попадает на табло.
+         * When creating a line gets to the display list with a sign that it is not weighed. The hover timer is turned on when the line hits the scoreboard.
          *
          * @param userName
-         * @param point          номер кабинета куда вызвали кастомера.
+         * @param point          office number where called custom.
          * @param customerPrefix
-         * @param customerNumber номер кастомера о ком запись.
+         * @param customerNumber custom number about whom record.
          * @param ext_data       третья колонка
          * @param adressRS       адрес клиентского табло.
          * @param interval       обязательное время висения строки на табло в секундах
@@ -206,12 +221,12 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
         }
 
         /**
-         * Таймер время висения на табло.
+         * Timer hover time on the scoreboard.
          */
         final private ATalkingClock showTimer;
 
         /**
-         * Запись попала на табло.
+         * The record hit the scoreboard.
          */
         public void startVisible() {
             if (!showTimer.isActive()) {
@@ -251,9 +266,9 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
                             replaceAll("(#inputed)", !customer.getService().getInputedAsExt() || customer.getInput_data() == null ? "" : customer.getInput_data()),
                     user.getAdressRS(), getPause());
         } else {
-            // параллельный вызов надо учесть
-            // т.е. сразу после вызова и начала работы с одним кастомером, оператор может вызвать еще одного
-            // получается что уже вызов висит и ему нужно изменить номер вызванного и его статус, а кабинет тот же.
+            // parallel call must be considered
+            // i.e. immediately after the call and start working with one user, the operator can call another
+            // it turns out that the call is already hanging and he needs to change the called number and his status, but the cabinet is the same.
             if (!rec.customerPrefix.equalsIgnoreCase(customer.getPrefix()) || !rec.customerNumber.equals(customer.getNumber())) {
                 rec.customerPrefix = customer.getPrefix();
                 rec.customerNumber = customer.getNumber();
@@ -265,15 +280,15 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
     }
 
     /**
-     * На табло оператора долженн перестать мигать номер вызываемого клиента
+     * The number of the client being called must stop blinking on the operator’s display.
      *
-     * @param user пользователь, который начал работать с клиентом.
+     * @param user the user who started working with the client.
      */
     @Override
     @SuppressWarnings("empty-statement")
     public synchronized void workCustomer(QUser user) {
         Record rec = records.get(user.getName());
-        //запись может быть не найдена после рестарта сервера, список номеров на табло не бакапится
+        // the record may not be found after the server restart, the list of numbers on the scoreboard is not found
         if (rec == null) {
             rec = new Record(user.getName(), user.getPoint(), ((QUser) user).getCustomer().getPrefix(), ((QUser) user).getCustomer().getNumber(),
                     user.getPointExt().replaceAll("(#client)", ((QUser) user).getCustomer().getFullNumber()).replaceAll("(#point)", user.getPoint()).
@@ -286,14 +301,14 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
     }
 
     /**
-     * На табло по определенному адресу должно отчистиццо табло
+     * On the scoreboard at a specific address must clean the scoreboard
      *
-     * @param user пользователь, который удалил клиента.
+     * @param user The user who deleted the client.
      */
     @Override
     public synchronized void killCustomer(QUser user) {
         final Record rec = records.get(user.getName());
-        //запись может быть не найдена после рестарта сервера, список номеров на табло не бакапится
+        // the record may not be found after the server restart, the list of numbers on the scoreboard is not found
         if (rec != null) {
             rec.setState(CustomerState.STATE_DEAD);
             removeItem(rec);
@@ -302,7 +317,7 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
     }
 
     /**
-     * Выключить информационное табло.
+     * Turn off the information board.
      */
     @Override
     public synchronized void close() {
@@ -311,7 +326,7 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
 
     //**************************************************************************
     //************************** Другие методы *********************************
-    // чтоб отсеч дублирование
+    // to cut off duplication
     private Record oldRec = null;
     private LinkedList<Record> oldList = new LinkedList<>();
 
@@ -331,7 +346,7 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
     }
 
     /**
-     * Тут вся иллюминация
+     * Here is the whole illumination
      *
      * @param record
      */
@@ -355,7 +370,7 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
     }
 
     /**
-     * При непосредственным выводом на табло нужно вызвать этот метод, чтоб промаркировать записи как начавшие висеть.
+     * With the direct output on the scoreboard, you need to call this method to mark the records as started to hang.
      *
      * @param list список выводимых звписей.
      */

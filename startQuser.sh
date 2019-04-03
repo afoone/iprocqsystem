@@ -1,0 +1,1 @@
+chromium --kiosk http://localhost:8081/quser/
