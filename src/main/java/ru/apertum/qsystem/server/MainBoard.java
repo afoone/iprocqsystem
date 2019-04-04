@@ -24,7 +24,7 @@ import ru.apertum.qsystem.server.htmlboard.QIndicatorHtmlboard;
 
 /**
  *
- * @author egorov
+ * @author afoone@hotmail.com
  */
 public class MainBoard {
 
@@ -44,7 +44,7 @@ public class MainBoard {
             // поддержка расширяемости плагинами
             IIndicatorBoard res = null;
             for (final IIndicatorBoard board : ServiceLoader.load(IIndicatorBoard.class)) {
-                QLog.l().logger().info("Вызов SPI расширения. Описание: " + board.getDescription());
+                QLog.l().logger().info("No se ha iniciado el panel de llamada. Razón: " + board.getDescription());
                 res = board;
                 break;
             }
