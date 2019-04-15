@@ -40,7 +40,7 @@ import ru.apertum.qsystem.server.model.QServiceTree;
 import ru.apertum.qsystem.server.model.QUser;
 
 /**
- * Вывод информации на мониторы. Класс-менеджер вывода информации на общее табло в виде монитора.
+ * Display information on monitors. Class manager of information output on a common board in the form of a monitor.
  *
  * @author Evgeniy Egorov
  */
@@ -73,14 +73,14 @@ public class QIndicatorBoardMonitor extends AIndicatorBoard {
     }
 
     /**
-     * Создадим форму, спозиционируем, сконфигурируем и покажем
-     */
+    * Create a form, position, configure and show
+    */
     protected void initIndicatorBoard() {
         if (indicatorBoard == null) {
             final Element rootParams = getConfig();
             indicatorBoard = FIndicatorBoard.getIndicatorBoard(rootParams);
             if (indicatorBoard == null) {
-                QLog.l().logger().warn("Табло не демонстрируется. Отключено в настройках.");
+                QLog.l().logger().warn("The scoreboard is not shown. Disabled in settings.");
                 return;
             }
             try {
@@ -88,10 +88,10 @@ public class QIndicatorBoardMonitor extends AIndicatorBoard {
             } catch (IOException ex) {
                 System.err.println(ex);
             }
-            // Определим форму на монитор
+            // Define the shape of the monitor
             indicatorBoard.toPosition(QConfig.cfg().isDebug(), Integer.parseInt(rootParams.attributeValue("x")), Integer.parseInt(rootParams.attributeValue("y")));
 
-            // ушло в абстрактный метод setLinesCount(indicatorBoard.getLinesCount());
+            // went to the abstract method setLinesCount (indicatorBoard.getLinesCount ());
             setPause(indicatorBoard.getPause());
             if (!records.isEmpty()) {
                 showOnBoard(new LinkedList<>(records.values()));
@@ -190,12 +190,12 @@ public class QIndicatorBoardMonitor extends AIndicatorBoard {
             try {
                 return new SAXReader(false).read(boardFile).getRootElement();
             } catch (DocumentException ex) {
-                QLog.l().logger().error("Невозможно прочитать файл конфигурации главного табло. " + ex.getMessage());
-                return DocumentHelper.createElement("Ответ");
+                QLog.l().logger().error("Unable to read main board configuration file. " + ex.getMessage());
+                return DocumentHelper.createElement("Answer");
             }
         } else {
-            QLog.l().logger().warn("Файл конфигурации главного табло \"" + configFile + "\" не найден. ");
-            return DocumentHelper.createElement("Ответ");
+            QLog.l().logger().warn("main board configuration file \"" + configFile + "\" not found. ");
+            return DocumentHelper.createElement("Answer");
         }
     }
 
@@ -219,13 +219,13 @@ public class QIndicatorBoardMonitor extends AIndicatorBoard {
     }
 
     /**
-     * Используемая ссылка на диалоговое окно. Singleton
-     */
+    * Used link to the dialog box. Singleton
+    */
     private static FBoardConfig boardConfig;
 
     @Override
     public void showBoard() {
-        // Для прерывания звука в роликах при звуковом оповещении.
+        // To interrupt the sound in the rollers when sound notification.
         SoundPlayer.setStartListener(e -> setMute(true));
         SoundPlayer.setFinishListener(e -> setMute(false));
         initIndicatorBoard();
@@ -259,7 +259,7 @@ public class QIndicatorBoardMonitor extends AIndicatorBoard {
 
     @Override
     public String getDescription() {
-        return "Default Tablo.";
+        return "Default Table.";
     }
 
     @Override

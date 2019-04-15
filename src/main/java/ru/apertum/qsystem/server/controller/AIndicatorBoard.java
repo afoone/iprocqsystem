@@ -75,7 +75,7 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
     }
 
     /**
-     * Убрать запись. Кастомер домой ушел.
+     * Eliminamos el registro. El cliente se fué a casa. 
      *
      * @param record
      */
@@ -83,16 +83,21 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
         records.remove(record.userName);
     }
 
+
+    /**
+     * Devuelve los registros a mostrar
+     * @return
+     */
     protected LinkedList<Record> getShowRecords() {
         ArrayList<Record> arr = new ArrayList<>(records.values());
-        // перевернуть массив, так как добавленные валятся в конец, а выводить их первыми
+        // flip the array, since the added ones fall to the end, and display them first
         for (int i = 0; i < arr.size() / 2; i++) {
             final Record a_i = arr.get(i);
             arr.set(i, arr.get(arr.size() - 1 - i));
             arr.set(arr.size() - 1 - i, a_i);
         }
 
-        int pos = -1; // позиция последнего не отвесевшего.
+        int pos = -1; // the position of the latter is not weighty.
         for (int i = 0; i < arr.size(); i++) {
             if (!arr.get(i).isShowed()) {
                 pos = i;
@@ -184,11 +189,12 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
          * @param point          office number where called custom.
          * @param customerPrefix
          * @param customerNumber custom number about whom record.
-         * @param ext_data       третья колонка
-         * @param adressRS       адрес клиентского табло.
-         * @param interval       обязательное время висения строки на табло в секундах
+         * @param ext_data       third column
+         * @param adressRS       client's address.
+         * @param interval       mandatory time of hanging the line on the scoreboard in seconds
          */
-        public Record(String userName, String point, String customerPrefix, Integer customerNumber, String ext_data, Integer adressRS, Integer interval) {
+        public Record ( String userName, String point, String customerPrefix, Integer customerNumber, 
+                        String ext_data, Integer adressRS, Integer interval) {
             this.ext_data = ext_data;
             this.adressRS = adressRS;
             this.customerPrefix = customerPrefix;
@@ -254,7 +260,7 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
         }
     }
     //**************************************************************************
-    //************************** Методы взаимодействия *************************
+    //************************** Interaction methods *************************
 
     @Override
     public synchronized void inviteCustomer(QUser user, QCustomer customer) {
@@ -325,7 +331,7 @@ abstract public class AIndicatorBoard implements IIndicatorBoard {
     }
 
     //**************************************************************************
-    //************************** Другие методы *********************************
+    //************************** Otros métodos *********************************
     // to cut off duplication
     private Record oldRec = null;
     private LinkedList<Record> oldList = new LinkedList<>();

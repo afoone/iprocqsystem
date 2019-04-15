@@ -1,0 +1,6 @@
+#FileLock
+#Sun Apr 14 21:40:45 CEST 2019
+hostName=atienda
+id=16a1d5dc4e755782f924bd670e70f66ee6e4e6b48bb
+method=file
+server=127.0.1.1\:37333

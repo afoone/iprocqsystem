@@ -81,9 +81,10 @@ public class QUser implements IidGetter, Serializable {
     }
 
     /**
-     * Если нужно для пользователя что-то сохранять в системных параметрах, то это надо сохранять в секцию для этой конкретного пользователя.
+     * If it is necessary for the user to save something in the system parameters, 
+     * then it should be saved in the section for this particular user.
      *
-     * @return Имя секции в системных параметах для конкретно этого пользователя.
+     * @return Section name in system parameters for this particular user.
      */
     @Transient
     public String getSectionName() {
@@ -91,7 +92,7 @@ public class QUser implements IidGetter, Serializable {
     }
 
     /**
-     * признак удаления с проставленим даты
+     * deletion flag with date stamped
      */
     @Column(name = "deleted")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -106,7 +107,8 @@ public class QUser implements IidGetter, Serializable {
     }
 
     /**
-     * Удаленный или нет. Нельзя их из базы гасить чтоб констрейнты не поехали. 0 - удаленный 1 - действующий Только для БД.
+     * Remote or not. You can not extinguish them from
+     * the database so that the constraints did not go. 0 - remote 1 - valid Only for the database.
      */
     @Expose
     @SerializedName("enable")
@@ -264,16 +266,16 @@ public class QUser implements IidGetter, Serializable {
     }
 
     /**
-     * текст для вывода на главное табло в шаблоны панели вызванного и третью колонку пользователя
+     * text to be displayed on the main board in the templates of the panel called and the third column of the user
      */
     @Expose
     @SerializedName("tablo_text")
     private String tabloText = "";
 
     /**
-     * текст для вывода на главное табло в шаблоны панели вызванного и третью колонку пользователя
+     * text to be displayed on the main board in the templates of the panel called and the third column of the user
      *
-     * @return строчеп из БД
+     * @return from the database
      */
     @Column(name = "tablo_text")
     public String getTabloText() {
@@ -285,9 +287,10 @@ public class QUser implements IidGetter, Serializable {
     }
     //******************************************************************************************************************
     //******************************************************************************************************************
-    //************************************** Услуги юзера **************************************************************
+    //************************************** User Services *************************************************************
     /**
-     * Множество услуг, которые обрабатывает юзер. По наименованию услуги получаем Класс - описалово участия юзера в этой услуге/ Имя услуги - IProperty
+     * Many services that are processed by the user. By the name of the service we get 
+     * Class - described by the user in this service / Name of the service - IProperty
      */
     @Expose
     @SerializedName("plan")

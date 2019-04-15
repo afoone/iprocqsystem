@@ -522,16 +522,15 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * текст для вывода на главное табло в шаблоны панели вызванного и третью колонку пользователя
-     */
+    * text to be displayed on the main board in the templates of the panel called and the third column of the user
+    */
     @Column(name = "tablo_text")
     @Expose
     @SerializedName("tablo_text")
     private String tabloText = "";
 
     /**
-     * текст для вывода на главное табло в шаблоны панели вызванного и третью колонку пользователя
-     *
+     * text to be displayed on the main board in the templates of the panel called and the third column of the user
      * @return строчеп из БД
      */
     public String getTabloText() {

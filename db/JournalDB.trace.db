@@ -152,3 +152,6 @@ Caused by: org.h2.jdbc.JdbcSQLException: La conexión no fue cerrada por la apli
 The connection was not closed by the application and is garbage collected [90018-185]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
 	... 15 more
+04-10 10:52:49 jdbc[33]: exception
+org.h2.jdbc.JdbcSQLException: El objeto ya está cerrado
+The object is already closed [90007-185]
