@@ -33,7 +33,7 @@ import ru.apertum.qsystem.common.exceptions.ServerException;
 import ru.apertum.qsystem.server.model.IidGetter;
 
 /**
- * Класс плана для расписания.
+ * Class plan for the schedule.
  *
  * @author Evgeniy Egorov
  */
@@ -92,13 +92,13 @@ public class QSchedule implements IidGetter, Serializable {
         return name;
     }
     /**
-     * Тип плана 0 - недельный 1 - четные/нечетные дни
+     * Type of plan 0 - weekly 1 - even / odd days
      */
     @Column(name = "type")
     private Integer type;
 
     /**
-     * Тип плана 0 - недельный 1 - четные/нечетные дни
+     * Type of plan 0 - weekly 1 - even / odd days
      *
      * @return Тип плана
      */
@@ -111,7 +111,7 @@ public class QSchedule implements IidGetter, Serializable {
     }
 
     /**
-     * Начало и конец рабочего дня, к примеру.
+     * The beginning and end of the working day, for example.
      */
     public static class Interval {
 

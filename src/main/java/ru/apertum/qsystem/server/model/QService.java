@@ -695,7 +695,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     private int dayAdvs = -100; // для смены дня проверки
 
     /**
-     * Узнать сколько предварительно записанных для этой услуги на дату
+     * Averigüe cuántos están pregrabados para este servicio a la fecha.
      *
      * @param date        на эту дату узнаем количество записанных предварительно
      * @param strictStart false - просто количество записанных на этот день, true - количество записанных на этот день начиная с времени date
@@ -759,8 +759,8 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
         if (getPersonDayLimit() <= cnt) {
             return cnt;
         }
-        QLog.l().logger().trace("Load already processed customizers with the same data \"" + data + "\"");
-        // Загрузим уже обработанных кастомеров
+        QLog.l().logger().trace("Load already processed customers with the same data \"" + data + "\"");
+        // Descargar clientes ya procesados
         final GregorianCalendar gc = new GregorianCalendar();
         gc.set(GregorianCalendar.HOUR, 0);
         gc.set(GregorianCalendar.MINUTE, 0);
@@ -778,14 +778,14 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
                 + " and start_time <= '" + Uses.FORMAT_FOR_REP.format(finish) + "' "
                 + " and  input_data = '" + data + "' "
                 + " and service_id = " + getId());
-        QLog.l().logger().trace("Загрузили уже обработанных кастомеров с такими же данными \"" + data + "\". Их " + (cnt + custs.size()));
+        QLog.l().logger().trace("Clientes cargados ya procesados con los mismos datos.\"" + data + "\". Su " + (cnt + custs.size()));
         return cnt + custs.size();
     }
 
     /**
-     * Иссяк лимит на возможных обработанных в день по услуге или нет
+     * Se superó el límite de lo posible procesado por día para el servicio o no.
      *
-     * @return true - превышен, в очередь становиться нельзя; false - можно в очередь встать
+     * @return true - excedido, no se puede poner en cola; falso - puedes ponerte en linea
      */
     public boolean isLimitPerDayOver() {
         final Date now = new Date();
@@ -805,7 +805,8 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Получить количество талонов, которые все еще можно выдать учитывая ограничение на время работы с одним клиетом
+     * Obtenga la cantidad de cupones que aún se pueden emitir dado el
+     * límite de tiempo para trabajar con un cliente
      *
      * @return оставшееся время работы по услуге / ограничение на время работы с одним клиетом
      */
@@ -858,7 +859,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
                     }
                 }
             }
-            QLog.l().logger().trace("Осталось рабочего времени " + (dif / 1000 / 60) + " минут. Если на каждого " + getDayLimit() + " минут, то остается принять " + (dif / 1000 / 60 / getDayLimit()) + " посетителей.");
+            QLog.l().logger().trace("Tiempo restante " + (dif / 1000 / 60) + " минут. Если на каждого " + getDayLimit() + " минут, то остается принять " + (dif / 1000 / 60 / getDayLimit()) + " посетителей.");
             return dif / 1000 / 60 / getDayLimit();
         } else {
             return Integer.MAX_VALUE;
@@ -866,7 +867,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Сколько кастомеров уже прошло услугу сегодня
+     * Cuántos clientes ya han pasado el servicio hoy
      */
     @Transient
     @Expose
@@ -882,7 +883,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Текущий день, нужен для учета количества кастомеров обработанных в этой услуге в текущий день
+     * El día actual es necesario para tener en cuenta la cantidad de clientes procesados en este servicio en el día actual.
      */
     @Transient
     @Expose
@@ -902,8 +903,8 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Можно изменить текущий номер талона. Это нужно если у вас услуга-рулон. Повесили новый пулон, там на конце болтается какой-то номер, его выставили
-     * текущим.
+     * Puede cambiar el número de cupón actual. Esto es necesario si tienes un servicio de rollo.
+     * Colgaron un pulon nuevo, había un número colgado al final, lo pusieron al corriente.
      *
      * @param newCurrent этот и будет текущим.
      */
@@ -934,37 +935,39 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     // ***************************************************************************************
-    // ********************  МЕТОДЫ УПРАВЛЕНИЯ ЭЛЕМЕНТАМИ И СТРУКТУРЫ ************************  
+    // ********************  MÉTODOS DE GESTIÓN Y ESTRUCTURA DE ELEMENTOS************************
     // ***************************************************************************************
 
     /**
-     * Добавить в очередь при этом проставится название сервиса, в который всрал, и его описание, если у кастомера нету префикса, то проставится и префикс.
+     * Agregue a la cola al mismo tiempo escriba el nombre del servicio,
+     * en el que se puso, y su descripción, si el cliente no tiene prefijo,
+     * también se ingresará el prefijo.
      *
-     * @param customer это кастомер которого добавляем в очередь к услуге
+     * @param customer Este es el usuario que se agrega a la cola para el servicio
      */
     public void addCustomer(QCustomer customer) {
         if (customer.getPrefix() == null) {
             customer.setPrefix(getPrefix());
         }
         if (!getCustomers().add(customer)) {
-            throw new ServerException("Невозможно добавить нового кастомера в хранилище кастомеров.");
+            throw new ServerException("Es imposible agregar un nuevo cliente al almacenamiento del cliente..");
         }
 
-        // поддержка расширяемости плагинами/ определим куда влез клиент
+        // Soporte para extensibilidad por plugins / determinar donde el cliente se encoló
         QCustomer before = null;
         QCustomer after = null;
         for (Iterator<QCustomer> itr = getCustomers().iterator(); itr.hasNext(); ) {
             final QCustomer c = itr.next();
             if (!customer.getId().equals(c.getId())) {
                 if (customer.compareTo(c) == 1) {
-                    // c - первее, определяем before
+                    // c - primero, definimos before
                     if (before == null) {
                         before = c;
                     } else if (before.compareTo(c) == -1) {
                         before = c;
                     }
                 } else if (customer.compareTo(c) != 0) {
-                    // c - после, определяем after
+                    // c - después, definimos after after
                     if (after == null) {
                         after = c;
                     } else if (after.compareTo(c) == 1) {
@@ -973,9 +976,9 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
                 }
             }
         }
-        // поддержка расширяемости плагинами
+        // plugin extensibility support
         for (final ICustomerChangePosition event : ServiceLoader.load(ICustomerChangePosition.class)) {
-            QLog.l().logger().info("Вызов SPI расширения. Описание: " + event.getDescription());
+            QLog.l().logger().info("Contactar con soporte. Descripción: " + event.getDescription());
             event.insert(customer, before, after);
         }
 
@@ -984,12 +987,12 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Всего хорошего, все свободны!
+     * Best regards, everyone is free!
      */
     public void freeCustomers() {
-        // поддержка расширяемости плагинами
+        // plugin extensibility support
         for (final ICustomerChangePosition event : ServiceLoader.load(ICustomerChangePosition.class)) {
-            QLog.l().logger().info("Вызов SPI расширения. Описание: " + event.getDescription());
+            QLog.l().logger().info("Contactar con soporte. Descripción: " + event.getDescription());
             for (Iterator<QCustomer> itr = getCustomers().iterator(); itr.hasNext(); ) {
                 event.remove(itr.next());
             }
@@ -1000,18 +1003,18 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Получить, но не удалять. NoSuchElementException при неудаче
+     * get, but not delete. NoSuchElementException on failure
      *
-     * @return первого в очереди кастомера
+     * @return first curstomer in line
      */
     public QCustomer getCustomer() {
         return getCustomers().element();
     }
 
     /**
-     * Получить и удалить. NoSuchElementException при неудаче
+     * Get and delete. NoSuchElementException on failure
      *
-     * @return первого в очереди кастомера
+     * @return first customer in line
      */
     public QCustomer removeCustomer() {
         final QCustomer customer = getCustomers().remove();
@@ -1028,18 +1031,18 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Получить но не удалять. null при неудаче
+     * Get but not delete. null on failure
      *
-     * @return первого в очереди кастомера
+     * @return first customer in line
      */
     public QCustomer peekCustomer() {
         return getCustomers().peek();
     }
 
     /**
-     * Получить и удалить. может вернуть null при неудаче
+     * Get and delete. may return null on failure
      *
-     * @return первого в очереди кастомера
+     * @return first customer in line
      */
     public QCustomer polCustomer() {
         final QCustomer customer = getCustomers().poll();
@@ -1057,10 +1060,10 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Удалить любого в очереди кастомера.
+     *. Eliminar cualquier cliente de la cola
      *
-     * @param customer удаляемый кастомер
-     * @return может вернуть false при неудаче
+     * @param customer cliente a eliminar
+     * @return Devuelve false en caso de fallo
      */
     public boolean removeCustomer(QCustomer customer) {
         final Boolean res = getCustomers().remove(customer);
@@ -1077,27 +1080,28 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Получение количества кастомеров, стоящих в очереди.
+     * Obtiene el número de clientes que está haciendo cola (en un momento dado)
      *
-     * @return количество кастомеров в этой услуге
+     * @return Número de clientes del servicio
      */
     public int getCountCustomers() {
         return getCustomers().size();
     }
 
     /**
-     * Определим общую длмну очереди к этой услуге. Т.е. сколько реально будет вызвано разных посетителей, которые мешают сразу попасть именно к этой услуге.
-     * <br>
-     * Бежим по юзерам и смотрим обрабатывают ли они услугу <br>
-     * если да, то возьмем все услуги юзера и сложим всех кастомеров в очередях <br>
-     * самую маленькую сумму отправим в ответ по запросу.
+     * Definimos una cola común para este servicio. Es decir Cuántos visitantes diferentes se encolan realmente,
+     * lo que les impide acceder inmediatamente a este servicio.
      *
-     * @return размер толпы перед попаданием к этой услуге.
+     * Nosotros corremos a través de los usuarios y vemos si manejan el servicio.
+     * En caso afirmativo, tomaremos todos los servicios del usuario y pondremos a todos los clientes en colas.
+     * La cantidad más pequeña se enviará en respuesta a la solicitud.
+     *
+     * @return crowd size before hitting this service.
      */
     public int getQueueSize() {
-        // бежим по юзерам и смотрим обрабатывают ли они услугу
-        // если да, то возьмем все услуги юзера и  сложим всех кастомеров в очередях
-        // самую маленькую сумму отправим в ответ по запросу.
+        // run by users and see if they handle the service
+        // if yes, then we take all the services of the user and put all the customers in queues
+        // send the smallest amount in response to a request
         int min = Integer.MAX_VALUE;
         for (QUser user : QUserList.getInstance().getItems()) {
             if (user.hasService(getId())) {
@@ -1115,6 +1119,12 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
         return min == Integer.MAX_VALUE ? 0 : min;
     }
 
+    /**
+     * Cambiar la prioridad del cliente por número
+     * @param number
+     * @param newPriority
+     * @return
+     */
     public boolean changeCustomerPriorityByNumber(String number, int newPriority) {
         for (QCustomer customer : getCustomers()) {
             if (number.equalsIgnoreCase(customer.getPrefix() + (customer.getNumber() < 1 ? "" : customer.getNumber()))) {
@@ -1148,7 +1158,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Описание услуги.
+     * Descripción del servicio
      */
     @Expose
     @SerializedName("description")
@@ -1164,7 +1174,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Префикс услуги.
+     * Prefijo asignado al servicio
      */
     @Expose
     @SerializedName("service_prefix")
@@ -1180,7 +1190,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Наименование услуги.
+     * Nombre del servicio
      */
     @Expose
     @SerializedName("name")
@@ -1197,7 +1207,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Надпись на кнопке услуги.
+     * El texto que irá en el botón del servicio
      */
     @Expose
     @SerializedName("buttonText")
@@ -1213,7 +1223,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     }
 
     /**
-     * Группировка услуг.
+     * Agrupación de servicios (servicio padre).
      */
     @Expose
     @SerializedName("parentId")
@@ -1241,6 +1251,10 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
         this.link = link;
     }
 
+
+    /**
+     * Horario
+     */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "schedule_id")
     private QSchedule schedule;
@@ -1253,6 +1267,10 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
         this.schedule = schedule;
     }
 
+
+    /**
+     * Calendario
+     */
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "calendar_id")
     private QCalendar calendar;
@@ -1265,6 +1283,9 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
         this.calendar = calendar;
     }
 
+    /**
+     * Lenguajes
+     */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "services_id")
     @Expose
@@ -1293,7 +1314,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
     public enum Field {
 
         /**
-         * Надпись на кнопке
+         * Texto del botón
          */
         BUTTON_TEXT,
         /**
@@ -1322,7 +1343,7 @@ public class QService extends DefaultMutableTreeNode implements ITreeIdGetter, T
         NAME
     }
 
-    ;
+    
 
     public String getTextToLocale(Field field) {
         final String nl = Locales.getInstance().getNameOfPresentLocale();
